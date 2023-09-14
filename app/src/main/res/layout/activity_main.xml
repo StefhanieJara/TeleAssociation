@@ -32,4 +32,49 @@
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/telito" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="353dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="100dp"
+        android:background="#D6F8FAFC"
+        android:hint="Ingresa tu usuario"
+        app:boxBackgroundMode="outline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="353dp"
+            android:layout_height="66dp"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="399dp" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="353dp"
+        android:layout_height="66dp"
+        android:layout_marginTop="300dp"
+        android:background="#D6F8FAFC"
+        android:hint="Ingresa tu contraseña"
+        app:boxBackgroundMode="outline"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="363dp"
+            android:layout_height="66dp"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="399dp" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
