@@ -19,6 +19,9 @@
             android:name=".donacionesAdmin"
             android:exported="false" />
         <activity
+            android:name=".misEventosUsuario"
+            android:exported="false" />
+        <activity
             android:name=".eventoDetalleAdmin"
             android:exported="false" />
         <activity
