@@ -36,6 +36,19 @@
 
     </View>
 
+    <View
+        android:id="@+id/recuadro2"
+        android:layout_width="367dp"
+        android:layout_height="255dp"
+        android:layout_marginTop="32dp"
+        android:background="#E9EDF1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.363"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recuadro">
+
+    </View>
+
     <TextView
         android:id="@+id/textView5"
         android:layout_width="100dp"
@@ -46,6 +59,26 @@
         app:layout_constraintHorizontal_bias="0.106"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        android:text="Nombre: XXX"
+        app:layout_constraintStart_toStartOf="@+id/recuadro2"
+        app:layout_constraintTop_toTopOf="@+id/recuadro2" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:text="Rol: XXX"
+        app:layout_constraintEnd_toEndOf="@+id/recuadro2"
+        app:layout_constraintTop_toTopOf="@+id/recuadro2" />
 
     <TextView
         android:id="@+id/textView6"
@@ -68,11 +101,22 @@
         app:layout_constraintTop_toTopOf="@+id/recuadro"
         tools:srcCompat="@drawable/telito" />
 
+    <ImageView
+        android:id="@+id/imageView18"
+        android:layout_width="326dp"
+        android:layout_height="104dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintStart_toStartOf="@+id/recuadro2"
+        app:layout_constraintTop_toTopOf="@+id/recuadro2"
+        tools:srcCompat="@drawable/telito" />
+
     <Button
         android:id="@+id/button7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:backgroundTint="#ED5252"
         android:text="Rechazar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.031"
@@ -85,10 +129,33 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="220dp"
         android:layout_marginTop="8dp"
+        android:backgroundTint="#58AEC8"
         android:text="Confirmar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.285"
         app:layout_constraintStart_toStartOf="@+id/recuadro"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <Button
+        android:id="@+id/button13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#ED5252"
+        android:text="Rechazar"
+        app:layout_constraintStart_toStartOf="@+id/recuadro2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView18" />
+
+    <Button
+        android:id="@+id/button17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:backgroundTint="#58AEC8"
+        android:text="Confirmar"
+        app:layout_constraintEnd_toEndOf="@+id/recuadro2"
+        app:layout_constraintTop_toBottomOf="@+id/imageView18" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

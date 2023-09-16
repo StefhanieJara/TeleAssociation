@@ -24,7 +24,7 @@
         android:id="@+id/view3"
         android:layout_width="361dp"
         android:layout_height="203dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="124dp"
         android:background="#E9EDF1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

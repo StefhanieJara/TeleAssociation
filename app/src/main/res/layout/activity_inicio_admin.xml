@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:text="Ver Más"
+        android:backgroundTint="#58AEC8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -108,6 +109,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Ver Evento"
+                    android:backgroundTint="#58AEC8"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -205,6 +207,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Ver Evento"
+                    android:backgroundTint="#58AEC8"
                     android:textSize="12sp" />
             </LinearLayout>
 
