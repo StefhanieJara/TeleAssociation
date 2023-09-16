@@ -13,6 +13,12 @@
         android:theme="@style/Theme.TeleAssociation"
         tools:targetApi="31">
         <activity
+            android:name=".pagosAlumno"
+            android:exported="false" />
+        <activity
+            android:name=".subirFotoEventAlum"
+            android:exported="false" />
+        <activity
             android:name=".eventoDetalleAlumno"
             android:exported="false" />
         <activity

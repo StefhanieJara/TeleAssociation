@@ -16,7 +16,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp">
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
             android:id="@+id/loyout1"
@@ -105,7 +106,8 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apoyarEvento">
+        app:layout_constraintTop_toBottomOf="@+id/apoyarEvento"
+        app:cardCornerRadius="10dp">
         <LinearLayout
             android:id="@+id/loyout4"
             android:layout_width="match_parent"
@@ -135,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="En el próximo ensayo necesitaremos que todos estén presentes por favor"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
