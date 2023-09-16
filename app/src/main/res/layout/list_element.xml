@@ -19,16 +19,17 @@
             android:orientation="horizontal"
             android:padding="6dp">
 
-            <ImageView
-                android:id="@+id/addButton"
+            <Button
+                android:id="@+id/verEvento"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentEnd="true"
-                android:foregroundGravity="center"
                 android:layout_centerVertical="true"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
-                app:srcCompat="@drawable/add_circle_fill0_wght400_grad0_opsz24" />
+                android:text=" "
+                android:contentDescription="Ver mas"
+                android:background="@drawable/add_circle_fill0_wght400_grad0_opsz24" />
 
             <LinearLayout
                 android:id="@+id/linearLayout1"

@@ -96,7 +96,8 @@
         app:layout_constraintHorizontal_bias="0.167"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:onClick="apoyarEvento"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -154,7 +155,7 @@
         app:srcCompat="@drawable/map_pucp" />
 
     <Button
-        android:id="@+id/botonNuevaFoto"
+        android:id="@+id/nuevaFoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
@@ -164,6 +165,7 @@
         app:layout_constraintHorizontal_bias="0.052"
         app:layout_constraintStart_toEndOf="@+id/apoyarEvento"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.373" />
+        app:layout_constraintVertical_bias="0.373"
+        android:onClick="nuevaFoto"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

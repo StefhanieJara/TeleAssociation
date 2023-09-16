@@ -41,7 +41,7 @@ public class ListAdapEvent extends RecyclerView.Adapter<ListAdapEvent.ViewHolder
             tituloFecha=itemView.findViewById(R.id.fechaHora);
             evento = itemView.findViewById(R.id.miActividad);
             hora = itemView.findViewById(R.id.fechaHoraRegistrada);
-            iconImage=itemView.findViewById(R.id.addButton);
+            iconImage=itemView.findViewById(R.id.verEvento);
         }
         void binData(final listElement item){
             evento.setText(item.getEvento());
