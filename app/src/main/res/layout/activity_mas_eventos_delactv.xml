@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#A7DEEF"
+    android:backgroundTint="#A7DEEF"
+    tools:context=".MasEventosDelactvActivity">
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="148dp"
+        android:layout_height="52dp"
+        android:layout_weight="0.4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:srcCompat="@drawable/telito" />
+
+    <TableLayout
+        android:layout_width="388dp"
+        android:layout_height="810dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50px">
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Todos los eventos"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="99dp"
+            android:layout_marginBottom="50px">
+
+            <SearchView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#009688"
+                android:backgroundTint="#009688" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="194dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="30px"
+                        android:layout_marginBottom="30px"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayout20"
+                            android:layout_width="215dp"
+                            android:layout_height="294dp"
+                            android:background="#E9EDF1"
+                            app:boxBackgroundMode="outline"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.49"
+                            app:layout_constraintStart_toStartOf="parent">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:layout_width="96dp"
+                                    android:layout_height="313dp"
+                                    android:gravity="start|center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textView19"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text="Cacería"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView15"
+                                        android:layout_width="95dp"
+                                        android:layout_height="197dp"
+                                        app:srcCompat="@drawable/bati" />
+
+                                    <Button
+                                        android:id="@+id/button20"
+                                        android:layout_width="101dp"
+                                        android:layout_height="wrap_content"
+                                        android:backgroundTint="#4C98AF"
+                                        android:text="Apoyar Evento" />
+
+                                    <!-- Ajusta el valor de marginTop según tus necesidades -->
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="98dp"
+                                    android:layout_height="317dp"
+                                    android:layout_weight="0.6"
+                                    android:orientation="vertical">
+
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginTop="50dp"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Fecha: XX/XX/XXXX"
+                                        android:textColor="#03264A" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Hora: XX:XX AM"
+                                        android:textColor="#03264A" />
+
+                                    <TextView
+                                        android:layout_width="89dp"
+                                        android:layout_height="55dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Apoyos: XX"
+                                        android:textColor="#03264A" />
+
+                                    <Button
+                                        android:id="@+id/button7"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="34dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:text="Ver Evento"
+                                        android:textSize="12sp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="221dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="40px"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayout16"
+                            android:layout_width="205dp"
+                            android:layout_height="match_parent"
+                            android:background="#E9EDF1"
+                            app:boxBackgroundMode="outline"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.49"
+                            app:layout_constraintStart_toStartOf="parent">
+
+
+                            <LinearLayout
+                                android:layout_width="205dp"
+                                android:layout_height="285dp"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:layout_width="91dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="start|center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textView16"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text="Cacería"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView11"
+                                        android:layout_width="95dp"
+                                        android:layout_height="197dp"
+                                        app:srcCompat="@drawable/bati" />
+
+                                    <Button
+                                        android:id="@+id/button18"
+                                        android:layout_width="101dp"
+                                        android:layout_height="wrap_content"
+                                        android:backgroundTint="#4C98AF"
+                                        android:text="Apoyar Evento" />
+
+                                    <!-- Ajusta el valor de marginTop según tus necesidades -->
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="229dp"
+                                    android:layout_height="273dp"
+                                    android:layout_marginBottom="40px"
+                                    android:layout_weight="0.6"
+                                    android:orientation="vertical">
+
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginTop="50dp"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Fecha: XX/XX/XXXX"
+                                        android:textColor="#03264A" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Hora: XX:XX AM"
+                                        android:textColor="#03264A" />
+
+                                    <TextView
+                                        android:layout_width="89dp"
+                                        android:layout_height="55dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Apoyos: XX"
+                                        android:textColor="#03264A" />
+
+                                    <Button
+                                        android:id="@+id/button2"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="37dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:text="Ver Evento"
+                                        android:textSize="12sp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </TableRow>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="60px">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="191dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="40px"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayout14"
+                            android:layout_width="215dp"
+                            android:layout_height="294dp"
+                            android:background="#E9EDF1"
+                            app:boxBackgroundMode="outline"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.49"
+                            app:layout_constraintStart_toStartOf="parent">
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:layout_width="96dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="start|center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textView21"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text="Cacería"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView17"
+                                        android:layout_width="95dp"
+                                        android:layout_height="197dp"
+                                        app:srcCompat="@drawable/bati" />
+
+                                    <Button
+                                        android:id="@+id/button22"
+                                        android:layout_width="101dp"
+                                        android:layout_height="wrap_content"
+                                        android:backgroundTint="#4C98AF"
+                                        android:text="Apoyar Evento" />
+
+                                    <!-- Ajusta el valor de marginTop según tus necesidades -->
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="98dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.6"
+                                    android:orientation="vertical">
+
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginTop="50dp"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Fecha: XX/XX/XXXX"
+                                        android:textColor="#03264A" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Hora: XX:XX AM"
+                                        android:textColor="#03264A" />
+
+                                    <TextView
+                                        android:layout_width="89dp"
+                                        android:layout_height="55dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Apoyos: XX"
+                                        android:textColor="#03264A" />
+
+                                    <Button
+                                        android:id="@+id/button8"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="33dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:text="Ver Evento"
+                                        android:textSize="12sp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="221dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/textInputLayout22"
+                            android:layout_width="203dp"
+                            android:layout_height="match_parent"
+                            android:background="#E9EDF1"
+                            app:boxBackgroundMode="outline"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.49"
+                            app:layout_constraintStart_toStartOf="parent">
+
+
+                            <LinearLayout
+                                android:layout_width="201dp"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:layout_width="91dp"
+                                    android:layout_height="match_parent"
+                                    android:gravity="start|center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/textView22"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:text="Cacería"
+                                        android:textSize="16sp"
+                                        android:textStyle="bold" />
+
+                                    <ImageView
+                                        android:id="@+id/imageView23"
+                                        android:layout_width="95dp"
+                                        android:layout_height="197dp"
+                                        app:srcCompat="@drawable/bati" />
+
+                                    <Button
+                                        android:id="@+id/button23"
+                                        android:layout_width="101dp"
+                                        android:layout_height="wrap_content"
+                                        android:backgroundTint="#4C98AF"
+                                        android:text="Apoyar Evento" />
+
+                                    <!-- Ajusta el valor de marginTop según tus necesidades -->
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="95dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="0.6"
+                                    android:orientation="vertical">
+
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginTop="50dp"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Fecha: XX/XX/XXXX"
+                                        android:textColor="#03264A" />
+
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Hora: XX:XX AM"
+                                        android:textColor="#03264A" />
+
+                                    <TextView
+                                        android:layout_width="89dp"
+                                        android:layout_height="55dp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginBottom="20dp"
+                                        android:gravity="center_vertical"
+                                        android:paddingStart="35dp"
+                                        android:paddingEnd="8dp"
+                                        android:text="Apoyos: XX"
+                                        android:textColor="#03264A" />
+
+                                    <Button
+                                        android:id="@+id/button24"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="35dp"
+                                        android:layout_gravity="center_horizontal"
+                                        android:text="Ver Evento"
+                                        android:textSize="12sp" />
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </TableRow>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"></LinearLayout>
+        </TableRow>
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
