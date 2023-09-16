@@ -11,12 +11,141 @@
         android:id="@+id/button9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="411dp"
-        android:layout_marginBottom="272dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="120dp"
         android:text="SUBIR BOLETA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textPago"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="61dp"
+        android:layout_marginTop="107dp"
+        android:layout_marginEnd="292dp"
+        android:layout_marginBottom="605dp"
+        android:fontFamily="@font/lokanova_std"
+        android:text="MÉTODOS DE PAGO"
+        android:textColor="@color/black"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.139"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textPago"
+        app:layout_constraintVertical_bias="0.07">
+
+        <LinearLayout
+            android:id="@+id/loyout1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/loyout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/bcp"
+                    android:layout_width="160dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="2dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/logo_credito" />
+
+                <ImageView
+                    android:id="@+id/interbank"
+                    android:layout_width="162dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="2dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/interbank_logo" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/loyout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/yape"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="2dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/yape" />
+
+                <ImageView
+                    android:id="@+id/plin"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/plin" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout7"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginEnd="1dp"
+        android:background="#D6F8FAFC"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
+        app:layout_constraintVertical_bias="0.196">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:hint="Ingresar el monto del donativo"
+            tools:layout_editor_absoluteY="209dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
