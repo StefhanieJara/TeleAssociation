@@ -44,11 +44,11 @@
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="match_parent"
-                    android:layout_height="158dp"
+                    android:layout_width="115dp"
+                    android:layout_height="88dp"
                     android:layout_marginBottom="22dp"
                     android:layout_weight="0.4"
-                    android:src="@tools:sample/avatars" />
+                    tools:srcCompat="@drawable/telito"/>
             </LinearLayout>
 
             <LinearLayout
@@ -141,20 +141,20 @@
         android:id="@+id/imageView7"
         android:layout_width="248dp"
         android:layout_height="104dp"
-        android:layout_marginBottom="220dp"
+        android:layout_marginBottom="340dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/telito" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
+        android:layout_marginStart="44dp"
         android:layout_marginBottom="140dp"
-        android:text="Button"
+        android:text="Editar Evento"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -163,7 +163,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="140dp"
-        android:text="Button"
+        android:text="Ver Participantes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.449"
@@ -173,10 +173,11 @@
         android:id="@+id/button6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="72dp"
-        android:text="Button"
+        android:layout_marginBottom="76dp"
+        android:text="Eliminar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
 
