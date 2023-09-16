@@ -46,6 +46,9 @@
             android:name=".eventoDetalleAlumno"
             android:exported="false" />
         <activity
+            android:name=".listaActividades"
+            android:exported="false" />
+        <activity
             android:name=".estadisticasAdmin"
             android:exported="false" />
         <activity
