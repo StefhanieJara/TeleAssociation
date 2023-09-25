@@ -5,183 +5,179 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#A7DEEF"
-    tools:context=".inicioAdmin">
+    tools:context=".eventoDetalleAlumno">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout3"
-        android:layout_width="380dp"
-        android:layout_height="184dp"
-        android:background="#E9EDF1"
-        app:boxBackgroundMode="outline"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.1">
-
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-
-            <LinearLayout
-                android:layout_width="173dp"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="15dp"
-                    android:layout_weight="0.4"
-                    android:text="Caceria" /> <!-- Ajusta el valor de marginTop según tus necesidades -->
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="115dp"
-                    android:layout_height="88dp"
-                    android:layout_marginBottom="22dp"
-                    android:layout_weight="0.4"
-                    tools:srcCompat="@drawable/telito"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="229dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.6"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="8dp"
-                    android:text="Fecha: XX/XX/XXXX"
-                    android:textColor="#03264A" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="8dp"
-                    android:text="Hora: XX:XX AM"
-                    android:textColor="#03264A" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="8dp"
-                    android:text="Apoyos: XX"
-                    android:textColor="#03264A" />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout"
-        android:layout_width="378dp"
-        android:layout_height="95dp"
-        android:background="#D6F8FAFC"
-        app:boxBackgroundMode="outline"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.454"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3"
-        app:layout_constraintVertical_bias="0.450">
-
-        <LinearLayout
+            android:id="@+id/loyout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
 
-            <!-- Etiqueta "Descripción:" -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Descripción:"
-                android:textSize="16sp"
-                android:textColor="#000000"/>
-
-            <!-- Texto -->
-            <EditText
+            <LinearLayout
+                android:id="@+id/loyout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tendremos ensayo el día de mañana"
-                android:textSize="16sp"
-                android:textColor="#000000"/>
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="Ensayo de Peña"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <!-- ImageView debajo del TextView -->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/bati" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/loyout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fecha: 16/09/2023"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hora: 4:00pm"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Apoyos: 3"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
+    <Button
+        android:id="@+id/apoyarEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="12dp"
+        android:onClick="apoyarEvento"
+        android:text="EDITAR EVENTO"
+        android:backgroundTint="#58AEC8"
+        app:iconSize="18dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
 
-    </com.google.android.material.textfield.TextInputLayout>
+    <Button
+        android:id="@+id/apoyarEvento3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:backgroundTint="#CA3945"
+        android:onClick="apoyarEvento"
+        android:text="BORRAR"
+        app:iconSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+    <Button
+        android:id="@+id/apoyarEvento2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="20dp"
+        android:onClick="apoyarEvento"
+        android:backgroundTint="#58AEC8"
+        android:text="VER PARTICIPANTES"
+        app:iconSize="18dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+
+        <LinearLayout
+            android:id="@+id/loyout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/loyout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="Descripción"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <!-- ImageView debajo del TextView -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="En el próximo ensayo necesitaremos que todos estén presentes por favor"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="248dp"
-        android:layout_height="104dp"
-        android:layout_marginBottom="340dp"
+        android:id="@+id/imageView6"
+        android:layout_width="360dp"
+        android:layout_height="257dp"
+        android:layout_marginBottom="132dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        tools:srcCompat="@drawable/telito" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="44dp"
-        android:layout_marginBottom="140dp"
-        android:text="Editar Evento"
-        android:backgroundTint="#58AEC8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="140dp"
-        android:text="Ver Participantes"
-        android:backgroundTint="#58AEC8"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.449"
-        app:layout_constraintStart_toEndOf="@+id/button" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="76dp"
-        android:text="Eliminar"
-        android:backgroundTint="#ED5252"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        app:srcCompat="@drawable/map_pucp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
