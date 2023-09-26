@@ -63,7 +63,7 @@
         android:layout_marginTop="13dp"
         android:layout_marginBottom="76dp"
         android:backgroundTint="#274D76"
-        android:text="Editar actividad"
+        android:text="Editar Actividad"
         android:textColorLink="#274D76"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,10 +102,9 @@
         app:boxBackgroundMode="outline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.475"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.787">
+        app:layout_constraintVertical_bias="0.778">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="353dp"
@@ -197,7 +196,7 @@
         android:layout_height="52dp"
         android:layout_marginTop="9dp"
         android:backgroundTint="#AF2828"
-        android:text="Borrar actividad"
+        android:text="Borrar Actividad"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

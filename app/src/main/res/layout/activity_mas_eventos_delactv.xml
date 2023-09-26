@@ -22,8 +22,9 @@
         tools:srcCompat="@drawable/telito" />
 
     <TableLayout
-        android:layout_width="388dp"
-        android:layout_height="810dp"
+        android:layout_width="386dp"
+        android:layout_height="800dp"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="0dp">
 
@@ -390,7 +391,7 @@
                                         android:textColor="#03264A" />
 
                                     <TextView
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginBottom="20dp"
@@ -401,7 +402,7 @@
                                         android:textColor="#03264A" />
 
                                     <TextView
-                                        android:layout_width="89dp"
+                                        android:layout_width="96dp"
                                         android:layout_height="55dp"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginBottom="20dp"
