@@ -58,11 +58,13 @@
         android:layout_width="245dp"
         android:layout_height="52dp"
         android:layout_marginBottom="16dp"
-        android:text="Registrar"
+        android:backgroundTint="#274D76"
+        android:text="Editar evento"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout15" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="357dp"
@@ -88,6 +90,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputLayout15"
         android:layout_width="353dp"
         android:layout_height="66dp"
         android:layout_marginTop="100dp"
