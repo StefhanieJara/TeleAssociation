@@ -42,19 +42,6 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="158dp"
-        android:layout_height="62dp"
-        android:layout_weight="0.4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@drawable/telito" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout7"
         android:layout_width="300dp"
@@ -168,7 +155,7 @@
         android:id="@+id/button14"
         android:layout_width="264dp"
         android:layout_height="68dp"
-        android:backgroundTint="#747CA3AF"
+        android:backgroundTint="#000000"
         android:text="Subir boleta"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

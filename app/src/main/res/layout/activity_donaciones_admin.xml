@@ -7,155 +7,147 @@
     android:background="#A7DEEF"
     tools:context=".donacionesAdmin">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="127dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="36dp"
-        android:text="Donaciones"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.056"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Recuadro con fondo #E9EDF1 debajo del título -->
-
-    <View
-        android:id="@+id/recuadro"
-        android:layout_width="367dp"
-        android:layout_height="255dp"
-        android:background="#E9EDF1"
+    <LinearLayout
+        android:layout_width="375dp"
+        android:layout_height="535dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.363"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.056">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.664">
 
-    </View>
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="376dp"
+            android:layout_height="230dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
 
-    <View
-        android:id="@+id/recuadro2"
-        android:layout_width="367dp"
-        android:layout_height="255dp"
-        android:layout_marginTop="32dp"
-        android:background="#E9EDF1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.363"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recuadro">
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:text="Nombre: Hiroshi Gotoku" />
 
-    </View>
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="165dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/telito" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="250dp"
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="25dp"
+                android:text="Rol: Egresado" />
+
+            <Button
+                android:id="@+id/outlinedButton"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="170dp"
+                android:text="Rechazar" />
+
+            <Button
+                android:id="@+id/outlinedButton1"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="170dp"
+                android:text="Confirmar" />
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="376dp"
+            android:layout_height="230dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="25dp"
+                android:text="Nombre: Hiroshi Gotoku" />
+
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="165dp"
+                android:layout_height="110dp"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/telito" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="250dp"
+                android:layout_marginLeft="250dp"
+                android:layout_marginTop="25dp"
+                android:text="Rol: Egresado" />
+
+            <Button
+                android:id="@+id/outlinedButton2"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="170dp"
+                android:text="Rechazar" />
+
+            <Button
+                android:id="@+id/outlinedButton3"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="170dp"
+                android:text="Confirmar" />
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/textView5"
-        android:layout_width="100dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="116dp"
-        android:text="Nombre: XXX"
+        android:id="@+id/textView19"
+        android:layout_width="141dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="48dp"
+        android:text="Donaciones"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.106"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView26"
-        android:layout_width="100dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
-        android:text="Nombre: XXX"
-        app:layout_constraintStart_toStartOf="@+id/recuadro2"
-        app:layout_constraintTop_toTopOf="@+id/recuadro2" />
-
-    <TextView
-        android:id="@+id/textView28"
-        android:layout_width="100dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="16dp"
-        android:text="Rol: XXX"
-        app:layout_constraintEnd_toEndOf="@+id/recuadro2"
-        app:layout_constraintTop_toTopOf="@+id/recuadro2" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="100dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="116dp"
-        android:text="Rol: XXX"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.852"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="326dp"
-        android:layout_height="104dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="68dp"
-        app:layout_constraintStart_toStartOf="@+id/recuadro"
-        app:layout_constraintTop_toTopOf="@+id/recuadro"
-        tools:srcCompat="@drawable/telito" />
-
-    <ImageView
-        android:id="@+id/imageView18"
-        android:layout_width="326dp"
-        android:layout_height="104dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="64dp"
-        app:layout_constraintStart_toStartOf="@+id/recuadro2"
-        app:layout_constraintTop_toTopOf="@+id/recuadro2"
-        tools:srcCompat="@drawable/telito" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#ED5252"
-        android:text="Rechazar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.031"
-        app:layout_constraintStart_toStartOf="@+id/recuadro"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="220dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="#274D76"
-        android:text="Confirmar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.285"
-        app:layout_constraintStart_toStartOf="@+id/recuadro"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
-
-    <Button
-        android:id="@+id/button13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#ED5252"
-        android:text="Rechazar"
-        app:layout_constraintStart_toStartOf="@+id/recuadro2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView18" />
-
-    <Button
-        android:id="@+id/button17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
-        android:backgroundTint="#274D76"
-        android:text="Confirmar"
-        app:layout_constraintEnd_toEndOf="@+id/recuadro2"
-        app:layout_constraintTop_toBottomOf="@+id/imageView18" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
