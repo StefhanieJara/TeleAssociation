@@ -100,7 +100,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:backgroundTint="#58AEC8"
+                    android:backgroundTint="#274D76"
                     android:text="Ver Evento"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -200,7 +200,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:text="Ver Evento"
-                    android:backgroundTint="#58AEC8"
+                    android:backgroundTint="#274D76"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -212,7 +212,7 @@
         android:id="@+id/button19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#2196F3"
+        android:backgroundTint="#274D76"
         android:text="Ver más eventos"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
