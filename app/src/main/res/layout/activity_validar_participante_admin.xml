@@ -8,11 +8,12 @@
     tools:context=".CrearEventoDelactvActivity">
 
   <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/textInputLayout27"
       android:layout_width="350dp"
       android:layout_height="75dp"
       android:layout_marginTop="100dp"
       android:background="#D6F8FAFC"
-      android:hint="Titulo"
+      android:hint="Nombre y Apellido"
       app:boxBackgroundMode="outline"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
@@ -27,140 +28,83 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="399dp" />
 
-
   </com.google.android.material.textfield.TextInputLayout>
 
   <com.google.android.material.textfield.TextInputLayout
-      android:layout_width="354dp"
-      android:layout_height="64dp"
-      android:layout_marginTop="300dp"
+      android:id="@+id/textInputLayout28"
+      android:layout_width="350dp"
+      android:layout_height="75dp"
+      android:layout_marginTop="20dp"
       android:background="#D6F8FAFC"
-      android:hint="Subir imagen "
+      android:hint="Correo"
       app:boxBackgroundMode="outline"
-      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.491"
+      app:layout_constraintHorizontal_bias="0.505"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.07">
+      app:layout_constraintTop_toBottomOf="@+id/textInputLayout27">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="353dp"
+        android:layout_width="match_parent"
         android:layout_height="66dp"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="399dp" />
-
-
   </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/textInputLayout29"
+      android:layout_width="350dp"
+      android:layout_height="75dp"
+      android:layout_marginTop="20dp"
+      android:background="#D6F8FAFC"
+      android:hint="¿Aceptado?"
+      app:boxBackgroundMode="outline"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.505"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textInputLayout28">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="399dp" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.textfield.TextInputLayout
+      android:layout_width="350dp"
+      android:layout_height="175dp"
+      android:layout_marginTop="20dp"
+      android:background="#D6F8FAFC"
+      android:hint="Motivo de rechazo (En caso sea necesario)"
+      app:boxBackgroundMode="outline"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.505"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/textInputLayout29">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="399dp" />
+  </com.google.android.material.textfield.TextInputLayout>
+
 
   <Button
       android:id="@+id/button16"
       android:layout_width="245dp"
       android:layout_height="52dp"
-      android:layout_marginBottom="16dp"
-      android:text="Registrar"
+      android:layout_marginBottom="88dp"
       android:backgroundTint="#58AEC8"
+      android:text="Registrar"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.502"
       app:layout_constraintStart_toStartOf="parent" />
-
-  <com.google.android.material.textfield.TextInputLayout
-      android:layout_width="357dp"
-      android:layout_height="72dp"
-      android:layout_marginTop="300dp"
-      android:background="#D6F8FAFC"
-      android:hint="Lugar del evento"
-      app:boxBackgroundMode="outline"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.504"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.28">
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="353dp"
-        android:layout_height="66dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="399dp" />
-
-
-  </com.google.android.material.textfield.TextInputLayout>
-
-  <com.google.android.material.textfield.TextInputLayout
-      android:layout_width="353dp"
-      android:layout_height="66dp"
-      android:layout_marginTop="100dp"
-      android:background="#D6F8FAFC"
-      android:hint="Fecha"
-      app:boxBackgroundMode="outline"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.469"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.826">
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="353dp"
-        android:layout_height="66dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="399dp" />
-
-
-  </com.google.android.material.textfield.TextInputLayout>
-
-  <com.google.android.material.textfield.TextInputLayout
-      android:layout_width="357dp"
-      android:layout_height="72dp"
-      android:layout_marginTop="300dp"
-      android:background="#D6F8FAFC"
-      android:hint="Elegir Delegado"
-      app:boxBackgroundMode="outline"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.486"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.511">
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="353dp"
-        android:layout_height="66dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="399dp" />
-
-
-  </com.google.android.material.textfield.TextInputLayout>
-
-  <com.google.android.material.textfield.TextInputLayout
-      android:layout_width="346dp"
-      android:layout_height="134dp"
-      android:layout_marginTop="100dp"
-      android:background="#D6F8FAFC"
-      android:hint="Descripción"
-      app:boxBackgroundMode="outline"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.492"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:layout_constraintVertical_bias="0.164">
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:layout_width="353dp"
-        android:layout_height="127dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="399dp" />
-
-
-  </com.google.android.material.textfield.TextInputLayout>
 
   <TextView
       android:id="@+id/textView19"
-      android:layout_width="218dp"
-      android:layout_height="42dp"
+      android:layout_width="224dp"
+      android:layout_height="50dp"
       android:layout_marginTop="36dp"
       android:text="Validar Participante"
       android:textSize="24sp"
