@@ -21,7 +21,7 @@ public class eventoDetalleAdmin extends AppCompatActivity {
 
         Button button2 = findViewById(R.id.apoyarEvento2);
         button2.setOnClickListener(v -> {
-            Intent intent = new Intent(eventoDetalleAdmin.this, listaGeneralAdmin.class);
+            Intent intent = new Intent(eventoDetalleAdmin.this, listaGeneralActividadAdmin.class);
             startActivity(intent);
         });
     }
