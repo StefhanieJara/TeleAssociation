@@ -10,8 +10,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout13"
-        android:layout_width="385dp"
-        android:layout_height="257dp"
+        android:layout_width="360dp"
+        android:layout_height="212dp"
         android:background="#E9EDF1"
         app:boxBackgroundMode="outline"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -55,8 +55,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="229dp"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="230dp"
                 android:layout_weight="0.6"
                 android:orientation="vertical">
 
@@ -110,8 +110,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout12"
-        android:layout_width="385dp"
-        android:layout_height="257dp"
+        android:layout_width="359dp"
+        android:layout_height="207dp"
         android:background="#E9EDF1"
         app:boxBackgroundMode="outline"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -154,7 +154,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="229dp"
+                android:layout_width="182dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.6"
                 android:orientation="vertical">
@@ -199,8 +199,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Ver Evento"
                     android:backgroundTint="#274D76"
+                    android:text="Ver Evento"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -217,22 +217,71 @@
         android:onClick="verMasEventos"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintHorizontal_bias="0.898"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.956" />
+        app:layout_constraintVertical_bias="0.874" />
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:orientation="vertical"
+        android:backgroundTint="#274D76"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageView
+            android:id="@+id/home"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/baseline_home_24" />
+
+
+        <ImageView
+            android:id="@+id/favoritos"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/baseline_favorite_24" />
+
+        <ImageView
+            android:id="@+id/money"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="240dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/baseline_attach_money_24" />
+
+        <ImageView
+            android:id="@+id/logout"
+            android:layout_width="40dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="340dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/baseline_logout_24" />
+
+
+
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="16dp"
         android:gravity="center|start|right|center_horizontal"
         android:text="Actividades"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
