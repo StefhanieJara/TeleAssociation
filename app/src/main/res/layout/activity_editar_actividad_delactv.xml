@@ -34,7 +34,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout11"
-        android:layout_width="354dp"
+        android:layout_width="350dp"
         android:layout_height="64dp"
         android:layout_marginTop="300dp"
         android:background="#85556D87"
@@ -42,10 +42,10 @@
         app:boxBackgroundMode="outline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.358"
+        app:layout_constraintHorizontal_bias="0.465"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.116">
+        app:layout_constraintVertical_bias="0.12">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="353dp"
@@ -78,10 +78,9 @@
         app:boxBackgroundMode="outline"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.388"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout11"
-        app:layout_constraintVertical_bias="0.592">
+        app:layout_constraintVertical_bias="0.709">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="353dp"
@@ -125,10 +124,9 @@
         app:boxBackgroundMode="outline"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.487">
+        app:layout_constraintVertical_bias="0.507">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="353dp"
@@ -141,7 +139,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout10"
-        android:layout_width="346dp"
+        android:layout_width="350dp"
         android:layout_height="134dp"
         android:layout_marginTop="100dp"
         android:background="#D6F8FAFC"

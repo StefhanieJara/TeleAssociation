@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cv"
+    android:id="@+id/cb"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
@@ -24,13 +24,13 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_alignParentEnd="true"
-                android:onClick="verEvento"
                 android:layout_centerVertical="true"
+                android:background="@drawable/add_circle_fill0_wght400_grad0_opsz24"
+                android:contentDescription="Ver mas"
+                android:onClick="verEvento"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
-                android:text=" "
-                android:contentDescription="Ver mas"
-                android:background="@drawable/visibility_fill0_wght400_grad0_opsz24" />
+                android:text=" " />
 
             <LinearLayout
                 android:id="@+id/linearLayout1"
@@ -48,18 +48,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="Actividad"
+                    android:text="Participante"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
                 <TextView
                     android:id="@+id/miActividad"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="Ensayo"
+                    android:text="Carlos Ayala"
                     android:textColor="@color/black"
-                    android:textSize="13sp"
+                    android:textSize="11sp"
                     />
             </LinearLayout>
             <LinearLayout
@@ -74,24 +74,53 @@
                 android:layout_centerVertical="true">
 
                 <TextView
-                    android:id="@+id/fechaHora"
+                    android:id="@+id/rol"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="Fecha y hora"
+                    android:text="Rol"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/rolParticipante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="Estudiante"
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="2dp"
+                android:layout_toEndOf="@+id/linearLayout2"
+                android:layout_marginStart="15dp"
+                android:orientation="vertical"
+                android:layout_centerVertical="true">
 
                 <TextView
-                    android:id="@+id/fechaHoraRegistrada"
-                    android:layout_width="match_parent"
+                    android:id="@+id/asignacion"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="15:20"
+                    android:text="Asignación"
                     android:textColor="@color/black"
-                    android:textSize="13sp"/>
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/asignacionParticipante"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="Barra"
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
             </LinearLayout>
+
         </RelativeLayout>
 
     </LinearLayout>

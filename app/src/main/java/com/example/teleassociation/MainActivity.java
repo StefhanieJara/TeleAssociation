@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
                         startActivity(intent);
                     } else if ("leo.abanto@gmail.com".equals(email)) {
-                        Intent intent = new Intent(MainActivity.this, inicioAdminActividad.class);
+                        Intent intent = new Intent(MainActivity.this, ListaEventosActivity.class);
                         startActivity(intent);
                     } else if ("miguel@gmail.com".equals(email)) {
                         Intent intent = new Intent(MainActivity.this, inicioAdmin.class);

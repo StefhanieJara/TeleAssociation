@@ -8,7 +8,7 @@
     tools:context=".EventoDetalleDelactvActivity">
 
     <Button
-        android:id="@+id/editarEvento4"
+        android:id="@+id/verActividades"
         android:layout_width="150dp"
         android:layout_height="56dp"
         android:layout_marginTop="24dp"
@@ -22,13 +22,13 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/editarEvento2"
+        android:id="@+id/subirFoto"
         android:layout_width="150dp"
         android:layout_height="56dp"
         android:layout_marginTop="24dp"
         android:backgroundTint="#274D76"
         android:text="Subir Foto(s)"
-        app:layout_constraintEnd_toStartOf="@+id/editarEvento4"
+        app:layout_constraintEnd_toStartOf="@+id/verActividades"
         app:layout_constraintHorizontal_bias="0.35"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView3" />
@@ -128,12 +128,12 @@
         android:id="@+id/imageView5"
         android:layout_width="269dp"
         android:layout_height="170dp"
-        android:layout_marginBottom="124dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editarEvento"
-        app:layout_constraintVertical_bias="1.0"
+        app:layout_constraintEnd_toEndOf="@+id/verParticipantes"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="@+id/verParticipantes"
+        app:layout_constraintTop_toBottomOf="@+id/verParticipantes"
+        app:layout_constraintVertical_bias="0.21"
         app:srcCompat="@drawable/map_pucp" />
 
     <androidx.cardview.widget.CardView
@@ -181,21 +181,21 @@
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/editarEvento"
+        android:id="@+id/verParticipantes"
         android:layout_width="160dp"
         android:layout_height="56dp"
-        android:layout_marginBottom="303dp"
+        android:layout_marginTop="17dp"
         android:backgroundTint="#274D76"
         android:text="Ver Participantes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView3"
-        app:layout_constraintVertical_bias="0.921" />
+        app:layout_constraintTop_toBottomOf="@+id/subirFoto"
+        app:layout_constraintVertical_bias="0.045" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/donar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
@@ -208,7 +208,7 @@
         app:layout_constraintVertical_bias="0.053" />
 
     <Button
-        android:id="@+id/button10"
+        android:id="@+id/editarEvento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -217,7 +217,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.446"
-        app:layout_constraintStart_toEndOf="@+id/button5"
+        app:layout_constraintStart_toEndOf="@+id/donar"
         app:layout_constraintTop_toBottomOf="@+id/imageView5"
         app:layout_constraintVertical_bias="0.053" />
 
