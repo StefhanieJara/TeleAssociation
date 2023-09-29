@@ -35,11 +35,17 @@ public class MainActivity extends AppCompatActivity {
                 String storedPassword = entry.getValue();
 
                 if (storedEmail.equals(email) && storedPassword.equals(pass)) {
-                    Log.d("MainActivity", "Iniciar Sesión presionado");
-
-                    Intent intent = new Intent(this, inicioAdmin.class);
+                    if ("w@gmail.com".equals(email)) {
+                        Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
                         startActivity(intent);
-                        return;
+                    } else if ("leo.abanto@gmail.com".equals(email)) {
+                        Intent intent = new Intent(MainActivity.this, inicioAdminActividad.class);
+                        startActivity(intent);
+                    } else if ("miguel@gmail.com".equals(email)) {
+                        Intent intent = new Intent(MainActivity.this, inicioAdmin.class);
+                        startActivity(intent);
+                    }
+                    return;
                 }
             }
             Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
