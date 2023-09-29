@@ -120,7 +120,7 @@
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="64dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="#274D76"
         android:text="Guardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
