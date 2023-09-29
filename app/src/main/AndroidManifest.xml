@@ -34,15 +34,8 @@
             android:name=".listaGeneralAdmin"
             android:exported="false" />
         <activity
-            android:name=".lista_general_admin"
-            android:exported="false" />
-        <activity
             android:name=".ListaDeEventosReal"
             android:exported="false" />
-        <activity
-            android:name=".listaDeEventosUsuario"
-            android:exported="false"
-            android:label="@string/title_activity_lista_de_eventos_usuario" />
         <activity
             android:name=".MasEventosDelactvActivity"
             android:exported="false" />
