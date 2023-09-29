@@ -209,11 +209,12 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/button19"
+        android:id="@+id/verMasEventos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="#274D76"
         android:text="Ver más eventos"
+        android:onClick="verMasEventos"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"

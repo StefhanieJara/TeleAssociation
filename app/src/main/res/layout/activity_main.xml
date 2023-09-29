@@ -92,7 +92,7 @@
         android:backgroundTint="#000000"
         android:text="Iniciar Sesión"
         android:onClick="iniciarSesion"
-        app:layout_constraintBottom_toTopOf="@+id/button11"
+        app:layout_constraintBottom_toTopOf="@+id/registrarse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,12 +100,13 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/button11"
+        android:id="@+id/registrarse"
         android:layout_width="353sp"
         android:layout_height="51sp"
         android:layout_marginBottom="32dp"
         android:backgroundTint="#000000"
         android:text="Registrarse"
+        android:onClick="registrarse"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
