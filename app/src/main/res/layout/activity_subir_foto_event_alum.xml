@@ -51,5 +51,60 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/bati" />
         </LinearLayout>
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
+            android:orientation="vertical"
+            android:backgroundTint="#274D76"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0">
+
+            <ImageView
+                android:id="@+id/home"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                app:srcCompat="@drawable/baseline_home_24"
+                android:onClick="inicio"
+
+                />
+
+
+            <ImageView
+                android:id="@+id/favoritos"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="5dp"
+                app:srcCompat="@drawable/baseline_favorite_24"
+                android:onClick="favoritos"/>
+
+            <ImageView
+                android:id="@+id/money"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="240dp"
+                android:layout_marginTop="5dp"
+                app:srcCompat="@drawable/baseline_attach_money_24"
+                android:onClick="donacion"/>
+
+            <ImageView
+                android:id="@+id/logout"
+                android:layout_width="40dp"
+                android:layout_height="35dp"
+                android:layout_marginLeft="340dp"
+                android:layout_marginTop="5dp"
+                app:srcCompat="@drawable/baseline_logout_24"
+                android:onClick="salir"/>
+
+
+
+        </com.google.android.material.card.MaterialCardView>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -241,7 +241,10 @@
             android:layout_height="35dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
-            app:srcCompat="@drawable/baseline_home_24" />
+            app:srcCompat="@drawable/baseline_home_24"
+            android:onClick="inicio"
+
+            />
 
 
         <ImageView
@@ -250,7 +253,8 @@
             android:layout_height="35dp"
             android:layout_marginLeft="120dp"
             android:layout_marginTop="5dp"
-            app:srcCompat="@drawable/baseline_favorite_24" />
+            app:srcCompat="@drawable/baseline_favorite_24"
+            android:onClick="favoritos"/>
 
         <ImageView
             android:id="@+id/money"
@@ -258,7 +262,8 @@
             android:layout_height="35dp"
             android:layout_marginLeft="240dp"
             android:layout_marginTop="5dp"
-            app:srcCompat="@drawable/baseline_attach_money_24" />
+            app:srcCompat="@drawable/baseline_attach_money_24"
+            android:onClick="donacion"/>
 
         <ImageView
             android:id="@+id/logout"
@@ -266,7 +271,8 @@
             android:layout_height="35dp"
             android:layout_marginLeft="340dp"
             android:layout_marginTop="5dp"
-            app:srcCompat="@drawable/baseline_logout_24" />
+            app:srcCompat="@drawable/baseline_logout_24"
+            android:onClick="salir"/>
 
 
 

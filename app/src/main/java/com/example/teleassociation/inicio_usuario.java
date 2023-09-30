@@ -24,6 +24,22 @@ public class inicio_usuario extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void favoritos(View view){
+        Intent intent=new Intent(this, misEventosUsuario.class);
+        startActivity(intent);
+    }
+    public void inicio (View view){
+        Intent intent=new Intent(this, inicio_usuario.class);
+        startActivity(intent);
+    }
+    public void donacion(View view){
+        Intent intent=new Intent(this, pagosAlumno.class);
+        startActivity(intent);
+    }
+
+
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         Window window = getWindow();
@@ -31,7 +47,7 @@ public class inicio_usuario extends AppCompatActivity {
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.system_bar));
         ActionBar actionBar = getSupportActionBar();
         actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.system_bar)));
-        actionBar.setTitle("Texto Ejemplo");
+        actionBar.setTitle("Teletoxic");
         getMenuInflater().inflate(R.menu.menu_1,menu);
         return true;
     }

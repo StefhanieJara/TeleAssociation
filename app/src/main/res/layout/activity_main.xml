@@ -52,8 +52,8 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
-            android:layout_width="353dp"
-            android:layout_height="66dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="399dp" />
 
@@ -82,33 +82,30 @@
         app:layout_constraintVertical_bias="0.378"/>
 
 
-
     <Button
         android:id="@+id/iniciarSesion"
-        android:layout_width="353dp"
+        android:layout_width="350dp"
         android:layout_height="51dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="17dp"
+        android:layout_marginBottom="112dp"
         android:backgroundTint="#000000"
-        android:text="Iniciar Sesión"
         android:onClick="iniciarSesion"
-        app:layout_constraintBottom_toTopOf="@+id/registrarse"
+        android:text="Iniciar Sesión"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/contrasena"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/registrarse"
-        android:layout_width="353sp"
-        android:layout_height="51sp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="350dp"
+        android:layout_height="51dp"
+        android:layout_marginBottom="52dp"
         android:backgroundTint="#000000"
-        android:text="Registrarse"
         android:onClick="registrarse"
+        android:text="Registrarse"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -118,8 +115,9 @@
         android:text="Olvidé mi contraseña"
         app:layout_constraintBottom_toTopOf="@+id/iniciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.857"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contrasena"
-        app:layout_constraintVertical_bias="0.122" />
+        app:layout_constraintVertical_bias="0.156" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
