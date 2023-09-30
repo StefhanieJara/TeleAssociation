@@ -15,7 +15,7 @@ public class ListaEventosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_lista_eventos_delactv);
         Button boton2 = findViewById(R.id.button3);
         Button boton3 = findViewById(R.id.button19);
-
+        Button boton4 = findViewById(R.id.button5);
 
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -26,6 +26,13 @@ public class ListaEventosActivity extends AppCompatActivity {
         });
 
         boton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListaEventosActivity.this, MasEventosDelactvActivity.class);
+                startActivity(intent);
+            }
+        });
+        boton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ListaEventosActivity.this, MasEventosDelactvActivity.class);

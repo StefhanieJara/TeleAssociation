@@ -142,13 +142,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/donar">
+        app:layout_constraintTop_toBottomOf="@+id/editarEvento">
 
         <LinearLayout
             android:id="@+id/loyout4"
@@ -197,20 +197,23 @@
 
     <Button
         android:id="@+id/donar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="95dp"
+        android:layout_height="39dp"
         android:backgroundTint="#228526"
         android:text="Donar"
+        app:layout_constraintBottom_toBottomOf="@+id/editarEvento"
         app:layout_constraintEnd_toStartOf="@+id/editarEvento"
+        app:layout_constraintHorizontal_bias="0.447"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="282dp" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/editarEvento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="146dp"
+        android:layout_height="43dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="56dp"
         android:backgroundTint="#1031EA"
         android:text="Editar Evento"
         app:layout_constraintEnd_toEndOf="parent"
