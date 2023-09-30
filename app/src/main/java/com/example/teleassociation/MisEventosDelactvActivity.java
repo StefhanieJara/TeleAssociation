@@ -13,6 +13,7 @@ import java.util.List;
 
 public class MisEventosDelactvActivity extends AppCompatActivity {
     List<listElement> elements;
+    List<listElementFin> elementFins;
     String tbUsuarios;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,19 @@ public class MisEventosDelactvActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listAdapEvent);
+
+        elementFins=new ArrayList<>();
+        elementFins.add(new listElementFin("Ensayo de danza"));
+        elementFins.add(new listElementFin("Ensayo de danza"));
+        elementFins.add(new listElementFin("Ensayo de danza"));
+        elementFins.add(new listElementFin("Ensayo de danza"));
+        elementFins.add(new listElementFin("Ensayo de danza"));
+
+        ListAdaptEventosFinalizados listAdaptEventosFinalizados = new ListAdaptEventosFinalizados(elementFins,this);
+        RecyclerView recyclerView1 = findViewById(R.id.listEventosFinalizados);
+        recyclerView1.setHasFixedSize(true);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView1.setAdapter(listAdaptEventosFinalizados);
     }
     public void verEvento(View view){
         Intent intent=new Intent(this, EventoDetalleDelactvActivity.class);

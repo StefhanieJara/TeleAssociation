@@ -28,9 +28,6 @@
             android:name=".listaGeneralActividadAdmin"
             android:exported="false" />
         <activity
-            android:name=".TbrowEventosDelactvActivity"
-            android:exported="false" />
-        <activity
             android:name=".ListaActividadesDelactvActivity"
             android:exported="false" />
         <activity

@@ -11,12 +11,12 @@
         android:id="@+id/verActividades"
         android:layout_width="150dp"
         android:layout_height="56dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="#274D76"
         android:text="Ver Actividades"
         app:layout_constraintBottom_toTopOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.934"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView3"
         app:layout_constraintVertical_bias="0.0" />
@@ -25,11 +25,11 @@
         android:id="@+id/subirFoto"
         android:layout_width="150dp"
         android:layout_height="56dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="#274D76"
         android:text="Subir Foto(s)"
         app:layout_constraintEnd_toStartOf="@+id/verActividades"
-        app:layout_constraintHorizontal_bias="0.35"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
@@ -37,10 +37,11 @@
         android:id="@+id/imageView8"
         android:layout_width="158dp"
         android:layout_height="62dp"
+        android:layout_marginTop="4dp"
         android:layout_weight="0.4"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.029"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
@@ -51,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="76dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="20dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/apoyarEvento"
@@ -126,14 +127,14 @@
 
     <ImageView
         android:id="@+id/imageView5"
-        android:layout_width="269dp"
-        android:layout_height="170dp"
+        android:layout_width="237dp"
+        android:layout_height="150dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/verParticipantes"
         app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="@+id/verParticipantes"
         app:layout_constraintTop_toBottomOf="@+id/verParticipantes"
-        app:layout_constraintVertical_bias="0.21"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/map_pucp" />
 
     <androidx.cardview.widget.CardView
@@ -141,13 +142,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+        app:layout_constraintTop_toBottomOf="@+id/donar">
 
         <LinearLayout
             android:id="@+id/loyout4"
@@ -184,41 +185,35 @@
         android:id="@+id/verParticipantes"
         android:layout_width="160dp"
         android:layout_height="56dp"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="8dp"
         android:backgroundTint="#274D76"
         android:text="Ver Participantes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.442"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subirFoto"
-        app:layout_constraintVertical_bias="0.045" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/donar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
         android:backgroundTint="#228526"
         android:text="Donar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/editarEvento"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5"
-        app:layout_constraintVertical_bias="0.053" />
+        tools:layout_editor_absoluteY="282dp" />
 
     <Button
         android:id="@+id/editarEvento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="52dp"
         android:backgroundTint="#1031EA"
         android:text="Editar Evento"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.446"
-        app:layout_constraintStart_toEndOf="@+id/donar"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5"
-        app:layout_constraintVertical_bias="0.053" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

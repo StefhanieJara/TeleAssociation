@@ -17,14 +17,14 @@
         app:layout_constraintHorizontal_bias="0.004"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.073"
+        app:layout_constraintVertical_bias="0.02"
         tools:srcCompat="@drawable/telito" />
 
     <TextView
         android:id="@+id/textView18"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="64dp"
         android:fontFamily="@font/lokanova_std"
         android:text="MIS EVENTOS"
         android:textColor="#000000"
@@ -35,13 +35,22 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listMisEventos"
-        android:layout_width="391dp"
-        android:layout_height="735dp"
+        android:layout_width="381dp"
+        android:layout_height="288dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listEventosFinalizados"
+        android:layout_width="381dp"
+        android:layout_height="288dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listMisEventos" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

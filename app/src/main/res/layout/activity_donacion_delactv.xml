@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
-        app:layout_constraintVertical_bias="0.668" />
+        app:layout_constraintVertical_bias="0.385" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout8"
@@ -51,10 +51,10 @@
         android:background="#D6F8FAFC"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.467"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView"
-        app:layout_constraintVertical_bias="0.25">
+        app:layout_constraintVertical_bias="0.206">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="300dp"
@@ -162,7 +162,7 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
-        app:layout_constraintVertical_bias="0.209" />
+        app:layout_constraintVertical_bias="0.065" />
 
     <TextView
         android:id="@+id/textView24"

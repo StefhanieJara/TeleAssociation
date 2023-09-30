@@ -26,7 +26,8 @@
         android:layout_height="800dp"
         android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TableRow
             android:layout_width="match_parent"
@@ -51,8 +52,8 @@
             <SearchView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#009688"
-                android:backgroundTint="#009688" />
+                android:background="#A9F4ED"
+                android:backgroundTint="#9FF8F0" />
 
         </TableRow>
 
@@ -117,10 +118,11 @@
 
                                     <Button
                                         android:id="@+id/button20"
-                                        android:layout_width="101dp"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="#4C98AF"
-                                        android:text="Apoyar Evento" />
+                                        android:text="Apoyar Evento"
+                                        android:textSize="10sp" />
 
                                     <!-- Ajusta el valor de marginTop según tus necesidades -->
 
@@ -134,24 +136,23 @@
 
 
                                     <TextView
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_gravity="center_vertical"
+                                        android:layout_gravity="left|end"
                                         android:layout_marginTop="50dp"
                                         android:layout_marginBottom="20dp"
-                                        android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:gravity="left|center_vertical"
+                                        android:paddingStart="5dp"
                                         android:paddingEnd="8dp"
                                         android:text="Fecha: XX/XX/XXXX"
                                         android:textColor="#03264A" />
 
                                     <TextView
-                                        android:layout_width="match_parent"
+                                        android:layout_width="86dp"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginBottom="20dp"
-                                        android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="5dp"
                                         android:paddingEnd="8dp"
                                         android:text="Hora: XX:XX AM"
                                         android:textColor="#03264A" />
@@ -162,7 +163,7 @@
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="5dp"
                                         android:paddingEnd="8dp"
                                         android:text="Apoyos: XX"
                                         android:textColor="#03264A" />
@@ -170,10 +171,10 @@
                                     <Button
                                         android:id="@+id/button7"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="34dp"
+                                        android:layout_height="32dp"
                                         android:layout_gravity="center_horizontal"
                                         android:text="Ver Evento"
-                                        android:textSize="12sp" />
+                                        android:textSize="10sp" />
 
                                 </LinearLayout>
 
@@ -228,10 +229,11 @@
 
                                     <Button
                                         android:id="@+id/button18"
-                                        android:layout_width="101dp"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="#4C98AF"
-                                        android:text="Apoyar Evento" />
+                                        android:text="Apoyar Evento"
+                                        android:textSize="10sp" />
 
                                     <!-- Ajusta el valor de marginTop según tus necesidades -->
 
@@ -246,24 +248,24 @@
 
 
                                     <TextView
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginTop="50dp"
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="5dp"
                                         android:paddingEnd="8dp"
                                         android:text="Fecha: XX/XX/XXXX"
                                         android:textColor="#03264A" />
 
                                     <TextView
-                                        android:layout_width="match_parent"
+                                        android:layout_width="83dp"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="5dp"
                                         android:paddingEnd="8dp"
                                         android:text="Hora: XX:XX AM"
                                         android:textColor="#03264A" />
@@ -274,7 +276,7 @@
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="5dp"
                                         android:paddingEnd="8dp"
                                         android:text="Apoyos: XX"
                                         android:textColor="#03264A" />
@@ -282,10 +284,10 @@
                                     <Button
                                         android:id="@+id/button2"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="37dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_gravity="center_horizontal"
                                         android:text="Ver Evento"
-                                        android:textSize="12sp" />
+                                        android:textSize="10sp" />
 
                                 </LinearLayout>
 
@@ -365,7 +367,8 @@
                                         android:layout_width="101dp"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="#4C98AF"
-                                        android:text="Apoyar Evento" />
+                                        android:text="Apoyar Evento"
+                                        android:textSize="10sp" />
 
                                     <!-- Ajusta el valor de marginTop según tus necesidades -->
 
@@ -379,24 +382,24 @@
 
 
                                     <TextView
-                                        android:layout_width="match_parent"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginTop="50dp"
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="4dp"
                                         android:paddingEnd="8dp"
                                         android:text="Fecha: XX/XX/XXXX"
                                         android:textColor="#03264A" />
 
                                     <TextView
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="96dp"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="4dp"
                                         android:paddingEnd="8dp"
                                         android:text="Hora: XX:XX AM"
                                         android:textColor="#03264A" />
@@ -407,7 +410,7 @@
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="4dp"
                                         android:paddingEnd="8dp"
                                         android:text="Apoyos: XX"
                                         android:textColor="#03264A" />
@@ -418,7 +421,7 @@
                                         android:layout_height="33dp"
                                         android:layout_gravity="center_horizontal"
                                         android:text="Ver Evento"
-                                        android:textSize="12sp" />
+                                        android:textSize="10sp" />
 
                                 </LinearLayout>
 
@@ -472,10 +475,11 @@
 
                                     <Button
                                         android:id="@+id/button23"
-                                        android:layout_width="101dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:backgroundTint="#4C98AF"
-                                        android:text="Apoyar Evento" />
+                                        android:text="Apoyar Evento"
+                                        android:textSize="10sp" />
 
                                     <!-- Ajusta el valor de marginTop según tus necesidades -->
 
@@ -495,7 +499,7 @@
                                         android:layout_marginTop="50dp"
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="5dp"
                                         android:paddingEnd="8dp"
                                         android:text="Fecha: XX/XX/XXXX"
                                         android:textColor="#03264A" />
@@ -506,7 +510,7 @@
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="5dp"
                                         android:paddingEnd="8dp"
                                         android:text="Hora: XX:XX AM"
                                         android:textColor="#03264A" />
@@ -517,7 +521,7 @@
                                         android:layout_gravity="center_vertical"
                                         android:layout_marginBottom="20dp"
                                         android:gravity="center_vertical"
-                                        android:paddingStart="35dp"
+                                        android:paddingStart="5dp"
                                         android:paddingEnd="8dp"
                                         android:text="Apoyos: XX"
                                         android:textColor="#03264A" />
@@ -525,10 +529,10 @@
                                     <Button
                                         android:id="@+id/button24"
                                         android:layout_width="wrap_content"
-                                        android:layout_height="35dp"
+                                        android:layout_height="36dp"
                                         android:layout_gravity="center_horizontal"
                                         android:text="Ver Evento"
-                                        android:textSize="12sp" />
+                                        android:textSize="10sp" />
 
                                 </LinearLayout>
 
