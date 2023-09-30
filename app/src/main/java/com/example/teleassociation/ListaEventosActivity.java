@@ -35,7 +35,7 @@ public class ListaEventosActivity extends AppCompatActivity {
         boton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListaEventosActivity.this, MasEventosDelactvActivity.class);
+                Intent intent = new Intent(ListaEventosActivity.this, MisEventosDelactvActivity.class);
                 startActivity(intent);
             }
         });
