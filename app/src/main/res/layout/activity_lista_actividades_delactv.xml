@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/lokanova_std"
         android:text="Actividades del Evento Clash Royale"
-        android:textColor="#000000"
+        android:textColor="#558A9A"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
