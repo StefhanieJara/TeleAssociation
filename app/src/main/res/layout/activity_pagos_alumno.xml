@@ -131,6 +131,8 @@
             android:layout_width="300dp"
             android:layout_height="50dp"
             android:hint="Ingresar el monto del donativo"
+            android:digits="0123456789."
+            android:filters="[moneyValueFilter]"
             tools:layout_editor_absoluteY="209dp" />
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A7DEEF"
-    tools:context=".MainActivity">
+    android:background="@android:color/system_neutral1_900"
+    tools:context=".MainActivity"
+    tools:targetApi="s">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
+        android:fontFamily="@font/roboto_black"
         android:text="BIENVENIDO TELECO"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,15 +38,19 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailLayout"
         android:layout_width="353dp"
-        android:layout_height="66dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
-        android:background="#D6F8FAFC"
         android:hint="Ingresa tu usuario"
         app:boxBackgroundMode="outline"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
         android:textColorHint="#A59E9E"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.444">
@@ -53,7 +59,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="66dp"
+            android:paddingStart="24dp"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="399dp" />
 
@@ -67,16 +75,17 @@
         android:layout_width="353dp"
         android:layout_height="66dp"
         android:layout_marginBottom="16dp"
-        android:background="#D6F8FAFC"
         android:ems="10"
         android:hint="Contraseña"
         android:inputType="textPassword"
+        android:background="@drawable/diseno1"
         android:paddingStart="24dp"
         app:boxBackgroundMode="outline"
+        android:textSize="18sp"
         android:layout_marginTop="300dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.378"/>
@@ -86,8 +95,9 @@
         android:id="@+id/iniciarSesion"
         android:layout_width="350dp"
         android:layout_height="51dp"
+        android:textSize="18sp"
         android:layout_marginBottom="112dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="#558A9A"
         android:onClick="iniciarSesion"
         android:text="Iniciar Sesión"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -100,12 +110,13 @@
         android:layout_width="350dp"
         android:layout_height="51dp"
         android:layout_marginBottom="52dp"
-        android:backgroundTint="#000000"
         android:onClick="registrarse"
         android:text="Registrarse"
+        android:textSize="18sp"
+        android:backgroundTint="#558A9A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.508"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -113,11 +124,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Olvidé mi contraseña"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/iniciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.857"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contrasena"
-        app:layout_constraintVertical_bias="0.156" />
+        app:layout_constraintVertical_bias="0.156"
+        android:textSize="15sp"
+        android:textStyle="bold"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
