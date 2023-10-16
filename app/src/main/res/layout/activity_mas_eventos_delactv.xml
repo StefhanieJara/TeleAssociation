@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A7DEEF"
-    android:backgroundTint="#A7DEEF"
-    tools:context=".MasEventosDelactvActivity">
+    android:background="@android:color/system_neutral1_900"
+    android:backgroundTint="@android:color/system_neutral1_900"
+    tools:context=".MasEventosDelactvActivity"
+    tools:targetApi="s">
 
     <ImageView
         android:id="@+id/imageView12"
@@ -40,6 +41,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Todos los eventos"
+                android:textColor="#FFFFFF"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </TableRow>
@@ -52,8 +54,8 @@
             <SearchView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#A9F4ED"
-                android:backgroundTint="#9FF8F0" />
+                android:background="#FFFFFF"
+                android:backgroundTint="#FFFFFF" />
 
         </TableRow>
 

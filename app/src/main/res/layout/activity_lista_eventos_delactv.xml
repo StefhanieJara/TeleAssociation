@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A7DEEF"
-    android:backgroundTint="#A7DEEF"
-    tools:context=".ListaEventosActivity">
+    android:background="@android:color/system_neutral1_900"
+    android:backgroundTint="@android:color/system_neutral1_900"
+    tools:context=".ListaEventosActivity"
+    tools:targetApi="s">
 
     <Button
         android:id="@+id/button5"
@@ -268,6 +269,7 @@
         android:layout_height="wrap_content"
         android:gravity="center|start|right|center_horizontal"
         android:text="Eventos"
+        android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout13"

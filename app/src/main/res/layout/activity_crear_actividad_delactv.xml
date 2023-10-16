@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A7DEEF"
-    android:backgroundTint="#A7DEEF"
-    tools:context=".CrearActividadDelactvActivity">
+    android:background="@android:color/system_neutral1_900"
+    android:backgroundTint="@android:color/system_neutral1_900"
+    tools:context=".CrearActividadDelactvActivity"
+    tools:targetApi="s">
 
     <LinearLayout
         android:layout_width="378dp"
@@ -101,6 +102,7 @@
         android:layout_height="62dp"
         android:layout_marginTop="56dp"
         android:text="Crear actividad"
+        android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
