@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".inicio_usuario"
-    android:background="@android:color/system_neutral1_900"
-    tools:targetApi="s">
+    android:background="#191C1E">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listRecyclerActividad"

@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/system_neutral1_900"
-    tools:context=".pagosAlumno"
-    tools:targetApi="s">
+    android:background="#191C1E"
+    tools:context=".pagosAlumno">
 
     <Button
         android:id="@+id/button9"
@@ -140,7 +139,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="0123456789."
-            android:filters="[moneyValueFilter]"
             android:hint="Ingresar el monto del donativo"
             android:paddingStart="30dp"
             android:textSize="16sp"

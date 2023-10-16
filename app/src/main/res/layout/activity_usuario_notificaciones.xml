@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".usuarioNotificaciones"
-    android:background="#A7DEEF">
+    android:background="#191C1E">
 
 
     <com.google.android.material.card.MaterialCardView
