@@ -4,15 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A7DEEF"
-    tools:context=".eventoDetalleAlumno">
+    android:background="@android:color/system_neutral1_900"
+    tools:context=".eventoDetalleAlumno"
+    tools:targetApi="s">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="220dp"
+        android:layout_marginBottom="8dp"
+        android:textColor="#558A9A"
+        android:text="Ensayo de Peña"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/cardView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="#C0CDC1"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/nuevaFoto"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,21 +56,13 @@
                 android:layout_gravity="end"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:text="Ensayo de Peña"
-                    android:textSize="24sp"
-                    android:textStyle="bold" />
-
                 <!-- ImageView debajo del TextView -->
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginBottom="9dp"
                     android:src="@drawable/bati" />
             </LinearLayout>
 
@@ -91,6 +104,7 @@
         android:layout_marginBottom="428dp"
         android:onClick="apoyarEvento"
         android:text="APOYAR EVENTO"
+        android:backgroundTint="#558A9A"
         app:iconSize="18dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/cardView4"
@@ -102,8 +116,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="20dp"
+        app:cardBackgroundColor="#C0CDC1"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -149,7 +164,7 @@
         android:id="@+id/imageView6"
         android:layout_width="360dp"
         android:layout_height="257dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
@@ -164,6 +179,7 @@
         android:layout_marginStart="25dp"
         android:onClick="nuevaFoto"
         android:text="AÑADIR FOTO"
+        android:backgroundTint="#558A9A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cardView4"
         app:layout_constraintHorizontal_bias="0.0"
