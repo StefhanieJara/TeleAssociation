@@ -120,7 +120,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView25"
+        android:id="@+id/recuperarPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Olvidé mi contraseña"

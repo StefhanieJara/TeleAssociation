@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         credencial.put("w","12345");
         credencial.put("leo.abanto@gmail.com","12345");
         credencial.put("miguel@gmail.com","12345");
@@ -51,6 +52,11 @@ public class MainActivity extends AppCompatActivity {
             }
             Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
 
+        });
+        binding.recuperarPass.setOnClickListener(v -> {
+            // Navegar a la actividad de recuperación de contraseña al hacer clic en "Olvidé mi contraseña"
+            Intent intent = new Intent(MainActivity.this, resetPassword.class);
+            startActivity(intent);
         });
 
     }
