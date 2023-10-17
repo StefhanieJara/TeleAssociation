@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding=ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        credencial.put("w@gmail.com","12345");
+        credencial.put("w","12345");
         credencial.put("leo.abanto@gmail.com","12345");
         credencial.put("miguel@gmail.com","12345");
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 String storedPassword = entry.getValue();
 
                 if (storedEmail.equals(email) && storedPassword.equals(pass)) {
-                    if ("w@gmail.com".equals(email)) {
+                    if ("w".equals(email)) {
                         Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
                         startActivity(intent);
                     } else if ("leo.abanto@gmail.com".equals(email)) {

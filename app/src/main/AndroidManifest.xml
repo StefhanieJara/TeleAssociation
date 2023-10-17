@@ -23,7 +23,8 @@
             android:exported="false" />
         <activity
             android:name=".inicio_usuario"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".listaGeneralActividadAdmin"
             android:exported="false" />
