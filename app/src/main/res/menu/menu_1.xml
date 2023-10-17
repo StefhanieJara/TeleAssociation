@@ -10,6 +10,4 @@
         android:icon="@drawable/baseline_chat_bubble_outline_24"
         app:showAsAction="ifRoom"
         android:title="chat"/>
-
-
 </menu>
