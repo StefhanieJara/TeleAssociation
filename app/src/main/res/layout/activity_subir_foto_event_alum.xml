@@ -4,21 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A7DEEF"
+    android:background="#191C1E"
     tools:context=".subirFotoEventAlum">
 
-    <Button
-        android:id="@+id/botonSubirFoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SUBIR FOTO"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/subir_imagen"
+        app:layout_constraintBottom_toTopOf="@+id/cardViewFoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardViewFoto"
-        app:layout_constraintVertical_bias="0.21"
-        android:onClick="subirFoto"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#558A9A" />
+
+    <Button
+        android:id="@+id/subirImagen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="139dp"
+        android:layout_marginEnd="139dp"
+        android:backgroundTint="#558A9A"
+        android:text="Subir Imagen"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.513"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/selectImageBtn"
+        app:layout_constraintVertical_bias="0.204" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardViewFoto"
@@ -29,9 +46,10 @@
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.402">
+        app:layout_constraintVertical_bias="0.498">
 
         <LinearLayout
             android:id="@+id/loyout1"
@@ -50,61 +68,24 @@
                 android:layout_marginTop="2dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/bati" />
+
         </LinearLayout>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="51dp"
-            android:orientation="vertical"
-            android:backgroundTint="#274D76"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0">
-
-            <ImageView
-                android:id="@+id/home"
-                android:layout_width="40dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/baseline_home_24"
-                android:onClick="inicio"
-
-                />
-
-
-            <ImageView
-                android:id="@+id/favoritos"
-                android:layout_width="40dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="120dp"
-                android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/baseline_favorite_24"
-                android:onClick="favoritos"/>
-
-            <ImageView
-                android:id="@+id/money"
-                android:layout_width="40dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="240dp"
-                android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/baseline_attach_money_24"
-                android:onClick="donacion"/>
-
-            <ImageView
-                android:id="@+id/logout"
-                android:layout_width="40dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="340dp"
-                android:layout_marginTop="5dp"
-                app:srcCompat="@drawable/baseline_logout_24"
-                android:onClick="salir"/>
-
-
-
-        </com.google.android.material.card.MaterialCardView>
     </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/selectImageBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="118dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="119dp"
+        android:backgroundTint="#558A9A"
+        android:text="Seleccionar Imagen"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardViewFoto"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
