@@ -120,7 +120,7 @@
         android:layout_height="63dp"
         android:layout_marginTop="40dp"
         android:text="Editar Actividad"
-        android:textColor="#FFFFFF"
+        android:textColor="#558A9A"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

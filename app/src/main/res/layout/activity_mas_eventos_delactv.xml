@@ -41,8 +41,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Todos los eventos"
-                android:textColor="#FFFFFF"
-                android:textSize="20sp"
+                android:textColor="#558A9A"
+                android:textSize="24sp"
                 android:textStyle="bold" />
         </TableRow>
 

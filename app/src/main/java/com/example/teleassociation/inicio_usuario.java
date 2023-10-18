@@ -37,15 +37,5 @@ public class inicio_usuario extends AppCompatActivity {
         Intent intent=new Intent(this, pagosAlumno.class);
         startActivity(intent);
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.menu));
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.menu)));
-        getMenuInflater().inflate(R.menu.menu_1,menu);
-        return true;
-    }
 
 }

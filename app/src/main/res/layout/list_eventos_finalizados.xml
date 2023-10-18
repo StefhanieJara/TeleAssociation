@@ -5,14 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
+    app:cardBackgroundColor="#D2DDC5"
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,10 +41,10 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="2dp"
-                android:orientation="vertical"
-                android:layout_centerVertical="true">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/actividades"
@@ -52,6 +55,7 @@
                     android:textColor="@color/black"
                     android:textSize="25sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/miActividad"
                     android:layout_width="match_parent"
@@ -59,8 +63,7 @@
                     android:layout_marginTop="1dp"
                     android:text="Práctica de danza de la Diablada"
                     android:textColor="@color/black"
-                    android:textSize="17sp"
-                    />
+                    android:textSize="17sp" />
             </LinearLayout>
 
         </RelativeLayout>

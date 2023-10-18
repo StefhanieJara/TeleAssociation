@@ -102,7 +102,7 @@
         android:layout_height="62dp"
         android:layout_marginTop="56dp"
         android:text="Crear actividad"
-        android:textColor="#FFFFFF"
+        android:textColor="#558A9A"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

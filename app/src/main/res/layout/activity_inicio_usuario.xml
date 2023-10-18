@@ -7,10 +7,17 @@
     tools:context=".inicio_usuario"
     android:background="#191C1E">
 
+    <include
+        layout="@layout/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/textView20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listRecyclerActividad"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="395dp"
+        android:layout_height="559dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
         android:layout_marginBottom="8dp"
@@ -92,7 +99,7 @@
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="76dp"
         android:fontFamily="@font/roboto_black"
         android:gravity="center|start|right|center_horizontal"
         android:text="Actividades"
@@ -100,6 +107,7 @@
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
