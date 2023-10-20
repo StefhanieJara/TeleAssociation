@@ -1,5 +1,6 @@
 package com.example.teleassociation;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -13,6 +14,13 @@ public class EventoDetalleDelactvActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evento_detalle_delactv);
+
+        // Ocultar barra de título
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+
         Button boton2 = findViewById(R.id.verActividades);
         Button boton3 = findViewById(R.id.verParticipantes);
         Button boton4 = findViewById(R.id.donar);

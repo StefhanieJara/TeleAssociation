@@ -18,7 +18,14 @@ public class inicio_usuario extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE); // Agrega esta línea
         setContentView(R.layout.activity_inicio_usuario);
+
+        // Ocultar barra de título
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
     }
     public void verMasEventos(View view){
         Intent intent=new Intent(this, misEventosUsuario.class);
@@ -37,5 +44,4 @@ public class inicio_usuario extends AppCompatActivity {
         Intent intent=new Intent(this, pagosAlumno.class);
         startActivity(intent);
     }
-
 }
