@@ -98,7 +98,6 @@
         android:textSize="18sp"
         android:layout_marginBottom="112dp"
         android:backgroundTint="#558A9A"
-        android:onClick="iniciarSesion"
         android:text="Iniciar Sesión"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

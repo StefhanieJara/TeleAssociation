@@ -21,14 +21,8 @@ public class inicioAdmin extends AppCompatActivity {
             actionBar.hide();
         }
 
-        Button button3 = findViewById(R.id.button3);
+        Button button3 = findViewById(R.id.btnAddActiv);
         button3.setOnClickListener(v -> {
-            Intent intent = new Intent(inicioAdmin.this, eventoDetalleAdmin.class);
-            startActivity(intent);
-        });
-
-        Button button2 = findViewById(R.id.button2);
-        button2.setOnClickListener(v -> {
             Intent intent = new Intent(inicioAdmin.this, eventoDetalleAdmin.class);
             startActivity(intent);
         });
