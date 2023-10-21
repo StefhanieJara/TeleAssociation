@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/lokanova_std"
-        android:text="PARTICIPANTES DE ACTIVIDAD"
+        android:text="LISTA DE USUARIOS"
         android:textColor="#558A9A"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,76 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.041" />
-
-    <EditText
-        android:id="@+id/editTextTextMultiLine15"
-        android:layout_width="369dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:text="Carlos                  |   Alumno                   |     Delegado"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
-
-    <EditText
-        android:id="@+id/editTextTextMultiLine22"
-        android:layout_width="369dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:text="Carlos                  |   Alumno                   |     Participante"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
-
-    <EditText
-        android:id="@+id/editTextTextMultiLine23"
-        android:layout_width="369dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="264dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:text="Carlos                  |   Alumno                   |     Participante"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
-
-    <EditText
-        android:id="@+id/editTextTextMultiLine25"
-        android:layout_width="369dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="344dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:text="Carlos                  |   Alumno                   |     Participante"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
-
-    <EditText
-        android:id="@+id/editTextTextMultiLine24"
-        android:layout_width="369dp"
-        android:layout_height="68dp"
-        android:layout_marginTop="180dp"
-        android:layout_marginEnd="20dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        android:text="Carlos                  |   Alumno                   |     Participante"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout5"
@@ -121,10 +51,24 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Asignación"
+                android:text="Validado"
                 tools:layout_editor_absoluteX="148dp"
                 tools:layout_editor_absoluteY="83dp" />
         </com.google.android.material.tabs.TabLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listRecyclerListaGeneralUsuario"
+            android:layout_width="395dp"
+            android:layout_height="500dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="2dp"
+            app:boxBackgroundMode="outline"
+            app:layout_constraintBottom_toTopOf="@+id/btnVerUsuarios"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView20"
+            tools:ignore="NotSibling" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

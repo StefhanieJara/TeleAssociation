@@ -71,7 +71,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
-        android:hint="Fecha"
+        android:hint="Delegado"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/descripcion">
@@ -90,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="256dp"
+        android:layout_marginBottom="192dp"
         android:backgroundTint="#558A9A"
         android:text="Guardar"
         app:layout_constraintBottom_toBottomOf="parent"

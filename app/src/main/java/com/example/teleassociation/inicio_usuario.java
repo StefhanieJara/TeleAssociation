@@ -44,7 +44,7 @@ public class inicio_usuario extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_usuario);
 
         eventService = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.40:3000")
+                .baseUrl("http://192.168.18.193:3000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(EventService.class);

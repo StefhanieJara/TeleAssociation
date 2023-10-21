@@ -76,7 +76,7 @@
                     android:textStyle="bold"
                     android:textColor="#03264A" />
                 <TextView
-                    android:id="@+id/fecha"
+                    android:id="@+id/delegado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -95,12 +95,12 @@
                     android:gravity="center_vertical"
                     android:paddingStart="35dp"
                     android:paddingEnd="1dp"
-                    android:text="Numero de Eventos"
+                    android:text="Descripción"
                     android:textStyle="bold"
                     android:textColor="#03264A" />
 
                 <TextView
-                    android:id="@+id/cantEventos"
+                    android:id="@+id/descripcion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -108,30 +108,7 @@
                     android:gravity="center_vertical"
                     android:paddingStart="105dp"
                     android:paddingEnd="8dp"
-                    android:text="5"
-                    android:textColor="#03264A" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="1dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="1dp"
-                    android:text="Apoyos"
-                    android:textStyle="bold"
-                    android:textColor="#03264A" />
-
-                <TextView
-                    android:id="@+id/cantApoyos"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="102dp"
-                    android:paddingEnd="8dp"
-                    android:text="XX"
+                    android:text="Hola"
                     android:textColor="#03264A" />
 
                 <Button
@@ -140,7 +117,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:backgroundTint="#E19C36"
-                    android:text="Ver Evento"
+                    android:text="Ver Eventos"
                     android:textColor="#03264A"
                     android:textSize="14sp" />
             </LinearLayout>
