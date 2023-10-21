@@ -18,11 +18,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.List;
 
 import retrofit2.Call;
@@ -138,57 +133,13 @@ public class EventoDetalleDelactvActivity extends AppCompatActivity implements O
 
                             mMap.addMarker(markerOptions);*/
                             // Supongamos que las coordenadas de la PUCP son -12.073106 (latitud) y -77.051369 (longitud)
-                            LatLng coordenadasPUCP = new LatLng(-12.06126, -77.11274);
+                            LatLng coordenadasPUCP = new LatLng(-12.073106, -77.051369);
 
                             mMap.addMarker(new MarkerOptions().position(coordenadasPUCP).title("PUCP"));
 
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordenadasPUCP, 15));
 
-                            String rutaOptimaCodificada = "";
-                            String apiKey = "AIzaSyC2fZLkVLhfgmyjt4sC_c4E61ibz_fa7yQ";
-                            String origen = -12.0691658+","+-77.0799348;
-                            String destino = -12.06126+","+-77.11274;
-                            String rutaOptima = "";
-                            String tiempoDemora = "";
-                            try {
-                                // Construye la URL de la solicitud
-                                String url = "https://maps.googleapis.com/maps/api/directions/json?origin=" + origen +
-                                        "&destination=" + destino + "&key=" + apiKey;
-
-                                // Envía la solicitud y obtén la respuesta
-                                URL obj = new URL(url);
-                                HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-                                con.setRequestMethod("GET");
-
-                                BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                                String inputLine;
-                                StringBuilder response1 = new StringBuilder();
-                                while ((inputLine = in.readLine()) != null) {
-                                    response1.append(inputLine);
-                                }
-                                in.close();
-
-                                // Analiza la respuesta
-                                ObjectMapper objectMapper = new ObjectMapper();
-                                JsonNode data = objectMapper.readTree(response.toString());
-
-                                if (data.get("status").asText().equals("OK")) {
-                                    JsonNode routes = data.get("routes");
-                                    JsonNode route = routes.get(0);
-                                    rutaOptima = route.get("overview_polyline").get("points").asText();
-                                    tiempoDemora = route.get("legs").get(0).get("duration").get("text").asText();
-                                    rutaOptimaCodificada = URLEncoder.encode(rutaOptima, "UTF-8");
-                                    System.out.println("Ruta óptima: " + rutaOptima);
-                                    System.out.println("Tiempo de demora: " + tiempoDemora);
-                                } else {
-                                    System.out.println("No se pudo encontrar una ruta óptima.");
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-
-
-                            }
+                        }
                     }
                 }
 
