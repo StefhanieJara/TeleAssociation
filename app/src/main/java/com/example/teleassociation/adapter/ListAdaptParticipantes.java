@@ -1,4 +1,4 @@
-package com.example.teleassociation;
+package com.example.teleassociation.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.teleassociation.ListaParticipantes;
+import com.example.teleassociation.R;
 
 import java.util.List;
 

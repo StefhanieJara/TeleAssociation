@@ -91,7 +91,7 @@ public class inicio_usuario extends AppCompatActivity {
 
 
     public void verMasEventos(View view){
-        Intent intent=new Intent(this, misEventosUsuario.class);
+        Intent intent=new Intent(this, eventosUsuario.class);
         startActivity(intent);
     }
 
