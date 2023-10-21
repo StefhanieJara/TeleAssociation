@@ -52,13 +52,18 @@ public class inicioAdmin extends AppCompatActivity {
             actionBar.hide();
         }
 
-        Button button3 = findViewById(R.id.btnAddActiv);
+        Button button3 = findViewById(R.id.btnVerUsuarios);
         button3.setOnClickListener(v -> {
-            Intent intent = new Intent(inicioAdmin.this, eventoDetalleAdmin.class);
+            Intent intent = new Intent(inicioAdmin.this, listaGeneralActividadAdmin.class);
             startActivity(intent);
         });
 
         cargarListaActividadesWS();
+    }
+
+    public void crearActividad(View view){
+        Intent intent=new Intent(this, CrearActividadDelactvActivity.class);
+        startActivity(intent);
     }
 
     public void cargarListaActividadesWS() {
