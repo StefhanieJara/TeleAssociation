@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
 
         credencial.put("w","12345");
-        credencial.put("leo.abanto@gmail.com","12345");
+        credencial.put("l","12345");
         credencial.put("m","12345");
 
         binding.iniciarSesion.setOnClickListener(v -> {
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     if ("w".equals(email)) {
                         Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
                         startActivity(intent);
-                    } else if ("leo.abanto@gmail.com".equals(email)) {
+                    } else if ("l".equals(email)) {
                         Intent intent = new Intent(MainActivity.this, ListaEventosActivity.class);
                         startActivity(intent);
                     } else if ("m".equals(email)) {

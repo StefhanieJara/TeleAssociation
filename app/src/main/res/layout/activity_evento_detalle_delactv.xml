@@ -15,12 +15,10 @@
         android:layout_marginTop="16dp"
         android:backgroundTint="#274D76"
         android:text="Ver Actividades"
-        app:layout_constraintBottom_toTopOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView3"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
     <Button
         android:id="@+id/subirFoto"
@@ -43,7 +41,7 @@
         android:layout_marginEnd="20dp"
         app:cardBackgroundColor="#D2DDC5"
         app:cardCornerRadius="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/apoyarEvento"
+
         app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -114,17 +112,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="237dp"
-        android:layout_height="150dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/verParticipantes"
-        app:layout_constraintHorizontal_bias="0.513"
-        app:layout_constraintStart_toStartOf="@+id/verParticipantes"
-        app:layout_constraintTop_toBottomOf="@+id/verParticipantes"
-        app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/map_pucp" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
@@ -208,5 +195,14 @@
         android:text="Editar Evento"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+    <FrameLayout
+        android:id="@+id/map_container"
+        android:layout_width="290dp"
+        android:layout_height="189dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verParticipantes" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
