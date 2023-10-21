@@ -8,7 +8,7 @@
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="#D2DDC5">
+    app:cardBackgroundColor="#EFEEE9">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,6 +30,14 @@
                 android:paddingEnd="5dp">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Actividad"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+                <TextView
                     android:id="@+id/titleActividad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -41,7 +49,7 @@
                 <ImageView
                     android:id="@+id/imageActividad"
                     android:layout_width="match_parent"
-                    android:layout_height="184dp"
+                    android:layout_height="138dp"
                     app:srcCompat="@drawable/bati" />
 
                 <!-- Ajusta el valor de marginTop según tus necesidades -->
@@ -57,28 +65,61 @@
                 android:paddingTop="8dp">
 
                 <TextView
-                    android:id="@+id/fecha"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="20dp"
-                    android:layout_marginBottom="15dp"
                     android:gravity="center_vertical"
                     android:paddingStart="35dp"
-                    android:paddingEnd="8dp"
-                    android:text="Fecha: XX/XX/XXXX"
+                    android:paddingEnd="1dp"
+                    android:text="Nombre de Delegado"
+                    android:textStyle="bold"
                     android:textColor="#03264A" />
-
                 <TextView
-                    android:id="@+id/hora"
+                    android:id="@+id/fecha"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="90dp"
+                    android:paddingEnd="8dp"
+                    android:text="Diego"
+                    android:textColor="#03264A" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="1dp"
                     android:gravity="center_vertical"
                     android:paddingStart="35dp"
+                    android:paddingEnd="1dp"
+                    android:text="Numero de Eventos"
+                    android:textStyle="bold"
+                    android:textColor="#03264A" />
+
+                <TextView
+                    android:id="@+id/cantEventos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="105dp"
                     android:paddingEnd="8dp"
-                    android:text="Hora: XX:XX AM"
+                    android:text="5"
+                    android:textColor="#03264A" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="1dp"
+                    android:gravity="center_vertical"
+                    android:paddingStart="35dp"
+                    android:paddingEnd="1dp"
+                    android:text="Apoyos"
+                    android:textStyle="bold"
                     android:textColor="#03264A" />
 
                 <TextView
@@ -88,30 +129,20 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginBottom="20dp"
                     android:gravity="center_vertical"
-                    android:paddingStart="35dp"
+                    android:paddingStart="102dp"
                     android:paddingEnd="8dp"
-                    android:text="Apoyos: XX"
+                    android:text="XX"
                     android:textColor="#03264A" />
-
-                <Button
-                    android:id="@+id/buttonApoyar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:backgroundTint="#558A9A"
-                    android:text="Apoyar"
-                    android:textColor="#03264A"
-                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/buttonVerEvento"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:backgroundTint="#558A9A"
+                    android:backgroundTint="#E19C36"
+                    android:text="Ver Evento"
                     android:textColor="#03264A"
-                    android:text="Ver evento"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 

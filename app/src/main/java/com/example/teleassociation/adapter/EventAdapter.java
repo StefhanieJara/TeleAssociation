@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teleassociation.R;
@@ -21,13 +19,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     private List<evento> eventList;
     private Context context;
 
-    public EventAdapter(Context context) {
+    public EventAdapter() {
         this.context = context;
     }
 
     public void setEventList(List<evento> eventList) {
         this.eventList = eventList;
         notifyDataSetChanged();
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     @NonNull

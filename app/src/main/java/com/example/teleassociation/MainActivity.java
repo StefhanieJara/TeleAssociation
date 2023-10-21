@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         credencial.put("w","12345");
         credencial.put("leo.abanto@gmail.com","12345");
-        credencial.put("miguel@gmail.com","12345");
+        credencial.put("m","12345");
 
         binding.iniciarSesion.setOnClickListener(v -> {
             String email = binding.email.getEditableText().toString();
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                     } else if ("leo.abanto@gmail.com".equals(email)) {
                         Intent intent = new Intent(MainActivity.this, ListaEventosActivity.class);
                         startActivity(intent);
-                    } else if ("miguel@gmail.com".equals(email)) {
+                    } else if ("m".equals(email)) {
                         Intent intent = new Intent(MainActivity.this, inicioAdmin.class);
                         startActivity(intent);
                     }

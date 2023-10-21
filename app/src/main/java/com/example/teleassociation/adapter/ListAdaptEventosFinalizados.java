@@ -1,21 +1,23 @@
-package com.example.teleassociation;
+package com.example.teleassociation.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teleassociation.R;
+import com.example.teleassociation.listElementFin;
+
 import java.util.List;
 
-public class ListAdapEvent extends RecyclerView.Adapter<ListAdapEvent.ViewHolder> {
-    private List<listElement> mData;
+public class ListAdaptEventosFinalizados extends RecyclerView.Adapter<ListAdaptEventosFinalizados.ViewHolder> {
+    private List<listElementFin> mData;
     private LayoutInflater mInflater;
     private Context context;
-    public ListAdapEvent(List<listElement> itemList, Context context){
+    public ListAdaptEventosFinalizados(List<listElementFin> itemList, Context context){
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.mData=itemList;
@@ -23,29 +25,26 @@ public class ListAdapEvent extends RecyclerView.Adapter<ListAdapEvent.ViewHolder
     @Override
     public int getItemCount(){return mData.size();}
     @Override
-    public ListAdapEvent.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
-        View view = mInflater.inflate(R.layout.list_element,null);
-        return new ListAdapEvent.ViewHolder(view);
+    public ListAdaptEventosFinalizados.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View view = mInflater.inflate(R.layout.list_eventos_finalizados,null);
+        return new ListAdaptEventosFinalizados.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ListAdapEvent.ViewHolder holder, final int position){
+    public void onBindViewHolder(final ListAdaptEventosFinalizados.ViewHolder holder, final int position){
         holder.binData(mData.get(position));
     }
-    public void setItems (List<listElement> items){mData=items;}
+    public void setItems (List<listElementFin> items){mData=items;}
     public class ViewHolder extends RecyclerView.ViewHolder{
-        TextView evento,hora,tituloActividad,tituloFecha,iconImage;
+        TextView evento,tituloActividad,iconImage;
         ViewHolder(View itemView){
             super(itemView);
             tituloActividad=itemView.findViewById(R.id.actividades);
-            tituloFecha=itemView.findViewById(R.id.fechaHora);
             evento = itemView.findViewById(R.id.miActividad);
-            hora = itemView.findViewById(R.id.fechaHoraRegistrada);
             iconImage=itemView.findViewById(R.id.verEvento);
         }
-        void binData(final listElement item){
+        void binData(final listElementFin item){
             evento.setText(item.getEvento());
-            hora.setText(item.getHora());
         }
     }
 }

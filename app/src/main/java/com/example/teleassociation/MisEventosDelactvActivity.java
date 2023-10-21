@@ -9,6 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.teleassociation.adapter.ListAdapEvent;
+import com.example.teleassociation.adapter.ListAdaptEventosFinalizados;
+
 import java.util.ArrayList;
 import java.util.List;
 

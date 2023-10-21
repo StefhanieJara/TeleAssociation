@@ -4,217 +4,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/system_neutral1_900"
-    android:backgroundTint="@android:color/system_neutral1_900"
-    tools:context=".ListaEventosActivity"
-    tools:targetApi="s">
+    android:background="#191C1E"
+    tools:context=".ListaEventosActivity">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout13"
-        android:layout_width="385dp"
-        android:layout_height="257dp"
-        android:background="#E9EDF1"
-        app:boxBackgroundMode="outline"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <include
+        android:id="@+id/include"
+        layout="@layout/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/textView20"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout13"
-        app:layout_constraintVertical_bias="0.196"
-        tools:ignore="NotSibling">
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-
-            <LinearLayout
-                android:layout_width="173dp"
-                android:layout_height="match_parent"
-                android:gravity="start|center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView17"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Cacería"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/imageView12"
-                    android:layout_width="match_parent"
-                    android:layout_height="148dp"
-                    app:srcCompat="@drawable/bati" />
-
-                <!-- Ajusta el valor de marginTop según tus necesidades -->
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="229dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.6"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="8dp"
-                    android:text="Fecha: XX/XX/XXXX"
-                    android:textColor="#03264A" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="8dp"
-                    android:text="Hora: XX:XX AM"
-                    android:textColor="#03264A" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="8dp"
-                    android:text="Apoyos: XX"
-                    android:textColor="#03264A" />
-
-                <Button
-                    android:id="@+id/button3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:backgroundTint="#274D76"
-                    android:text="Ver Evento"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-        </LinearLayout>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout12"
-        android:layout_width="385dp"
-        android:layout_height="257dp"
-        android:background="#E9EDF1"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listRecyclerActAdmin"
+        android:layout_width="395dp"
+        android:layout_height="559dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="2dp"
         app:boxBackgroundMode="outline"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnAddActiv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout13"
-        app:layout_constraintVertical_bias="0.196">
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-
-            <LinearLayout
-                android:layout_width="173dp"
-                android:layout_height="match_parent"
-                android:gravity="start|center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Cacería"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/imageView11"
-                    android:layout_width="match_parent"
-                    android:layout_height="197dp"
-                    app:srcCompat="@drawable/bati" />
-
-                <!-- Ajusta el valor de marginTop según tus necesidades -->
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="229dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.6"
-                android:orientation="vertical">
-
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="50dp"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="8dp"
-                    android:text="Fecha: XX/XX/XXXX"
-                    android:textColor="#03264A" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="8dp"
-                    android:text="Hora: XX:XX AM"
-                    android:textColor="#03264A" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="8dp"
-                    android:text="Apoyos: XX"
-                    android:textColor="#03264A" />
-
-                <Button
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:backgroundTint="#274D76"
-                    android:text="Ver Evento"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-        </LinearLayout>
-    </com.google.android.material.textfield.TextInputLayout>
-
+        app:layout_constraintTop_toBottomOf="@+id/textView20"
+        tools:ignore="NotSibling"></androidx.recyclerview.widget.RecyclerView>
     <Button
-        android:id="@+id/button19"
+        android:id="@+id/btnAddActiv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="#274D76"
-        android:text="Ver más eventos"
+        android:text="Ver más actividades"
+        android:backgroundTint="#E19C36"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.9"
@@ -226,15 +45,15 @@
         android:id="@+id/textView20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:fontFamily="@font/lokanova_std"
+        android:layout_marginTop="72dp"
+        android:fontFamily="@font/roboto_black"
         android:gravity="center|start|right|center_horizontal"
-        android:text="ACTIVIDADES"
-        android:textColor="#558A9A"
+        android:text="Actividades"
+        android:textColor="#E19C36"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
