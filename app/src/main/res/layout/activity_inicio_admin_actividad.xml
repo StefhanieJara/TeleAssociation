@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/system_neutral1_900"
+    android:backgroundTint="@android:color/system_neutral1_900"
     tools:context=".inicioAdminActividad"
-    android:background="#A7DEEF"
-    android:backgroundTint="#A7DEEF">
+    tools:targetApi="s">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout13"
@@ -199,8 +200,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Ver Evento"
                     android:backgroundTint="#274D76"
+                    android:text="Ver Evento"
                     android:textSize="12sp" />
 
             </LinearLayout>
@@ -226,9 +227,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:fontFamily="@font/lokanova_std"
         android:gravity="center|start|right|center_horizontal"
-        android:text="Actividades"
-        android:textSize="20sp"
+        android:text="ACTIVIDADES"
+        android:textColor="#558A9A"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

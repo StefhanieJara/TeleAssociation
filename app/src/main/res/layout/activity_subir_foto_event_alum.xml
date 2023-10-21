@@ -21,7 +21,7 @@
         app:tint="#558A9A" />
 
     <Button
-        android:id="@+id/subirImagen"
+        android:id="@+id/fechaDelActv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

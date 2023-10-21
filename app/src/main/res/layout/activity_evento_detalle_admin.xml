@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A7DEEF"
-    tools:context=".eventoDetalleAlumno">
+    android:background="@android:color/system_neutral1_900"
+    tools:context=".eventoDetalleAlumno"
+    tools:targetApi="s">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
@@ -90,9 +91,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="12dp"
+        android:backgroundTint="#274D76"
         android:onClick="apoyarEvento"
         android:text="EDITAR EVENTO"
-        android:backgroundTint="#274D76"
         app:iconSize="18dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView6" />
@@ -116,8 +117,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="20dp"
-        android:onClick="apoyarEvento"
         android:backgroundTint="#274D76"
+        android:onClick="apoyarEvento"
         android:text="VER PARTICIPANTES"
         app:iconSize="18dp"
         app:layout_constraintEnd_toEndOf="parent"

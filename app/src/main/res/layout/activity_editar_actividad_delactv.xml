@@ -5,152 +5,99 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/system_neutral1_900"
-    android:backgroundTint="@android:color/system_neutral1_900"
-    tools:context=".EditarActividadDelactvActivity"
+    tools:context=".CrearEventoDelactvActivity"
     tools:targetApi="s">
 
-    <LinearLayout
-        android:layout_width="378dp"
-        android:layout_height="363dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/button4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.268">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tituloActividad"
-            android:layout_width="360dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="#D6F8FAFC"
-            android:hint="Titulo de Actividad"
-            tools:ignore="MissingConstraints">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/Descripcion"
-            android:layout_width="360dp"
-            android:layout_height="85dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="#D6F8FAFC"
-            android:hint="Descripción"
-            tools:ignore="MissingConstraints">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/SubirImagen"
-            android:layout_width="360dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="#D6F8FAFC"
-            android:hint="Subir Imagen"
-            tools:ignore="MissingConstraints">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/FechaEvento"
-            android:layout_width="360dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="#D6F8FAFC"
-            android:hint="Coloque Fecha"
-            tools:ignore="MissingConstraints">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/estado"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="#D6F8FAFC"
-            android:hint="Estado"
-            tools:ignore="MissingConstraints">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="245dp"
-        android:layout_height="52dp"
-        android:layout_marginBottom="264dp"
-        android:backgroundTint="#000000"
-        android:text="Guardar"
-        android:textColorLink="#274D76"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
-        android:id="@+id/textView4"
-        android:layout_width="175dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="40dp"
-        android:text="Editar Actividad"
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:fontFamily="@font/lokanova_std"
+        android:text="EDITAR ACTIVIDAD"
         android:textColor="#558A9A"
-        android:textSize="24sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="144dp"
-        android:layout_height="51dp"
-        android:layout_weight="0.4"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tituloEvento"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Titulo del evento"
+        app:layout_constraintBottom_toTopOf="@+id/descripcion"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView19"> <!-- Aquí se aplica el recurso de bordes redondeados -->
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_corner"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- TextInputLayout y TextInputEditText para la Descripción -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descripcion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Descripción"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tituloEvento">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="101dp"
+            android:background="@drawable/round_corner" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- TextInputLayout y TextInputEditText para Subir Imagen -->
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/estado"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Estado"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descripcion">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_corner" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/button12"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="64dp"
+        android:backgroundTint="#558A9A"
+        android:text="Guardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@drawable/telito" />
+        app:layout_constraintTop_toBottomOf="@+id/estado"
+        app:layout_constraintVertical_bias="0.321" />
 
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="245dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="9dp"
-        android:backgroundTint="#AF2828"
-        android:text="Borrar Actividad"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button4"
-        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

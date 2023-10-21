@@ -34,30 +34,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 
-    <ImageView
-        android:id="@+id/imageView8"
-        android:layout_width="158dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="4dp"
-        android:layout_weight="0.4"
-        app:layout_constraintBottom_toTopOf="@+id/cardView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.029"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        tools:srcCompat="@drawable/telito" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="96dp"
         android:layout_marginEnd="20dp"
         app:cardBackgroundColor="#D2DDC5"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toTopOf="@+id/apoyarEvento"
+        app:layout_constraintDimensionRatio="w,1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -202,7 +189,7 @@
         android:id="@+id/donar"
         android:layout_width="95dp"
         android:layout_height="39dp"
-        android:backgroundTint="#228526"
+        android:backgroundTint="#558A9A"
         android:text="Donar"
         app:layout_constraintBottom_toBottomOf="@+id/editarEvento"
         app:layout_constraintEnd_toStartOf="@+id/editarEvento"
@@ -217,7 +204,7 @@
         android:layout_height="43dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="56dp"
-        android:backgroundTint="#1031EA"
+        android:backgroundTint="#558A9A"
         android:text="Editar Evento"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView2" />

@@ -10,20 +10,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
+        android:layout_gravity="center"
         android:layout_marginTop="25dp"
-        android:layout_marginEnd="220dp"
         android:layout_marginBottom="8dp"
+        android:fontFamily="@font/lokanova_std"
+        android:gravity="center"
+        android:text="ENSAYO DE PEÑA"
         android:textColor="#558A9A"
-        android:text="Ensayo de Peña"
-        android:textSize="24sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/cardView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.518" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
