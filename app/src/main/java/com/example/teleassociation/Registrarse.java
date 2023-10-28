@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Patterns;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.example.teleassociation.databinding.ActivityMainBinding;
@@ -20,11 +21,16 @@ public class Registrarse extends AppCompatActivity {
         binding= ActivityRegistrarseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        String[] opciones = {"Egresado", "Estudiante"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.spinnerCondicion.setAdapter(adapter);
+
         binding.registrarse.setOnClickListener(v -> {
             String nombre = binding.editTextNombre.getEditableText().toString();
             String codigo = binding.editTextCodigo.getEditableText().toString();
             String correo = binding.editTextCorreo.getEditableText().toString();
-            String condicion = binding.editTextCondicion.getEditableText().toString();
+            String condicion = binding.spinnerCondicion.getSelectedItem().toString();
             String contrasena = binding.editTextContraseA.getEditableText().toString();
             String confirmaContra = binding.editTextConfirmaContra.getEditableText().toString();
 
@@ -34,9 +40,7 @@ public class Registrarse extends AppCompatActivity {
                 showError("Código no válido");
             } else if (!isValidEmail(correo)) {
                 showError("Correo electrónico no válido");
-            } else if (!isValidCondicion(condicion)) {
-                showError("Condición no válida");
-            } else if (!isValidPassword(contrasena)) {
+            }  else if (!isValidPassword(contrasena)) {
                 showError("Contraseña no válida. Debe tener al menos 8 caracteres y al menos un carácter especial.");
             } else if (!contrasena.equals(confirmaContra)) {
                 showError("Las contraseñas no coinciden");
@@ -59,11 +63,6 @@ public class Registrarse extends AppCompatActivity {
     private boolean isValidEmail(String email) {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
-
-    private boolean isValidCondicion(String condicion) {
-        return condicion.equals("egresado") || condicion.equals("estudiante");
-    }
-
     private boolean isValidPassword(String password) {
         return password.length() >= 8 && Pattern.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*", password);
     }

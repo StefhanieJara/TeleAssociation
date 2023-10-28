@@ -37,7 +37,7 @@
     <LinearLayout
         android:layout_width="389dp"
         android:layout_height="411dp"
-        android:layout_marginTop="1dp"
+        android:layout_marginTop="12dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/registrarse"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:hint="Nombres y Apellidos"
             app:boxBackgroundColor="@color/white"
             app:boxCornerRadiusBottomEnd="20dp"
@@ -71,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:hint="Codigo"
             android:textColorHint="#A59E9E"
             app:boxBackgroundColor="@color/white"
@@ -93,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:hint="Correo Electronico"
             tools:ignore="MissingConstraints"
             app:boxBackgroundColor="@color/white"
@@ -115,29 +115,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_marginTop="4dp"
             android:hint="Condición"
-            tools:ignore="MissingConstraints"
-            app:boxBackgroundColor="@color/white"
-            app:boxCornerRadiusBottomEnd="20dp"
-            app:boxCornerRadiusBottomStart="20dp"
-            app:boxCornerRadiusTopEnd="20dp"
-            app:boxCornerRadiusTopStart="20dp"
-            android:textColorHint="#A59E9E">
+            android:background="@drawable/diseno1"
+            android:textColorHint="#A59E9E"
+            app:layout_constraintTop_toBottomOf="@+id/Correo"
+            tools:ignore="MissingConstraints">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextCondicion"/>
+            <Spinner
+                android:id="@+id/spinnerCondicion"
+                android:layout_width="380sp"
+                android:layout_height="44sp"
+                android:hint="Condición"
+                android:layout_margin="4dp"
+                android:layout_gravity="center"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:textColor="@color/black"
+                tools:ignore="TouchTargetSizeCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/Contraseña"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
+            android:layout_margin="2dp"
             android:hint="Ingrese contraseña"
             app:endIconMode="password_toggle"
             tools:ignore="MissingConstraints"
@@ -151,25 +154,32 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
                 android:inputType="textPassword"
                 android:id="@+id/editTextContraseña"/>
 
         </com.google.android.material.textfield.TextInputLayout>
-
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ConfirmaContra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="#D6F8FAFC"
-            android:hint="Confirme contraseña"
+            android:layout_margin="2dp"
+            android:hint="Confirmar contraseña"
             app:endIconMode="password_toggle"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp"
+            android:textColorHint="#A59E9E"
+            app:layout_constraintTop_toBottomOf="@+id/Contraseña"
             tools:ignore="MissingConstraints">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
                 android:inputType="textPassword"
                 android:id="@+id/editTextConfirmaContra"/>
 
