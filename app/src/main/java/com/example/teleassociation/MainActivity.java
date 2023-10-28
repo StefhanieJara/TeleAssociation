@@ -23,6 +23,7 @@ import com.example.teleassociation.databinding.ActivityMainBinding;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
     HashMap<String,String> credencial= new HashMap<>();
@@ -44,26 +45,29 @@ public class MainActivity extends AppCompatActivity {
             String email = binding.email.getEditableText().toString();
             String pass= binding.editTextContrasena.getEditableText().toString();
 
-            for (Map.Entry<String, String> entry : credencial.entrySet()) {
-                String storedEmail = entry.getKey();
-                String storedPassword = entry.getValue();
+            if (isValidEmail(email)) {
+                for (Map.Entry<String, String> entry : credencial.entrySet()) {
+                    String storedEmail = entry.getKey();
+                    String storedPassword = entry.getValue();
 
-                if (storedEmail.equals(email) && storedPassword.equals(pass)) {
-                    if ("w@gmail.com".equals(email)) {
-                        Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
-                        startActivity(intent);
-                    } else if ("l@gmail.com".equals(email)) {
-                        Intent intent = new Intent(MainActivity.this, ListaEventosActivity.class);
-                        startActivity(intent);
-                    } else if ("m@gmail.com".equals(email)) {
-                        Intent intent = new Intent(MainActivity.this, inicioAdmin.class);
-                        startActivity(intent);
+                    if (storedEmail.equals(email) && storedPassword.equals(pass)) {
+                        if ("w@gmail.com".equals(email)) {
+                            Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
+                            startActivity(intent);
+                        } else if ("l@gmail.com".equals(email)) {
+                            Intent intent = new Intent(MainActivity.this, ListaEventosActivity.class);
+                            startActivity(intent);
+                        } else if ("m@gmail.com".equals(email)) {
+                            Intent intent = new Intent(MainActivity.this, inicioAdmin.class);
+                            startActivity(intent);
+                        }
+                        return;
                     }
-                    return;
                 }
+                Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Correo electrónico incorrecto", Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
-
         });
         binding.recuperarPass.setOnClickListener(v -> {
             // Navegar a la actividad de recuperación de contraseña al hacer clic en "Olvidé mi contraseña"
@@ -113,6 +117,11 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.notify(1, builder.build());
         }
 
+    }
+    // Función para validar el formato del correo electrónico
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+        return Pattern.matches(emailRegex, email);
     }
 
 
