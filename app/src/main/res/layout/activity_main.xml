@@ -68,28 +68,39 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-
-    <EditText
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/contrasena"
         android:layout_width="353dp"
-        android:layout_height="66dp"
-        android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:background="@drawable/diseno1"
-        android:paddingStart="24dp"
-        app:boxBackgroundMode="outline"
-        android:textSize="18sp"
-        android:layout_marginTop="300dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:layout_marginStart="48dp"
+        android:hint="Ingrese contraseña"
+        android:textColorHint="#A59E9E"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
+        app:endIconMode="password_toggle"
+        app:layout_constraintBottom_toTopOf="@+id/iniciarSesion"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.378"
-        app:endIconMode="password_toggle"/>
+        app:layout_constraintVertical_bias="0.882"
+        tools:ignore="MissingConstraints">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextContrasena"
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:inputType="textPassword"
+            android:paddingStart="24dp"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="42dp"
+            tools:layout_editor_absoluteY="449dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/iniciarSesion"

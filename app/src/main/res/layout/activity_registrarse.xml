@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     android:background="#191C1E"
     tools:context=".Registrarse">
-
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"

@@ -37,7 +37,7 @@ public class listaGeneralActividadAdmin extends AppCompatActivity {
         setContentView(R.layout.activity_lista_general_actividad_admin);
 
         usuarioService = new Retrofit.Builder()
-                .baseUrl("http://192.168.18.193:3000")
+                .baseUrl("http://10.100.114.139:3000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
                 .create(UsuarioService.class);

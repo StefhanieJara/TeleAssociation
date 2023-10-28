@@ -66,13 +66,6 @@
                     android:layout_height="148dp"
                     app:srcCompat="@drawable/bati" />
 
-                <Button
-                    android:id="@+id/button15"
-                    android:layout_width="158dp"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#4C98AF"
-                    android:text="Apoyar Evento" />
-
                 <!-- Ajusta el valor de marginTop según tus necesidades -->
 
             </LinearLayout>
@@ -170,13 +163,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="148dp"
                     app:srcCompat="@drawable/bati" />
-
-                <Button
-                    android:id="@+id/button18"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="#4C98AF"
-                    android:text="Apoyar Evento" />
 
                 <!-- Ajusta el valor de marginTop según tus necesidades -->
 

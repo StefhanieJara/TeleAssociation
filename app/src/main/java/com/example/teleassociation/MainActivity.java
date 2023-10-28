@@ -36,26 +36,26 @@ public class MainActivity extends AppCompatActivity {
 
         createNotificationChannel();
 
-        credencial.put("w","12345");
-        credencial.put("l","12345");
-        credencial.put("m","12345");
+        credencial.put("w@gmail.com","12345");
+        credencial.put("l@gmail.com","12345");
+        credencial.put("m@gmail.com","12345");
 
         binding.iniciarSesion.setOnClickListener(v -> {
             String email = binding.email.getEditableText().toString();
-            String pass= binding.contrasena.getText().toString();
+            String pass= binding.editTextContrasena.getEditableText().toString();
 
             for (Map.Entry<String, String> entry : credencial.entrySet()) {
                 String storedEmail = entry.getKey();
                 String storedPassword = entry.getValue();
 
                 if (storedEmail.equals(email) && storedPassword.equals(pass)) {
-                    if ("w".equals(email)) {
+                    if ("w@gmail.com".equals(email)) {
                         Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
                         startActivity(intent);
-                    } else if ("l".equals(email)) {
+                    } else if ("l@gmail.com".equals(email)) {
                         Intent intent = new Intent(MainActivity.this, ListaEventosActivity.class);
                         startActivity(intent);
-                    } else if ("m".equals(email)) {
+                    } else if ("m@gmail.com".equals(email)) {
                         Intent intent = new Intent(MainActivity.this, inicioAdmin.class);
                         startActivity(intent);
                     }
@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.checkSelfPermission(this, POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
             notificationManager.notify(1, builder.build());
         }
+
     }
 
 

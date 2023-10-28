@@ -64,6 +64,7 @@
             android:id="@+id/home"
             android:layout_width="40dp"
             android:layout_height="35dp"
+            android:onClick="inicio"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="5dp"
             app:srcCompat="@drawable/baseline_home_24" />
@@ -73,11 +74,13 @@
             android:id="@+id/favoritos"
             android:layout_width="40dp"
             android:layout_height="35dp"
+            android:onClick="favoritos"
             android:layout_marginLeft="120dp"
             android:layout_marginTop="5dp"
             app:srcCompat="@drawable/baseline_favorite_24" />
 
         <ImageView
+            android:onClick="donacion"
             android:id="@+id/money"
             android:layout_width="40dp"
             android:layout_height="35dp"
