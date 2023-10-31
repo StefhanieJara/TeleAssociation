@@ -43,11 +43,12 @@ public class inicio_usuario extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Agrega esta línea
         setContentView(R.layout.activity_inicio_usuario);
 
-        eventService = new Retrofit.Builder()
+        //lo dejo comentado por si acaso e.e
+        /*eventService = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.40:3000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(EventService.class);
+                .create(EventService.class);*/
 
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
@@ -56,10 +57,9 @@ public class inicio_usuario extends AppCompatActivity {
         }
 
         // Llama al método para cargar la lista de eventos
-        cargarListaEventosWS();
     }
 
-    public void cargarListaEventosWS() {
+    /*public void cargarListaEventosWS() {
         eventService.getEventList().enqueue(new Callback<eventoDTO>() {
             @Override
             public void onResponse(Call<eventoDTO> call, Response<eventoDTO> response) {
@@ -87,7 +87,7 @@ public class inicio_usuario extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
-    }
+    }*/
 
 
     public void verMasEventos(View view){

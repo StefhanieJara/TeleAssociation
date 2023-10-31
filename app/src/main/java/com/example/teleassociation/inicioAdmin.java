@@ -40,12 +40,6 @@ public class inicioAdmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_admin);
 
-        actividadService = new Retrofit.Builder()
-                .baseUrl("http://10.100.114.139:3000")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-                .create(ActividadService.class);
-
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -58,7 +52,7 @@ public class inicioAdmin extends AppCompatActivity {
             startActivity(intent);
         });
 
-        cargarListaActividadesWS();
+
     }
 
     public void crearActividad(View view){
@@ -66,33 +60,4 @@ public class inicioAdmin extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void cargarListaActividadesWS() {
-        actividadService.getActividadLista().enqueue(new Callback<actividadDTO>() {
-            @Override
-            public void onResponse(Call<actividadDTO> call, Response<actividadDTO> response) {
-                if (response.isSuccessful()) {
-                    actividadDTO body = response.body();
-                    List<actividad> actividadList = body.getLista();
-
-                    ActividadAdapter actividadAdapter = new ActividadAdapter();
-                    actividadAdapter.setActividadList(actividadList);
-                    actividadAdapter.setContext(inicioAdmin.this);
-
-                    // Inicializa el RecyclerView y el adaptador
-                    recyclerView = findViewById(R.id.listRecyclerActAdmin);
-                    recyclerView.setAdapter(actividadAdapter);
-                    recyclerView.setLayoutManager(new LinearLayoutManager(inicioAdmin.this));
-
-                } else {
-                    Log.d(TAG, "response unsuccessful");
-                }
-            }
-            @Override
-            public void onFailure(Call<actividadDTO> call, Throwable t) {
-                Log.d(TAG, "algo pasó!!!");
-                Log.d(TAG, t.getMessage());
-                t.printStackTrace();
-            }
-        });
-    }
 }

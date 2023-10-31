@@ -36,11 +36,12 @@ public class listaGeneralActividadAdmin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_general_actividad_admin);
 
-        usuarioService = new Retrofit.Builder()
+        //comentado por si acaso:(
+        /*usuarioService = new Retrofit.Builder()
                 .baseUrl("http://10.100.114.139:3000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
-                .create(UsuarioService.class);
+                .create(UsuarioService.class);*/
 
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
@@ -48,10 +49,10 @@ public class listaGeneralActividadAdmin extends AppCompatActivity {
             actionBar.hide();
         }
 
-        cargarListaUsuariosWS();
+        //cargarListaUsuariosWS();
     }
 
-    public void cargarListaUsuariosWS() {
+    /*public void cargarListaUsuariosWS() {
         usuarioService.getUsuarios().enqueue(new Callback<usuarioDTO>() {
             @Override
             public void onResponse(Call<usuarioDTO> call, Response<usuarioDTO> response) {
@@ -79,5 +80,5 @@ public class listaGeneralActividadAdmin extends AppCompatActivity {
                 t.printStackTrace();
             }
         });
-    }
+    }*/
 }
