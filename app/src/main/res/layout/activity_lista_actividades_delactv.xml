@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#191C1E"
-    tools:context=".ListaActividadesDelactvActivity">
+    tools:context=".adminActividad.ListaActividadesDelactvActivity">
 
     <ImageView
         android:id="@+id/imageView20"

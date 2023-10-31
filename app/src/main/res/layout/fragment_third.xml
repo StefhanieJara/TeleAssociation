@@ -2,10 +2,25 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#191C1E"
-    tools:context=".pagosAlumno">
+    tools:context=".Usuario.ThirdFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/cointainerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
 
     <Button
         android:id="@+id/button9"
@@ -22,6 +37,13 @@
         app:layout_constraintVertical_bias="0.0"
         android:backgroundTint="#558A9A"/>
 
+    <include
+        layout="@layout/toolbar"
+        app:layout_constraintBottom_toTopOf="@+id/textView20"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/textPago"
@@ -36,9 +58,10 @@
         android:textSize="38sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.722" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"

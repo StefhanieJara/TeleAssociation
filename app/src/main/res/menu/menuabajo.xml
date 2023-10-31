@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item
+            android:id="@+id/firstFragment"
+            android:icon="@drawable/baseline_home_24"
+            android:title="Inicio"/>
+
+        <item
+            android:id="@+id/secondFragment"
+            android:icon="@drawable/baseline_favorite_24"
+            android:title="Actividades"/>
+
+        <item
+            android:id="@+id/thirdFragment"
+            android:icon="@drawable/baseline_attach_money_24"
+            android:title="Donar"/>
+
+        <item
+            android:id="@+id/fourFragment"
+            android:icon="@drawable/baseline_logout_24"
+            android:title="Salir"/>
+</menu>

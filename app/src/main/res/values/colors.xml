@@ -4,4 +4,12 @@
     <color name="white">#FFFFFFFF</color>
     <color name="system_bar">#274D76</color>
     <color name="menu">#558A9A</color>
+
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    <color name="blue_dark">#E9132E71</color>
+    <color name="blue_normal">#E916398F</color>
+    <color name="blue_light">#E91F4FC5</color>
+    <color name="blue_light_2">#E97496EA</color>
 </resources>

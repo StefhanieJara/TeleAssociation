@@ -36,13 +36,13 @@
             android:name=".inicioAdminActividad"
             android:exported="false" />
         <activity
-            android:name=".inicio_usuario"
+            android:name=".Usuario.inicio_usuario"
             android:exported="false" />
         <activity
             android:name=".listaGeneralActividadAdmin"
             android:exported="false" />
         <activity
-            android:name=".ListaActividadesDelactvActivity"
+            android:name=".adminActividad.ListaActividadesDelactvActivity"
             android:exported="false" />
         <activity
             android:name=".CrearActividadDelactvActivity"
