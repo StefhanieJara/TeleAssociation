@@ -31,7 +31,7 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicio_admin_actividad);
+        setContentView(R.layout.activity_lista_actividades_delactv);
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
