@@ -40,6 +40,11 @@ public class MainActivity extends AppCompatActivity {
         credencial.put("l@gmail.com","12345");
         credencial.put("m@gmail.com","12345");
 
+        // Verificar si se ha pasado un mensaje de registro exitoso a través del Intent
+        if (getIntent().getBooleanExtra("registroExitoso", false)) {
+            Toast.makeText(this, "Registro exitoso, espere su validación.", Toast.LENGTH_SHORT).show();
+        }
+
         binding.iniciarSesion.setOnClickListener(v -> {
             String email = binding.email.getEditableText().toString();
             String pass= binding.editTextContrasena.getEditableText().toString();
