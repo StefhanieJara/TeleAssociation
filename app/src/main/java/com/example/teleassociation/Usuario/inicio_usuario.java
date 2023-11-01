@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.example.teleassociation.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -26,6 +27,10 @@ public class inicio_usuario extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); // Agrega esta línea
         setContentView(R.layout.activity_inicio_usuario);
+
+        if (getIntent().getBooleanExtra("Pago con éxito.", false)) {
+            Toast.makeText(this, "Pago enviado. Esperar su confirmación.", Toast.LENGTH_SHORT).show();
+        }
 
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
