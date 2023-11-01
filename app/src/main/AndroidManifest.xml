@@ -109,7 +109,7 @@
             android:name=".verEventosAdmin"
             android:exported="false" />
         <activity
-            android:name=".inicioAdmin"
+            android:name=".adminGeneral.inicioAdmin"
             android:exported="false" />
         <activity
             android:name=".Registrarse"

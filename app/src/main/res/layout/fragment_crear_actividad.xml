@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/system_neutral1_900"
-    tools:context=".CrearEventoDelactvActivity"
-    tools:targetApi="s">
+    android:background="#191C1E"
+    tools:context=".adminGeneral.CrearActividadFragment">
 
     <TextView
         android:id="@+id/textView19"
@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:fontFamily="@font/lokanova_std"
-        android:text="CREAR EVENTO"
+        android:text="CREAR ACTIVIDAD"
         android:textColor="#558A9A"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -63,6 +63,7 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <!-- TextInputLayout y TextInputEditText para Subir Imagen -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/fechaDelActv"
@@ -82,6 +83,8 @@
             android:background="@drawable/round_corner" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/lugarEvento"

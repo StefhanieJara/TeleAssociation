@@ -6,4 +6,10 @@
     <string name="title_notifications">Notifications</string>
     <string name="subir_imagen">Subir Imagen</string>
     <string name="hello_blank_fragment">Hello, Blank Fragment!</string>
+
+    <string-array name="opciones_spinner">
+        <item>Opción 1</item>
+        <item>Opción 2</item>
+        <item>Opción 3</item>
+    </string-array>
 </resources>
