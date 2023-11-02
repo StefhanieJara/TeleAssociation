@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.teleassociation.Usuario.inicio_usuario;
 import com.example.teleassociation.adminGeneral.inicioAdmin;
+import com.example.teleassociation.databinding.ActivityMainBinding;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityMainBinding.inflate(getLayoutInflater());
+        binding= ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         createNotificationChannel();
