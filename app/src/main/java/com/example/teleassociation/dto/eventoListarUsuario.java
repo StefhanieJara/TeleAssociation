@@ -7,7 +7,6 @@ public class eventoListarUsuario {
     private String hora;
     private String apoyos;
     private String nombre_actividad;
-    private String prueba;
 
     public String getNombre_actividad() {
         return nombre_actividad;
