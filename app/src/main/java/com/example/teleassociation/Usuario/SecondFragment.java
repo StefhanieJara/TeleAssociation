@@ -3,12 +3,25 @@ package com.example.teleassociation.Usuario;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.adapter.EventAdapter;
+import com.example.teleassociation.adapter.MisEventAdapter;
+import com.example.teleassociation.dto.eventoListarUsuario;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +34,9 @@ public class SecondFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    FirebaseFirestore db;
+    private List<eventoListarUsuario> eventLista = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -60,7 +76,65 @@ public class SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second, container, false);
+
+        View rootView = inflater.inflate(R.layout.fragment_second, container, false);
+        db = FirebaseFirestore.getInstance();
+        recyclerView = rootView.findViewById(R.id.listRecyclerView);
+        ArrayList<String> eventosParticipa = new ArrayList<>();
+        Log.d("msg-test", " inicio");
+        db.collection("participantes")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot eventosCollection = task.getResult();
+                        for (QueryDocumentSnapshot document : eventosCollection) {
+                            String asignacion = (String) document.get("asignacion");
+                            String codigo = (String) document.get("codigo");
+                            String evento = (String) document.get("evento");
+                            if ("20190050".equals(codigo)) {
+                                Log.d("msg-test", " | evento: " + evento);
+                                eventosParticipa.add(evento);}}
+
+                        // Itera a través de eventos de la colección "eventos"
+                        db.collection("eventos")
+                                .get()
+                                .addOnCompleteListener(task2 -> {
+                                    if (task2.isSuccessful()) {
+                                        QuerySnapshot eventosCollection2 = task2.getResult();
+                                        for (QueryDocumentSnapshot document2 : eventosCollection2) {
+                                            String nombre = (String) document2.get("nombre");
+                                            String nombre_actividad = (String) document2.get("nombre_actividad");
+                                            Date date = document2.getDate("fecha");
+                                            String apoyos = (String) document2.get("apoyos");
+                                            String fechaSt = date.toString();
+                                            String[] partes = fechaSt.split(" ");
+                                            String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                            String hora = partes[3];
+                                            String fecha_hora = fecha+" "+hora;
+
+                                            // Verifica si el nombre del evento está en eventosParticipa
+                                            if (eventosParticipa.contains(nombre)) {
+                                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad);
+                                                eventLista.add(eventos);
+                                                Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
+                                            }
+                                        }
+
+                                        MisEventAdapter misEventAdapter = new MisEventAdapter();
+                                        misEventAdapter.setEventList(eventLista);
+                                        misEventAdapter.setContext(getContext());
+
+                                        recyclerView.setAdapter(misEventAdapter);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                                    }
+                                });
+
+
+                    }
+                });
+
+
+        return rootView;
     }
 }
