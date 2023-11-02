@@ -11,19 +11,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.evento;
+import com.example.teleassociation.dto.eventoListarUsuario;
 
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
-    private List<evento> eventList;
+    private List<eventoListarUsuario> eventList;
     private Context context;
 
     public EventAdapter() {
         this.context = context;
     }
 
-    public void setEventList(List<evento> eventList) {
+    public void setEventList(List<eventoListarUsuario> eventList) {
         this.eventList = eventList;
         notifyDataSetChanged();
     }
@@ -45,10 +46,10 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
-        evento event = eventList.get(position);
+        eventoListarUsuario event = eventList.get(position);
 
         // Asigna los datos a los elementos de la vista
-        holder.titleActividad.setText(event.getEvento());
+        holder.titleActividad.setText(event.getNombre());
         holder.fecha.setText("Fecha: " + event.getFecha());
         holder.hora.setText("Hora: " + event.getHora());
         holder.cantApoyos.setText("Apoyos: " + event.getApoyos());
