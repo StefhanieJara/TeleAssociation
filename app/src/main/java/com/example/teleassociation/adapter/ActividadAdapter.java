@@ -48,7 +48,7 @@ public class ActividadAdapter extends RecyclerView.Adapter<ActividadAdapter.Acti
         actividad actividad = actividadList.get(position);
 
         // Asigna los datos a los elementos de la vista
-        holder.titleActividad.setText(actividad.getActividad());
+        holder.titleActividad.setText(actividad.getNombre());
         holder.delegado.setText(actividad.getDelegado());
         holder.descripcion.setText(actividad.getDescripcion());
         holder.buttonVerEvento.setOnClickListener(new View.OnClickListener() {
