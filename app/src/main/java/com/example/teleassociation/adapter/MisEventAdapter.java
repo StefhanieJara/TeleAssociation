@@ -18,7 +18,7 @@ public class MisEventAdapter extends RecyclerView.Adapter<MisEventAdapter.EventV
 
     private List<eventoListarUsuario> eventList;
     private Context context;
-
+//
     public MisEventAdapter() {
         this.context = context;
     }

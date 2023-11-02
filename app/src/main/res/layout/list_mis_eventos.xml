@@ -29,7 +29,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/add_circle_fill0_wght400_grad0_opsz24"
-                android:contentDescription="Ver mas"
+                android:contentDescription="Ver más"
                 android:onClick="verEvento"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"

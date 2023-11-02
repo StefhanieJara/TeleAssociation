@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass. s
  * Use the {@link SecondFragment#newInstance} factory method to
  * create an instance of this fragment.
  */

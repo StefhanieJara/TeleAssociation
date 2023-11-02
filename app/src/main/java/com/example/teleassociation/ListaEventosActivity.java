@@ -26,23 +26,23 @@ public class ListaEventosActivity extends AppCompatActivity {
         boton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListaEventosActivity.this, EventoDetalleDelactvActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(ListaEventosActivity.this, EventoDetalleDelactvActivity.class);
+                //startActivity(intent);
             }
         });
 
         boton3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListaEventosActivity.this, MasEventosDelactvActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(ListaEventosActivity.this, MasEventosDelactvActivity.class);
+                startActivity(intent);*/
             }
         });
         boton4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ListaEventosActivity.this, MisEventosDelactvActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(ListaEventosActivity.this, MisEventosDelactvActivity.class);
+                startActivity(intent);*/
             }
         });
     }
