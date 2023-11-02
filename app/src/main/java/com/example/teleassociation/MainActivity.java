@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityMainBinding.inflate(getLayoutInflater());
+        binding= ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         createNotificationChannel();
