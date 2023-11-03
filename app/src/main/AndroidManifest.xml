@@ -51,7 +51,7 @@
             android:name=".EditarActividadDelactvActivity"
             android:exported="false" />
         <activity
-            android:name=".validarParticipanteAdmin"
+            android:name=".adminGeneral.validarParticipanteAdmin"
             android:exported="false" />
         <activity
             android:name=".listaGeneralAdmin"

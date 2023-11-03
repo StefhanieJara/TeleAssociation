@@ -93,10 +93,12 @@ public class PersonasGeneralFragment extends Fragment {
                             String nombre = (String) document.get("nombre");
                             String condicion = (String) document.get("condicion");
                             String validacion = (String) document.get("validado");
+                            String correo = (String) document.get("correo");
                             usuario usuario = new usuario();
                             usuario.setNombre(nombre);
                             usuario.setCondicion(condicion);
                             usuario.setValidado(validacion);
+                            usuario.setCorreo(correo);
                             usuarioLista.add(usuario);
                             Log.d("msg-test", " | nombre: " + nombre + " | condicion: " + condicion + " | validacion: " + validacion);
                         }

@@ -1,6 +1,7 @@
 package com.example.teleassociation.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teleassociation.R;
-import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.usuario;
+import com.example.teleassociation.adminGeneral.validarParticipanteAdmin;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PersonasGeneralAdapter extends RecyclerView.Adapter<PersonasGeneralAdapter.PersonasGeneralViewHolder> {
@@ -66,7 +66,14 @@ public class PersonasGeneralAdapter extends RecyclerView.Adapter<PersonasGeneral
             holder.validarUsuario.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Aquí maneja el clic del botón
+                    // Crear un Intent para cambiar a la actividad "validarParticipanteAdmin"
+                    Intent intent = new Intent(context, validarParticipanteAdmin.class);
+
+                    intent.putExtra("usuarioCorreo", usuario.getCorreo());
+                    intent.putExtra("usuarioNombre", usuario.getNombre());
+
+                    // Iniciar la nueva actividad
+                    context.startActivity(intent);
                 }
             });
         }

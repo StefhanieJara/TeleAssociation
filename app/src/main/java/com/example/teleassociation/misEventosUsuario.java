@@ -42,8 +42,8 @@ public class misEventosUsuario extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listAdapEvent);
     }
-    public void verEvento(View view){
+    /*public void verEvento(View view){
         Intent intent=new Intent(this, eventoDetalleAlumno.class);
         startActivity(intent);
-    }
+    }*/
 }
