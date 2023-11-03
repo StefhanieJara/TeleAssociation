@@ -3,12 +3,26 @@ package com.example.teleassociation.adminGeneral;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.adapter.EventAdapter;
+import com.example.teleassociation.adapter.PersonasGeneralAdapter;
+import com.example.teleassociation.dto.eventoListarUsuario;
+import com.example.teleassociation.dto.usuario;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,6 +30,10 @@ import com.example.teleassociation.R;
  * create an instance of this fragment.
  */
 public class PersonasGeneralFragment extends Fragment {
+
+    FirebaseFirestore db;
+    private RecyclerView recyclerView;
+    private List<usuario> usuarioLista = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +79,38 @@ public class PersonasGeneralFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_personas_general, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_personas_general, container, false);
+        db = FirebaseFirestore.getInstance();
+        recyclerView = rootView.findViewById(R.id.listRecyclerListaGeneralUsuario);
+
+        db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot usuariosCollection = task.getResult();
+
+                        for (QueryDocumentSnapshot document : usuariosCollection) {
+                            String nombre = (String) document.get("nombre");
+                            String condicion = (String) document.get("condicion");
+                            String validacion = (String) document.get("validado");
+                            usuario usuario = new usuario();
+                            usuario.setNombre(nombre);
+                            usuario.setCondicion(condicion);
+                            usuario.setValidado(validacion);
+                            usuarioLista.add(usuario);
+                            Log.d("msg-test", " | nombre: " + nombre + " | condicion: " + condicion + " | validacion: " + validacion);
+                        }
+
+                        PersonasGeneralAdapter personasGeneralAdapter = new PersonasGeneralAdapter();
+                        personasGeneralAdapter.setUsuarioLista(usuarioLista);
+                        personasGeneralAdapter.setContext(getContext());
+
+                        recyclerView.setAdapter(personasGeneralAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                    }
+                });
+
+        return rootView;
     }
 }
