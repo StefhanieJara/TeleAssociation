@@ -7,19 +7,6 @@
     android:background="#191C1E"
     tools:context=".ParticipantesDelactv">
 
-    <ImageView
-        android:id="@+id/imageView16"
-        android:layout_width="144dp"
-        android:layout_height="51dp"
-        android:layout_weight="0.4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02"
-        tools:srcCompat="@drawable/telito" />
-
     <TextView
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
@@ -33,7 +20,7 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.096" />
+        app:layout_constraintVertical_bias="0.114" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout5"
@@ -43,8 +30,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listaParticipantes"
-        android:layout_width="378dp"
-        android:layout_height="617dp"
+        android:layout_width="395dp"
+        android:layout_height="361dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"

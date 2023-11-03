@@ -45,7 +45,6 @@ public class ViewHolder extends RecyclerView.ViewHolder{
         actividad = itemView.findViewById(R.id.miActividad);
         rol = itemView.findViewById(R.id.rolParticipante);
         asignacion = itemView.findViewById(R.id.asignacionParticipante);
-        iconImage=itemView.findViewById(R.id.imageView16);
     }
     void binData(final ListaParticipantes item){
         actividad.setText(item.getActividad());

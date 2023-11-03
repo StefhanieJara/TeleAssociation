@@ -3,12 +3,25 @@ package com.example.teleassociation.adminGeneral;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.adapter.EventAdapter;
+import com.example.teleassociation.adapter.ListaActividadesGeneralAdapter;
+import com.example.teleassociation.dto.eventoListarUsuario;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +38,9 @@ public class ListaActividadesGeneralFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    FirebaseFirestore db;
+    private List<eventoListarUsuario> eventLista = new ArrayList<>();
+    private RecyclerView recyclerView;
 
     public ListaActividadesGeneralFragment() {
         // Required empty public constructor
@@ -60,7 +76,43 @@ public class ListaActividadesGeneralFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lista_actividades_general, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_lista_actividades_general, container, false);
+        db = FirebaseFirestore.getInstance();
+        recyclerView = rootView.findViewById(R.id.listRecyclerEventoAdmin);
+
+        db.collection("eventos")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot eventosCollection = task.getResult();
+
+                        if(eventLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : eventosCollection) {
+                                String nombre = (String) document.get("nombre");
+                                String nombre_actividad = (String) document.get("nombre_actividad");
+                                Date date = document.getDate("fecha");
+                                String apoyos = (String) document.get("apoyos");
+                                String fechaSt = date.toString();
+                                String[] partes = fechaSt.split(" ");
+                                String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                String hora = partes[3];
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad);
+                                eventLista.add(eventos);
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
+                            }
+                        }
+
+                        ListaActividadesGeneralAdapter listaActividadesGeneralAdapter = new ListaActividadesGeneralAdapter();
+                        listaActividadesGeneralAdapter.setEventList(eventLista);
+                        listaActividadesGeneralAdapter.setContext(getContext());
+
+                        // Inicializa el RecyclerView y el adaptador
+                        recyclerView.setAdapter(listaActividadesGeneralAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                    }
+                });
+
+        return rootView;
     }
 }

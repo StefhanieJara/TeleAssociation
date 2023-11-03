@@ -16,12 +16,16 @@ import com.example.teleassociation.adminActividad.DonacionesAdminActividadFragme
 import com.example.teleassociation.adminActividad.MisEventosCreadosFragment;
 import com.example.teleassociation.listElement;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import java.util.List;
 
 public class ListaActividadesDelactvActivity extends AppCompatActivity {
     List<listElement> elements;
 
+    FirebaseFirestore db;
     AdminActividadInicioFragment adminActividadInicioFragment = new AdminActividadInicioFragment();
     CrearEventoFragment crearEventoFragment = new CrearEventoFragment();
     DonacionesAdminActividadFragment donacionesAdminActividadFragment = new DonacionesAdminActividadFragment();
@@ -32,6 +36,7 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_actividades_delactv);
+        db = FirebaseFirestore.getInstance();
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

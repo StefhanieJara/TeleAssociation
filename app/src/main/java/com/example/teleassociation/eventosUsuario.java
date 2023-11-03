@@ -48,8 +48,8 @@ public class eventosUsuario extends AppCompatActivity {
 
     }
 
-    public void verEvento(View view){
+    /*public void verEvento(View view){
         Intent intent=new Intent(this, eventoDetalleAlumno.class);
         startActivity(intent);
-    }
+    }*/
 }

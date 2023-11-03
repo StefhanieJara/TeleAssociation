@@ -55,7 +55,7 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rol"
+                android:text="Estado"
                 tools:layout_editor_absoluteX="125dp"
                 tools:layout_editor_absoluteY="84dp" />
 

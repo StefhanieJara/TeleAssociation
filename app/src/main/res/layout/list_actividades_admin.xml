@@ -8,7 +8,7 @@
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
     app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="#EFEEE9">
+    app:cardBackgroundColor="#D2DDC5">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,14 +30,6 @@
                 android:paddingEnd="5dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Actividad"
-                    android:textSize="20sp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
-                <TextView
                     android:id="@+id/titleActividad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -49,7 +41,7 @@
                 <ImageView
                     android:id="@+id/imageActividad"
                     android:layout_width="match_parent"
-                    android:layout_height="138dp"
+                    android:layout_height="184dp"
                     app:srcCompat="@drawable/bati" />
 
                 <!-- Ajusta el valor de marginTop según tus necesidades -->
@@ -65,61 +57,42 @@
                 android:paddingTop="8dp">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="35dp"
-                    android:paddingEnd="1dp"
-                    android:text="Nombre de Delegado"
-                    android:textStyle="bold"
-                    android:textColor="#03264A" />
-                <TextView
                     android:id="@+id/delegado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center_vertical"
-                    android:paddingStart="90dp"
-                    android:paddingEnd="8dp"
-                    android:text="Diego"
-                    android:textColor="#03264A" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="1dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="15dp"
                     android:gravity="center_vertical"
                     android:paddingStart="35dp"
-                    android:paddingEnd="1dp"
-                    android:text="Descripción"
-                    android:textStyle="bold"
+                    android:paddingEnd="8dp"
+                    android:text="Fecha: XX/XX/XXXX"
                     android:textColor="#03264A" />
+
+
 
                 <TextView
                     android:id="@+id/descripcion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="20dp"
                     android:gravity="center_vertical"
-                    android:paddingStart="105dp"
+                    android:paddingStart="35dp"
                     android:paddingEnd="8dp"
-                    android:text="Hola"
+                    android:text="Apoyos: XX"
                     android:textColor="#03264A" />
 
                 <Button
-                    android:id="@+id/buttonVerEvento"
+                    android:id="@+id/buttonEditarActividad"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:backgroundTint="#E19C36"
-                    android:text="Ver Eventos"
+                    android:backgroundTint="#558A9A"
+                    android:text="Editar Actividad"
                     android:textColor="#03264A"
                     android:textSize="14sp" />
+
             </LinearLayout>
         </LinearLayout>
 

@@ -5,8 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/system_neutral1_900"
-    tools:context=".CrearEventoDelactvActivity"
+    tools:context=".adminGeneral.validarParticipanteAdmin"
     tools:targetApi="s">
+
+  <include
+      layout="@layout/toolbar_admin"
+      android:id="@+id/toolbarAdmin"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.0" />
 
   <com.google.android.material.textfield.TextInputLayout
       android:id="@+id/textInputLayout27"
@@ -29,8 +38,12 @@
       app:layout_constraintVertical_bias="0.0">
 
     <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/nombre"
         android:layout_width="353dp"
         android:layout_height="66dp"
+        android:background="@drawable/round_corner"
+        android:inputType="none"
+        android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="399dp" />
 
@@ -55,35 +68,41 @@
       app:layout_constraintTop_toBottomOf="@+id/textInputLayout27">
 
     <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/correo"
         android:layout_width="match_parent"
         android:layout_height="66dp"
+        android:background="@drawable/round_corner"
+        android:inputType="none"
+        android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="399dp" />
   </com.google.android.material.textfield.TextInputLayout>
 
   <com.google.android.material.textfield.TextInputLayout
-      android:id="@+id/textInputLayout29"
+      android:id="@+id/auto_complete_texto1"
+      style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
       android:layout_width="350dp"
       android:layout_height="75dp"
       android:layout_marginTop="20dp"
+      android:hint="Validación"
       app:boxBackgroundColor="@color/white"
       app:boxCornerRadiusBottomEnd="20dp"
       app:boxCornerRadiusBottomStart="20dp"
       app:boxCornerRadiusTopEnd="20dp"
       app:boxCornerRadiusTopStart="20dp"
       android:textColorHint="#A59E9E"
-      android:hint="¿Aceptado?"
       app:boxBackgroundMode="outline"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.505"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/textInputLayout28">
 
-    <com.google.android.material.textfield.TextInputEditText
+    <AutoCompleteTextView
+        android:id="@+id/validacion"
         android:layout_width="match_parent"
-        android:layout_height="66dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="399dp" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/round_corner"
+        android:inputType="none" />
   </com.google.android.material.textfield.TextInputLayout>
 
   <com.google.android.material.textfield.TextInputLayout
@@ -101,11 +120,13 @@
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintHorizontal_bias="0.505"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/textInputLayout29">
+      app:layout_constraintTop_toBottomOf="@+id/auto_complete_texto1">
 
     <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/rechazo"
         android:layout_width="match_parent"
         android:layout_height="175dp"
+        android:background="@drawable/round_corner"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="399dp" />
   </com.google.android.material.textfield.TextInputLayout>
@@ -126,15 +147,15 @@
       android:id="@+id/textView19"
       android:layout_width="238dp"
       android:layout_height="42dp"
-      android:layout_marginTop="36dp"
+      android:layout_marginTop="64dp"
       android:fontFamily="@font/lokanova_std"
       android:foregroundGravity="center"
-      android:text="VALIDAR PARTICIPANTES"
+      android:text="VALIDAR USUARIO"
       android:textColor="#558A9A"
       android:textSize="34sp"
       android:textStyle="bold"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintHorizontal_bias="0.705"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
 

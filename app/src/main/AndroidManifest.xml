@@ -51,7 +51,7 @@
             android:name=".EditarActividadDelactvActivity"
             android:exported="false" />
         <activity
-            android:name=".validarParticipanteAdmin"
+            android:name=".adminGeneral.validarParticipanteAdmin"
             android:exported="false" />
         <activity
             android:name=".listaGeneralAdmin"
@@ -97,7 +97,7 @@
             android:name=".crearEventoAdmin"
             android:exported="false" />
         <activity
-            android:name=".donacionesAdmin"
+            android:name=".adminGeneral.donacionesAdmin"
             android:exported="false" />
         <activity
             android:name=".misEventosUsuario"

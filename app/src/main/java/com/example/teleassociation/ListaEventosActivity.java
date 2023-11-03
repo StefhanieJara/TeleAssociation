@@ -23,13 +23,13 @@ public class ListaEventosActivity extends AppCompatActivity {
         Button boton3 = findViewById(R.id.button19);
         Button boton4 = findViewById(R.id.button5);
 
-        boton2.setOnClickListener(new View.OnClickListener() {
+        /*boton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Intent intent = new Intent(ListaEventosActivity.this, EventoDetalleDelactvActivity.class);
                 //startActivity(intent);
             }
-        });
+        });*/
 
         boton3.setOnClickListener(new View.OnClickListener() {
             @Override
