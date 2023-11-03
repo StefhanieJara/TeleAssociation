@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cv"
+    android:id="@+id/cc"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
+    app:cardBackgroundColor="#D2DDC5"
     app:cardCornerRadius="20dp"
     app:cardElevation="4dp"
-    app:cardUseCompatPadding="true"
-    app:cardBackgroundColor="#D2DDC5">
+    app:cardUseCompatPadding="true">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,8 +28,8 @@
                 android:layout_height="60dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/visibility_fill0_wght400_grad0_opsz24"
-                android:contentDescription="Ver mas"
+                android:background="@drawable/add_circle_fill0_wght400_grad0_opsz24"
+                android:contentDescription="Ver más"
                 android:onClick="verEvento"
                 android:paddingLeft="14dp"
                 android:paddingRight="14dp"
@@ -39,40 +41,41 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="2dp"
-                android:orientation="vertical"
-                android:layout_centerVertical="true">
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/actividades"
+                    android:id="@+id/miActividad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="Peña"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/miEvento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
                     android:text="Evento"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:id="@+id/nombre_evento"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="1dp"
-                    android:text="Ensayo"
-                    android:textColor="@color/black"
-                    android:textSize="13sp"
-                    />
+                    android:textSize="13sp" />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
                 android:layout_marginTop="2dp"
                 android:layout_toEndOf="@+id/linearLayout1"
-                android:layout_marginStart="15dp"
-                android:orientation="vertical"
-                android:layout_centerVertical="true">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/fechaHora"
@@ -85,13 +88,13 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/fecha_hora"
+                    android:id="@+id/fechaHoraRegistrada"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="15:20"
+                    android:text="19/10/2023 15:20"
                     android:textColor="@color/black"
-                    android:textSize="13sp"/>
+                    android:textSize="13sp" />
             </LinearLayout>
         </RelativeLayout>
 

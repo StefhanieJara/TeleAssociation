@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
@@ -39,8 +40,8 @@ public class Registrarse extends AppCompatActivity {
             String condicion = binding.spinnerCondicion.getSelectedItem().toString();
             String contrasena = binding.editTextContraseA.getEditableText().toString();
             String confirmaContra = binding.editTextConfirmaContra.getEditableText().toString();
-            String validado = "no";
-            String rol = "participante";
+            String validado = "No";
+            String rol = "barra";
 
             if (nombre.isEmpty()) {
                 showError("El campo 'Nombre' no puede estar vacío.");
@@ -56,12 +57,14 @@ public class Registrarse extends AppCompatActivity {
                 // Agregar  lógica de registro
                 // ...
                 usuario usuario = new usuario();
-                usuario.setRol(condicion);
+                usuario.setCondicion(condicion);
                 usuario.setContrasenha(contrasena);
                 usuario.setCorreo(correo);
                 usuario.setNombre(nombre);
                 usuario.setValidado(validado);
                 usuario.setRol(rol);
+
+                Log.d("msg-test", " | nombre: " + nombre + " | rol: " + rol + " | condicion: " + condicion);
 
                 db.collection("usuarios")
                         .document(codigo)

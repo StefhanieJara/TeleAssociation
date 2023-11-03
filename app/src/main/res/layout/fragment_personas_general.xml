@@ -8,6 +8,16 @@
     android:background="#191C1E"
     tools:context=".adminGeneral.PersonasGeneralFragment">
 
+
+    <include
+        layout="@layout/toolbar_admin"
+        android:id="@+id/toolbarAdmin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
     <TextView
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
@@ -18,9 +28,10 @@
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.041" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarAdmin"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/textInputLayout5"
@@ -44,7 +55,7 @@
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rol"
+                android:text="Estado"
                 tools:layout_editor_absoluteX="125dp"
                 tools:layout_editor_absoluteY="84dp" />
 

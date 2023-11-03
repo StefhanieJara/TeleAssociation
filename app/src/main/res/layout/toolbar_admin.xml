@@ -1,0 +1,54 @@
+<androidx.appcompat.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#558A9A"
+    android:id="@+id/home_toolbar2"
+    app:navigationIcon="@mipmap/ic_teletoxic_foreground_foreground"
+    app:titleTextColor="#191C1E">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <TextView
+            android:id="@+id/nameUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="@font/roboto_black"
+            android:text="Leo Abanto"
+            android:textColor="#191C1E"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/btnStats"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:title="campanita"
+            app:showAsAction="ifRoom"
+            app:srcCompat="@drawable/statistics" />
+        <ImageView
+            android:id="@+id/btnMoney"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:title="chat"
+            app:showAsAction="ifRoom"
+            app:srcCompat="@drawable/money" />
+
+        <ImageView
+            android:id="@+id/btnNotif"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:title="chat"
+            app:showAsAction="ifRoom"
+            app:srcCompat="@drawable/notifications_icon" />
+    </LinearLayout>
+</androidx.appcompat.widget.Toolbar>

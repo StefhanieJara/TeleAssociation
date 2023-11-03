@@ -7,15 +7,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+import android.widget.Toast;
 
-import com.example.teleassociation.CrearActividadDelactvActivity;
 import com.example.teleassociation.R;
-import com.example.teleassociation.listaGeneralActividadAdmin;
 import com.example.teleassociation.services.ActividadService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -39,6 +35,10 @@ public class inicioAdmin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicio_admin);
+
+        if (getIntent().getBooleanExtra("Actividad creada.", false)) {
+            Toast.makeText(this, "Actividad creada con éxito.", Toast.LENGTH_SHORT).show();
+        }
 
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();

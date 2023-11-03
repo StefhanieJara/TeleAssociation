@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teleassociation.R;
-import com.example.teleassociation.dto.evento;
 import com.example.teleassociation.dto.eventoListarUsuario;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class MisEventAdapter extends RecyclerView.Adapter<MisEventAdapter.EventV
 
     private List<eventoListarUsuario> eventList;
     private Context context;
-
+//
     public MisEventAdapter() {
         this.context = context;
     }
@@ -49,12 +48,13 @@ public class MisEventAdapter extends RecyclerView.Adapter<MisEventAdapter.EventV
         eventoListarUsuario event = eventList.get(position);
 
         // Asigna los datos a los elementos de la vista
-        holder.titleEvento.setText(event.getNombre());
-        holder.fecha.setText(event.getFecha());
+        holder.miActividad.setText(event.getNombre_actividad());
+        holder.miEvento.setText(event.getNombre());
+        holder.fechaHoraRegistrada.setText(event.getFecha()+" "+event.getHora());
 
         // Aquí puedes asignar otros datos como la descripción, estado, actividad, etc.
 
-        holder.buttonVerEvento.setOnClickListener(new View.OnClickListener() {
+        holder.verEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Aquí maneja el clic del botón "Ver Evento"
@@ -68,15 +68,17 @@ public class MisEventAdapter extends RecyclerView.Adapter<MisEventAdapter.EventV
     }
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
-        TextView titleEvento;
-        TextView fecha;
-        Button buttonVerEvento;
+        TextView miActividad;
+        TextView miEvento;
+        TextView fechaHoraRegistrada;
+        Button verEvento;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
-            titleEvento = itemView.findViewById(R.id.nombre_evento);
-            fecha = itemView.findViewById(R.id.fecha_hora);
-            buttonVerEvento = itemView.findViewById(R.id.verEvento);
+            miActividad = itemView.findViewById(R.id.miActividad);
+            miEvento = itemView.findViewById(R.id.miEvento);
+            fechaHoraRegistrada = itemView.findViewById(R.id.fechaHoraRegistrada);
+            verEvento = itemView.findViewById(R.id.verEvento);
         }
     }
 }

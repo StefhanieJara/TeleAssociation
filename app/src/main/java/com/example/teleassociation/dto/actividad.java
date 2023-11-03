@@ -2,18 +2,17 @@ package com.example.teleassociation.dto;
 
 public class actividad {
 
-    private String actividad;
-
-    private String descripcion;
-
     private String delegado;
+    private String descripcion;
+    private String nombre;
+    private String url_imagen;
 
-    public String getActividad() {
-        return actividad;
+    public String getDelegado() {
+        return delegado;
     }
 
-    public void setNombre(String nombre) {
-        this.actividad = nombre;
+    public void setDelegado(String delegado) {
+        this.delegado = delegado;
     }
 
     public String getDescripcion() {
@@ -24,11 +23,19 @@ public class actividad {
         this.descripcion = descripcion;
     }
 
-    public String getDelegado() {
-        return delegado;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setDelegado(String delegado) {
-        this.delegado = delegado;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getUrl_imagen() {
+        return url_imagen;
+    }
+
+    public void setUrl_imagen(String url_imagen) {
+        this.url_imagen = url_imagen;
     }
 }

@@ -6,6 +6,15 @@ public class eventoListarUsuario {
     private String fecha;
     private String hora;
     private String apoyos;
+    private String nombre_actividad;
+
+    public String getNombre_actividad() {
+        return nombre_actividad;
+    }
+
+    public void setNombre_actividad(String nombre_actividad) {
+        this.nombre_actividad = nombre_actividad;
+    }
 
     public String getApoyos() {
         return apoyos;
@@ -36,10 +45,11 @@ public class eventoListarUsuario {
         this.hora = hora;
     }
 
-    public eventoListarUsuario(String nombre, String fecha, String hora, String apoyos) {
+    public eventoListarUsuario(String nombre, String fecha, String hora, String apoyos, String nombre_actividad) {
         this.nombre = nombre;
         this.fecha = fecha;
         this.hora = hora;
         this.apoyos = apoyos;
+        this.nombre_actividad = nombre_actividad;
     }
 }

@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * A simple {@link Fragment} subclass.
+ * A simple {@link Fragment} subclass.s
  * Use the {@link FirstFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
@@ -90,13 +90,14 @@ public class FirstFragment extends Fragment {
 
                         for (QueryDocumentSnapshot document : eventosCollection) {
                             String nombre = (String) document.get("nombre");
+                            String nombre_actividad = (String) document.get("nombre_actividad");
                             Date date = document.getDate("fecha");
                             String apoyos = (String) document.get("apoyos");
                             String fechaSt = date.toString();
                             String[] partes = fechaSt.split(" ");
                             String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
                             String hora = partes[3];
-                            eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos);
+                            eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad);
                             eventLista.add(eventos);
                             Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
                         }
