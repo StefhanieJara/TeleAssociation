@@ -89,18 +89,20 @@ public class AdminGeneralInicioFragment extends Fragment {
                     if (task.isSuccessful()) {
                         QuerySnapshot actividadCollection = task.getResult();
 
-                        for (QueryDocumentSnapshot document : actividadCollection) {
-                            String nombre = (String) document.get("nombre");
-                            String delegado = (String) document.get("delegado");
-                            String descripcion = (String) document.get("descripcion");
-                            String url_imagen = (String) document.get("url_imagen");
-                            actividad actividad = new actividad();
-                            actividad.setNombre(nombre);
-                            actividad.setDelegado(delegado);
-                            actividad.setDescripcion(descripcion);
-                            actividad.setUrl_imagen(url_imagen);
-                            actividadLista.add(actividad);
-                            Log.d("msg-test", " | nombre: " + actividad.getNombre() + " | delegado: " + actividad.getDelegado() + " | descripcion: " + descripcion + " | url_imagen: " + url_imagen);
+                        if(actividadLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : actividadCollection) {
+                                String nombre = (String) document.get("nombre");
+                                String delegado = (String) document.get("delegado");
+                                String descripcion = (String) document.get("descripcion");
+                                String url_imagen = (String) document.get("url_imagen");
+                                actividad actividad = new actividad();
+                                actividad.setNombre(nombre);
+                                actividad.setDelegado(delegado);
+                                actividad.setDescripcion(descripcion);
+                                actividad.setUrl_imagen(url_imagen);
+                                actividadLista.add(actividad);
+                                Log.d("msg-test", " | nombre: " + actividad.getNombre() + " | delegado: " + actividad.getDelegado() + " | descripcion: " + descripcion + " | url_imagen: " + url_imagen);
+                            }
                         }
 
                         AdminGeneralInicioAdapter adminGeneralInicioAdapter = new AdminGeneralInicioAdapter();
