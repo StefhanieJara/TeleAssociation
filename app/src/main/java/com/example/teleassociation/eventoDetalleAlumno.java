@@ -1,4 +1,4 @@
-package com.example.teleassociation.Usuario;
+package com.example.teleassociation;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;

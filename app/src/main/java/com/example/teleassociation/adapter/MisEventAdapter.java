@@ -1,6 +1,7 @@
 package com.example.teleassociation.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,8 @@ public class MisEventAdapter extends RecyclerView.Adapter<MisEventAdapter.EventV
         holder.verEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Aquí maneja el clic del botón "Ver Evento"
+                Intent intent = new Intent(context, com.example.teleassociation.eventoDetalleAlumno.class);
+                context.startActivity(intent);
             }
         });
     }
