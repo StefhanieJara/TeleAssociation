@@ -2,6 +2,8 @@ package com.example.teleassociation.dto;
 
 public class eventoListarUsuario {
 
+    private String id;
+
     private String nombre;
     private String fecha;
     private String hora;
@@ -14,6 +16,14 @@ public class eventoListarUsuario {
 
     public void setNombre_actividad(String nombre_actividad) {
         this.nombre_actividad = nombre_actividad;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getApoyos() {

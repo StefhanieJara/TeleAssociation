@@ -31,14 +31,14 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listRecyclerActividad"
-        android:layout_width="wrap_content"
-        android:layout_height="428dp"
+        android:layout_width="match_parent"
+        android:layout_height="482dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         app:boxBackgroundMode="outline"
         app:layout_constraintEnd_toEndOf="parent"

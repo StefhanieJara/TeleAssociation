@@ -6,12 +6,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teleassociation.R;
-import com.example.teleassociation.dto.evento;
 import com.example.teleassociation.dto.eventoListarUsuario;
+import com.example.teleassociation.dto.participante;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -56,6 +62,20 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         // Aquí puedes asignar otros datos como la descripción, estado, actividad, etc.
 
+        // Configura el OnClickListener para el botón "Apoyar"
+        holder.buttonApoyarEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int apoyosActual = Integer.parseInt(event.getApoyos());
+                apoyosActual++;
+                String nuevoValorApoyos = String.valueOf(apoyosActual);
+
+                actualizarCampoApoyos(event.getId(), nuevoValorApoyos);
+                registrarParticipantes(event.getNombre());
+                holder.cantApoyos.setText("Apoyos: " + nuevoValorApoyos);
+            }
+        });
+
         holder.buttonVerEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,6 +95,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         TextView hora;
         TextView cantApoyos;
         Button buttonVerEvento;
+        Button buttonApoyarEvento;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -83,6 +104,51 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             hora = itemView.findViewById(R.id.hora);
             cantApoyos = itemView.findViewById(R.id.cantApoyos);
             buttonVerEvento = itemView.findViewById(R.id.buttonVerEvento);
+            buttonApoyarEvento = itemView.findViewById(R.id.buttonApoyar);
         }
+    }
+    private void actualizarCampoApoyos(String eventoId, String nuevoValorApoyos) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference eventoRef = db.collection("eventos").document(eventoId);
+
+        eventoRef
+                .update("apoyos", nuevoValorApoyos)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(context, "Apoyo registrado", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Error al registrar el apoyo", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+    private void registrarParticipantes(String nombreEvento) {
+        // Código para registrar al participante
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String asignacion = "barra";
+        String codigo = "20200839";
+        String evento = nombreEvento;
+
+
+
+        // Crea un documento para el participante
+        db.collection("participantes")
+                .add(new participante(asignacion, codigo, evento))
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(context, "Participante registrado", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(context, "Error al registrar al participante", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
