@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".adminActividad.MisEventosCreadosFragment">
+    tools:context=".adminActividad.EventosApoyadosFragment">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -61,7 +62,7 @@
             android:layout_marginEnd="144dp"
             android:fontFamily="@font/roboto_black"
             android:gravity="center|start|right|center_horizontal"
-            android:text="Eventos creados"
+            android:text="Mis Eventos"
             android:textColor="#558A9A"
             android:textSize="34sp"
             android:textStyle="bold"
@@ -70,18 +71,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#DC2222"
-            android:text="Finalizar actividad"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/listMisEventos"
-            app:layout_constraintVertical_bias="0.285" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

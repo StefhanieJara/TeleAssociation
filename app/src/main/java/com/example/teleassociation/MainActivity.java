@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.teleassociation.Usuario.inicio_usuario;
+import com.example.teleassociation.adminActividad.ListaActividadesDelactvActivity;
 import com.example.teleassociation.adminGeneral.inicioAdmin;
 import com.example.teleassociation.databinding.ActivityMainBinding;
 
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                             Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
                             startActivity(intent);
                         } else if ("l@gmail.com".equals(email)) {
-                            Intent intent = new Intent(MainActivity.this, ListaEventosActivity.class);
+                            Intent intent = new Intent(MainActivity.this, ListaActividadesDelactvActivity.class);
                             startActivity(intent);
                         } else if ("m@gmail.com".equals(email)) {
                             Intent intent = new Intent(MainActivity.this, inicioAdmin.class);

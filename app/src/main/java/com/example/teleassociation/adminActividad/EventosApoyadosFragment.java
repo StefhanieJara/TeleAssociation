@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.teleassociation.R;
-import com.example.teleassociation.adapter.EventAdapter;
 import com.example.teleassociation.adapter.MisEventAdapter;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,16 +24,18 @@ import java.util.Date;
 import java.util.List;
 
 
-public class MisEventosCreadosFragment extends Fragment {
+public class EventosApoyadosFragment extends Fragment {
+
     ListenerRegistration snapshotListener;
     FirebaseFirestore db;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     private RecyclerView recyclerView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_mis_eventos_creados, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_eventos_apoyados, container, false);
         // Inflate the layout for this fragment
         db = FirebaseFirestore.getInstance();
         recyclerView = rootView.findViewById(R.id.listMisEventos);

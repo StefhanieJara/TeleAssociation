@@ -57,8 +57,8 @@ public class MisEventosDelactvActivity extends AppCompatActivity {
         recyclerView1.setLayoutManager(new LinearLayoutManager(this));
         recyclerView1.setAdapter(listAdaptEventosFinalizados);
     }
-    public void verEvento(View view){
+    /*public void verEvento(View view){
         Intent intent=new Intent(this, EventoDetalleDelactvActivity.class);
         startActivity(intent);
-    }
+    }*/
 }

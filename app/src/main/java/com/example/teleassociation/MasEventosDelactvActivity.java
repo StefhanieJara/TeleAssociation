@@ -22,12 +22,12 @@ public class MasEventosDelactvActivity extends AppCompatActivity {
         Button boton2 = findViewById(R.id.button7);
 
 
-        boton2.setOnClickListener(new View.OnClickListener() {
+        /*boton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MasEventosDelactvActivity.this, EventoDetalleDelactvActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 }
