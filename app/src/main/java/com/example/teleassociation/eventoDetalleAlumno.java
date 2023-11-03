@@ -1,4 +1,4 @@
-package com.example.teleassociation;
+package com.example.teleassociation.Usuario;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.teleassociation.R;
+import com.example.teleassociation.pagosAlumno;
+import com.example.teleassociation.subirFotoEventAlum;
 
 public class eventoDetalleAlumno extends AppCompatActivity {
 

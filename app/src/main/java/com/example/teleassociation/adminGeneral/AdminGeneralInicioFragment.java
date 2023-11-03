@@ -3,12 +3,27 @@ package com.example.teleassociation.adminGeneral;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.adapter.AdminGeneralInicioAdapter;
+import com.example.teleassociation.adapter.EventAdapter;
+import com.example.teleassociation.adapter.ListaActividadesGeneralAdapter;
+import com.example.teleassociation.dto.actividad;
+import com.example.teleassociation.dto.eventoListarUsuario;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -21,6 +36,9 @@ public class AdminGeneralInicioFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    FirebaseFirestore db;
+    private RecyclerView recyclerView;
+    private List<actividad> actividadLista = new ArrayList<>();
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -60,7 +78,41 @@ public class AdminGeneralInicioFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_general_inicio, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_admin_general_inicio, container, false);
+
+        db = FirebaseFirestore.getInstance();
+        recyclerView = rootView.findViewById(R.id.listRecyclerActividadAdmin);
+
+        db.collection("actividad")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot actividadCollection = task.getResult();
+
+                        for (QueryDocumentSnapshot document : actividadCollection) {
+                            String nombre = (String) document.get("nombre");
+                            String delegado = (String) document.get("delegado");
+                            String descripcion = (String) document.get("descripcion");
+                            String url_imagen = (String) document.get("url_imagen");
+                            actividad actividad = new actividad();
+                            actividad.setNombre(nombre);
+                            actividad.setDelegado(delegado);
+                            actividad.setDescripcion(descripcion);
+                            actividad.setUrl_imagen(url_imagen);
+                            actividadLista.add(actividad);
+                            Log.d("msg-test", " | nombre: " + actividad.getNombre() + " | delegado: " + actividad.getDelegado() + " | descripcion: " + descripcion + " | url_imagen: " + url_imagen);
+                        }
+
+                        AdminGeneralInicioAdapter adminGeneralInicioAdapter = new AdminGeneralInicioAdapter();
+                        adminGeneralInicioAdapter.setactividadLista(actividadLista);
+                        adminGeneralInicioAdapter.setContext(getContext());
+
+                        recyclerView.setAdapter(adminGeneralInicioAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                    }
+                });
+
+
+        return rootView;
     }
 }
