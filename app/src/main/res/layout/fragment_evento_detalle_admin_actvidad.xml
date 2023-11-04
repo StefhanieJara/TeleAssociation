@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout android:id="@+id/fragment_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -58,6 +59,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/evento"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -67,6 +69,7 @@
 
                     <!-- ImageView debajo del TextView -->
                     <ImageView
+                        android:id="@+id/imagen"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -84,18 +87,21 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/fecha"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Fecha: 16/09/2023"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/hora"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Hora: 4:00pm"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/apoyos"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Apoyos: 3"
@@ -142,7 +148,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/conteDescripcion"
+                        android:id="@+id/descripcionEvento"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="En el próximo ensayo necesitaremos que todos estén presentes por favor" />

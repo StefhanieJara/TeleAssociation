@@ -32,6 +32,8 @@ public class AdminActividadInicioFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        eventLista.clear(); // Limpiar la lista antes de agregar nuevos elementos
+
         View rootView = inflater.inflate(R.layout.fragment_admin_actividad_inicio, container, false);
         // Inflate the layout for this fragment
         db = FirebaseFirestore.getInstance();

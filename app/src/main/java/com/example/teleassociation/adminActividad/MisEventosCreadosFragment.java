@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.adapter.EventAdapter;
@@ -25,17 +26,21 @@ import java.util.Date;
 import java.util.List;
 
 
-public class MisEventosCreadosFragment extends Fragment {
+public class MisEventosCreadosFragment extends Fragment implements MisEventAdapter.OnVerEventoClickListener{
     ListenerRegistration snapshotListener;
     FirebaseFirestore db;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     private RecyclerView recyclerView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        eventLista.clear(); // Limpiar la lista antes de agregar nuevos elementos
+
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_mis_eventos_creados, container, false);
-        // Inflate the layout for this fragment
+
+
         db = FirebaseFirestore.getInstance();
         recyclerView = rootView.findViewById(R.id.listMisEventos);
 
@@ -54,23 +59,36 @@ public class MisEventosCreadosFragment extends Fragment {
                             String[] partes = fechaSt.split(" ");
                             String fecha = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
                             String hora = partes[3];
-                            eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad);
+                            eventoListarUsuario eventos = new eventoListarUsuario(nombre, fecha, hora, apoyos, nombre_actividad);
                             eventLista.add(eventos);
+                            Log.d("msg-test", "Tamaño de la lista: " + eventLista.size());
                             Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
                         }
 
-                        MisEventAdapter eventAdapter = new MisEventAdapter();
-                        eventAdapter.setEventList(eventLista);
-                        eventAdapter.setContext(getContext());
+                        if (task.isSuccessful()) {
+                            MisEventAdapter eventAdapter = new MisEventAdapter();
+                            eventAdapter.setEventList(eventLista);
+                            eventAdapter.setContext(getContext());
+                            eventAdapter.setListener(this);
 
-                        // Inicializa el RecyclerView y el adaptador
-                        recyclerView.setAdapter(eventAdapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
+                            recyclerView.setAdapter(eventAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                        }
                     }
                 });
 
-
         return rootView;
+    }
+
+    @Override
+    public void onVerEventoClick(eventoListarUsuario evento) {
+        String nombreEvento = evento.getNombre();
+
+        EventoDetalleAdminActvidadFragment fragment = EventoDetalleAdminActvidadFragment.newInstance(nombreEvento);
+
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.frame_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

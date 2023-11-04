@@ -34,8 +34,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listMisEventos"
-            android:layout_width="42dp"
-            android:layout_height="389dp"
+            android:layout_width="369dp"
+            android:layout_height="410dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
