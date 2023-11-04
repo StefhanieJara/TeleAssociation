@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.eventoListarUsuario;
+import com.example.teleassociation.eventoDetalleAlumno;
 
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class MisEventAdapter extends RecyclerView.Adapter<MisEventAdapter.EventV
         eventoListarUsuario event = eventList.get(position);
 
         // Asigna los datos a los elementos de la vista
+
         holder.miActividad.setText(event.getNombre_actividad());
         holder.miEvento.setText(event.getNombre());
         holder.fechaHoraRegistrada.setText(event.getFecha()+" "+event.getHora());
@@ -58,7 +60,8 @@ public class MisEventAdapter extends RecyclerView.Adapter<MisEventAdapter.EventV
         holder.verEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, com.example.teleassociation.eventoDetalleAlumno.class);
+                Intent intent = new Intent(context, eventoDetalleAlumno.class);
+                intent.putExtra("eventoId", event.getId());
                 context.startActivity(intent);
             }
         });

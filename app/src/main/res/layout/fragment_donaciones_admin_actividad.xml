@@ -13,98 +13,72 @@
         tools:context=".DonacionDelactvActivity"
         tools:targetApi="s">
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/cointainerView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+
         <Button
-            android:id="@+id/button12"
-            android:layout_width="264dp"
-            android:layout_height="68dp"
-            android:backgroundTint="#4C70AF"
-            android:text="Enviar "
+            android:id="@+id/button19"
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="120dp"
+            android:text="SUBIR BOLETA"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
-            app:layout_constraintVertical_bias="0.535" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout8"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:background="#D67E95AA"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.467"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:layout_constraintVertical_bias="0.066">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:hint="Número: 938-536-886"
-                tools:layout_editor_absoluteY="209dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout7"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
-            android:background="#D6F8FAFC"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.467"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:layout_constraintVertical_bias="0.264">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="300dp"
-                android:layout_height="50dp"
-                android:hint="Ingresar el monto del donativo"
-                tools:layout_editor_absoluteY="209dp" />
-
-        </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintVertical_bias="0.0"
+            android:backgroundTint="#558A9A"/>
 
         <TextView
-            android:id="@+id/textPago3"
+            android:id="@+id/textPago"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="61dp"
-            android:layout_marginTop="107dp"
-            android:layout_marginEnd="292dp"
+            android:layout_marginEnd="154dp"
             android:layout_marginBottom="605dp"
-            android:backgroundTint="#009688"
             android:fontFamily="@font/lokanova_std"
-            android:text="MÉTODO DE PAGO"
-            android:textColor="@color/teal_200"
-            android:textSize="34sp"
+            android:text="MÉTODOS DE PAGO"
+            android:textColor="#558A9A"
+            android:textSize="38sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.086"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="307dp"
-            android:layout_height="191dp"
-            app:cardCornerRadius="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp"
+            app:cardCornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.322">
+            app:layout_constraintTop_toBottomOf="@+id/textPago"
+            app:layout_constraintVertical_bias="0.07">
 
             <LinearLayout
                 android:id="@+id/loyout1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -158,35 +132,46 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/button14"
-            android:layout_width="264dp"
-            android:layout_height="68dp"
-            android:backgroundTint="#00BCD4"
-            android:text="Subir boleta"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout7"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="1dp"
+            android:textColorHint="#A59E9E"
+            app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
-            app:layout_constraintVertical_bias="0.113" />
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            app:layout_constraintVertical_bias="0.111">
 
-        <TextView
-            android:id="@+id/textView24"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/donativoAdminActividad"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:digits="0123456789."
+                android:hint="Ingresar el monto del donativo"
+                android:paddingStart="30dp"
+                android:textSize="16sp"
+                tools:layout_editor_absoluteY="209dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/lokanova_std"
-            android:gravity="center"
-            android:text="Donaciones"
-            android:textColor="#558A9A"
-            android:textSize="34sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.088" />
+            app:layout_constraintTop_toBottomOf="@+id/button100"
+            app:srcCompat="@drawable/savings_24px" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

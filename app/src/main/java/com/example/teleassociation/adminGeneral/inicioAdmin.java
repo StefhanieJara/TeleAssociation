@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
 import com.example.teleassociation.services.ActividadService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -75,6 +77,11 @@ public class inicioAdmin extends AppCompatActivity {
             }
             if(item.getItemId()==R.id.fourFragment){
                 loadFragment(personasGeneralFragment);
+                return true;
+            }
+            if(item.getItemId()==R.id.fiveFragment){
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
                 return true;
             }
             return false;

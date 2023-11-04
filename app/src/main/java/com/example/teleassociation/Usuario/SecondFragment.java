@@ -102,6 +102,7 @@ public class SecondFragment extends Fragment {
                                     if (task2.isSuccessful()) {
                                         QuerySnapshot eventosCollection2 = task2.getResult();
                                         for (QueryDocumentSnapshot document2 : eventosCollection2) {
+                                            String eventoId = document2.getId();
                                             String nombre = (String) document2.get("nombre");
                                             String nombre_actividad = (String) document2.get("nombre_actividad");
                                             Date date = document2.getDate("fecha");
@@ -115,6 +116,7 @@ public class SecondFragment extends Fragment {
                                             // Verifica si el nombre del evento está en eventosParticipa
                                             if (eventosParticipa.contains(nombre)) {
                                                 eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad);
+                                                eventos.setId(eventoId);
                                                 eventLista.add(eventos);
                                                 Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
                                             }

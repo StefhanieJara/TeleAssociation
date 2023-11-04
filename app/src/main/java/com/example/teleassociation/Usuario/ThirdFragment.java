@@ -77,29 +77,40 @@ public class ThirdFragment extends Fragment {
         Button button9 = rootView.findViewById(R.id.button9);
         TextInputEditText donativo = rootView.findViewById(R.id.donativo);
         button9.setOnClickListener(view -> {
-            pagos pagos = new pagos();
-            pagos.setCodigo_usuario("20190000");
-            pagos.setMonto(String.valueOf(donativo.getText()));
-            pagos.setValidado("No");
-            pagos.setUrl_imagen("sas");
-            Log.d("msg-test", pagos.getCodigo_usuario()+" el siguiente pago es: "+pagos.getMonto()+" xd.");
-            String cod_al = generateRandomCode();
+            String donativoStr = donativo.getText().toString();
 
-            Log.d("msg-test", pagos.getCodigo_usuario()+" "+pagos.getMonto()+" "+pagos.getValidado()+" "+pagos.getUrl_imagen());
+            try {
+                // Intenta convertir donativoStr a un número
+                double monto = Double.parseDouble(donativoStr);
 
-            db.collection("pagos")
-                    .document(cod_al)
-                    .set(pagos)
-                    .addOnSuccessListener(unused -> {
-                        //Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getContext(), inicio_usuario.class);
-                        intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
-                        startActivity(intent);
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
-                    });
+                // Si la conversión tiene éxito, procede a crear y guardar el objeto 'pagos'
+                pagos pagos = new pagos();
+                pagos.setCodigo_usuario("20190000");
+                pagos.setMonto(String.valueOf(monto));
+                pagos.setValidado("No");
+                pagos.setUrl_imagen("sas");
 
+                Log.d("msg-test", pagos.getCodigo_usuario() + " el siguiente pago es: " + pagos.getMonto() + " xd.");
+                String cod_al = generateRandomCode();
+
+                Log.d("msg-test", pagos.getCodigo_usuario() + " " + pagos.getMonto() + " " + pagos.getValidado() + " " + pagos.getUrl_imagen());
+
+                db.collection("pagos")
+                        .document(cod_al)
+                        .set(pagos)
+                        .addOnSuccessListener(unused -> {
+                            // Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getContext(), inicio_usuario.class);
+                            intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
+                            startActivity(intent);
+                        })
+                        .addOnFailureListener(e -> {
+                            Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                        });
+            } catch (NumberFormatException e) {
+                // Si no se puede convertir a número, muestra un mensaje de error
+                Toast.makeText(getContext(), "El valor tiene que ser numérico", Toast.LENGTH_SHORT).show();
+            }
         });
 
         return rootView;

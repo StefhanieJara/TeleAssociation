@@ -92,7 +92,7 @@
             android:name=".listaActividades"
             android:exported="false" />
         <activity
-            android:name=".estadisticasAdmin"
+            android:name=".adminGeneral.estadisticasAdmin"
             android:exported="false" />
         <activity
             android:name=".crearEventoAdmin"
