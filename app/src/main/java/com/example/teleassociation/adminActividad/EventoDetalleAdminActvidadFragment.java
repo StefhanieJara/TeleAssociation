@@ -1,5 +1,6 @@
 package com.example.teleassociation.adminActividad;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.subirFotoEventAlum;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -129,6 +131,20 @@ public class EventoDetalleAdminActvidadFragment extends Fragment {
                         .addToBackStack(null)
                         .commit();
 
+            }
+        });
+        Button subirFoto = view.findViewById(R.id.subirFoto);
+
+        subirFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Aquí se ejecuta cuando se hace clic en el botón
+
+                // Crear el Intent para abrir SubirFoto
+                Intent intent = new Intent(getActivity(), subirFotoEventAlum.class);
+
+                // Lanzar la nueva actividad
+                startActivity(intent);
             }
         });
 
