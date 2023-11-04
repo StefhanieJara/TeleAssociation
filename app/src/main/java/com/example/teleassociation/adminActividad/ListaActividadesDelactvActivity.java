@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
@@ -38,6 +39,9 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_actividades_delactv);
+        if (getIntent().getBooleanExtra("Evento creado.", false)) {
+            Toast.makeText(this, "Evento creado con éxito.", Toast.LENGTH_SHORT).show();
+        }
         db = FirebaseFirestore.getInstance();
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
