@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
 
+import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.Timestamp;
@@ -86,6 +88,11 @@ public class inicio_usuario extends AppCompatActivity {
             }
             if(item.getItemId()==R.id.thirdFragment){
                 loadFragment(thirdFragment);
+                return true;
+            }
+            if(item.getItemId()==R.id.fourFragment){
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
                 return true;
             }
             return false;

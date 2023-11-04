@@ -1,9 +1,11 @@
-package com.example.teleassociation;
+package com.example.teleassociation.adminGeneral;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.teleassociation.R;
 
 public class estadisticasAdmin extends AppCompatActivity {
 
