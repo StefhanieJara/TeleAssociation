@@ -42,6 +42,7 @@ public class Registrarse extends AppCompatActivity {
             String confirmaContra = binding.editTextConfirmaContra.getEditableText().toString();
             String validado = "No";
             String rol = "barra";
+            String cometario = "";
 
             if (nombre.isEmpty()) {
                 showError("El campo 'Nombre' no puede estar vacío.");
@@ -63,6 +64,7 @@ public class Registrarse extends AppCompatActivity {
                 usuario.setNombre(nombre);
                 usuario.setValidado(validado);
                 usuario.setRol(rol);
+                usuario.setComentario(cometario);
 
                 Log.d("msg-test", " | nombre: " + nombre + " | rol: " + rol + " | condicion: " + condicion);
 

@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#191C1E"
-    tools:context=".eventoDetalleAlumno">
+    android:background="#191C1E">
 
     <TextView
         android:layout_width="wrap_content"
@@ -96,34 +95,19 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <Button
-        android:id="@+id/apoyarEvento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginBottom="428dp"
-        android:onClick="apoyarEvento"
-        android:text="APOYAR EVENTO"
-        android:backgroundTint="#558A9A"
-        app:iconSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/cardView4"
-        app:layout_constraintTop_toTopOf="@+id/nuevaFoto"
-        app:layout_constraintVertical_bias="0.0" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="20dp"
         app:cardBackgroundColor="#C0CDC1"
         app:cardCornerRadius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/apoyarEvento">
+        app:layout_constraintTop_toBottomOf="@+id/nuevaFoto">
 
         <LinearLayout
             android:id="@+id/loyout4"
@@ -176,64 +160,39 @@
         android:id="@+id/nuevaFoto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
+        android:backgroundTint="#558A9A"
         android:onClick="nuevaFoto"
         android:text="AÑADIR FOTO"
-        android:backgroundTint="#558A9A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/cardView4"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/apoyarEvento"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.373" />
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="51dp"
-        android:orientation="vertical"
-        android:backgroundTint="#274D76"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.537"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.373" />
 
-        <ImageView
-            android:id="@+id/home"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            app:srcCompat="@drawable/baseline_home_24" />
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-
-        <ImageView
-            android:id="@+id/favoritos"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="120dp"
-            android:layout_marginTop="5dp"
-            app:srcCompat="@drawable/baseline_favorite_24" />
-
-        <ImageView
-            android:id="@+id/money"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="240dp"
-            android:layout_marginTop="5dp"
-            app:srcCompat="@drawable/baseline_attach_money_24" />
-
-        <ImageView
-            android:id="@+id/logout"
-            android:layout_width="40dp"
-            android:layout_height="35dp"
-            android:layout_marginLeft="340dp"
-            android:layout_marginTop="5dp"
-            app:srcCompat="@drawable/baseline_logout_24" />
-
-
-
-    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/menuabajo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        app:labelVisibilityMode="selected"
+        style="@style/BottomNavigation" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
