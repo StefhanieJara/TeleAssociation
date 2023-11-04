@@ -42,6 +42,9 @@ public class inicioAdmin extends AppCompatActivity {
         if (getIntent().getBooleanExtra("Usuario validado.", false)) {
             Toast.makeText(this, "Usuario validado con éxito.", Toast.LENGTH_SHORT).show();
         }
+        if (getIntent().getBooleanExtra("Nuevo delegado.", false)) {
+            Toast.makeText(this, "Nuevo delegado asignado con éxito.", Toast.LENGTH_SHORT).show();
+        }
 
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();

@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,6 +19,9 @@
         android:theme="@style/Theme.TeleAssociation"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".adminGeneral.EditarActividadAdmin"
+            android:exported="false" />
         <activity
             android:name=".eventosUsuario"
             android:exported="false" />
@@ -56,7 +58,6 @@
         <activity
             android:name=".listaGeneralAdmin"
             android:exported="false" />
-
         <activity
             android:name=".MasEventosDelactvActivity"
             android:exported="false" />
@@ -123,6 +124,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAUQXpnbBf2qrLbTViHWD3rcXsRMSod-KQ" />

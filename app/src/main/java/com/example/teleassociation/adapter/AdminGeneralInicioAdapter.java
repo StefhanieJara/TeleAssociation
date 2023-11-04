@@ -1,6 +1,7 @@
 package com.example.teleassociation.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.adminGeneral.EditarActividadAdmin;
 import com.example.teleassociation.dto.actividad;
-import com.example.teleassociation.dto.eventoListarUsuario;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -61,7 +60,16 @@ public class AdminGeneralInicioAdapter extends RecyclerView.Adapter<AdminGeneral
         holder.buttonEditarActividad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Aquí maneja el clic del botón "Ver Evento"
+                Intent intent = new Intent(context, EditarActividadAdmin.class);
+
+                intent.putExtra("actividadNombre", actividad.getNombre());
+                intent.putExtra("actividadDescripcion", actividad.getDescripcion());
+                intent.putExtra("actividadDelegado", actividad.getDelegado());
+                intent.putExtra("actividadImagen", actividad.getUrl_imagen());
+                intent.putExtra("actividadID", actividad.getId());
+
+                // Iniciar la nueva actividad
+                context.startActivity(intent);
             }
         });
     }

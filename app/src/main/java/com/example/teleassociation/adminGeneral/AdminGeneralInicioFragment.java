@@ -91,11 +91,13 @@ public class AdminGeneralInicioFragment extends Fragment {
 
                         if(actividadLista.isEmpty()){
                             for (QueryDocumentSnapshot document : actividadCollection) {
+                                String id = document.getId();
                                 String nombre = (String) document.get("nombre");
                                 String delegado = (String) document.get("delegado");
                                 String descripcion = (String) document.get("descripcion");
                                 String url_imagen = (String) document.get("url_imagen");
                                 actividad actividad = new actividad();
+                                actividad.setId(id);
                                 actividad.setNombre(nombre);
                                 actividad.setDelegado(delegado);
                                 actividad.setDescripcion(descripcion);
