@@ -132,12 +132,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         String asignacion = "barra";
         String codigo = "20200839";
         String evento = nombreEvento;
-
+        String nombre = "Rex";
 
 
         // Crea un documento para el participante
         db.collection("participantes")
-                .add(new participante(asignacion, codigo, evento))
+                .add(new participante(asignacion, codigo, evento,nombre))
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
