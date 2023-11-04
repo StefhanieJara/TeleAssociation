@@ -71,6 +71,7 @@ public class PersonasGeneralAdapter extends RecyclerView.Adapter<PersonasGeneral
 
                     intent.putExtra("usuarioCorreo", usuario.getCorreo());
                     intent.putExtra("usuarioNombre", usuario.getNombre());
+                    intent.putExtra("usuarioCodigo", usuario.getId());
 
                     // Iniciar la nueva actividad
                     context.startActivity(intent);

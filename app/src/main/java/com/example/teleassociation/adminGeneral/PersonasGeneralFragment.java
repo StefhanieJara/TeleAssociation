@@ -90,17 +90,19 @@ public class PersonasGeneralFragment extends Fragment {
                         QuerySnapshot usuariosCollection = task.getResult();
                         if(usuarioLista.isEmpty()){
                             for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
                                 String nombre = (String) document.get("nombre");
                                 String condicion = (String) document.get("condicion");
                                 String validacion = (String) document.get("validado");
                                 String correo = (String) document.get("correo");
                                 usuario usuario = new usuario();
+                                usuario.setId(codigo);
                                 usuario.setNombre(nombre);
                                 usuario.setCondicion(condicion);
                                 usuario.setValidado(validacion);
                                 usuario.setCorreo(correo);
                                 usuarioLista.add(usuario);
-                                Log.d("msg-test", " | nombre: " + nombre + " | condicion: " + condicion + " | validacion: " + validacion);
+                                Log.d("msg-test", "| codigo: " + codigo + " | nombre: " + nombre + " | condicion: " + condicion + " | validacion: " + validacion);
                             }
                         }
                         PersonasGeneralAdapter personasGeneralAdapter = new PersonasGeneralAdapter();

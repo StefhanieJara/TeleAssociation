@@ -8,6 +8,24 @@ public class usuario {
     private String nombre;
     private String rol;
     private String validado;
+    private String id;
+    private String comentario;
+
+    public String getComentario() {
+        return comentario;
+    }
+
+    public void setComentario(String comentario) {
+        this.comentario = comentario;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getCondicion() {
         return condicion;
