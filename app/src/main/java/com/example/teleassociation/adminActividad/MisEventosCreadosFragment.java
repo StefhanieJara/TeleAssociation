@@ -15,6 +15,7 @@ import android.widget.Button;
 import com.example.teleassociation.R;
 import com.example.teleassociation.adapter.EventAdapter;
 import com.example.teleassociation.adapter.MisEventAdapter;
+import com.example.teleassociation.adapter.MisEventAdapterAdminActv;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -26,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 
-public class MisEventosCreadosFragment extends Fragment implements MisEventAdapter.OnVerEventoClickListener{
+public class MisEventosCreadosFragment extends Fragment implements MisEventAdapterAdminActv.OnVerEventoClickListener{
     ListenerRegistration snapshotListener;
     FirebaseFirestore db;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
@@ -66,7 +67,7 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
                         }
 
                         if (task.isSuccessful()) {
-                            MisEventAdapter eventAdapter = new MisEventAdapter();
+                            MisEventAdapterAdminActv eventAdapter = new MisEventAdapterAdminActv();
                             eventAdapter.setEventList(eventLista);
                             eventAdapter.setContext(getContext());
                             eventAdapter.setListener(this);
