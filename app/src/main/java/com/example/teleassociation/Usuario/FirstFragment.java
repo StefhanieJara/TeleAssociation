@@ -92,21 +92,22 @@ public class FirstFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         QuerySnapshot eventosCollection = task.getResult();
-
-                        for (QueryDocumentSnapshot document : eventosCollection) {
-                            String eventoId = document.getId();
-                            String nombre = (String) document.get("nombre");
-                            String nombre_actividad = (String) document.get("nombre_actividad");
-                            Date date = document.getDate("fecha");
-                            String apoyos = (String) document.get("apoyos");
-                            String fechaSt = date.toString();
-                            String[] partes = fechaSt.split(" ");
-                            String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
-                            String hora = partes[3];
-                            eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad);
-                            eventos.setId(eventoId);
-                            eventLista.add(eventos);
-                            Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
+                        if(eventLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : eventosCollection) {
+                                String eventoId = document.getId();
+                                String nombre = (String) document.get("nombre");
+                                String nombre_actividad = (String) document.get("nombre_actividad");
+                                Date date = document.getDate("fecha");
+                                String apoyos = (String) document.get("apoyos");
+                                String fechaSt = date.toString();
+                                String[] partes = fechaSt.split(" ");
+                                String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                String hora = partes[3];
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad);
+                                eventos.setId(eventoId);
+                                eventLista.add(eventos);
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
+                            }
                         }
 
                         EventAdapter eventAdapter = new EventAdapter();

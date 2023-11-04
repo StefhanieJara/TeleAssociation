@@ -113,6 +113,8 @@ public class SecondFragment extends Fragment {
                                             String hora = partes[3];
                                             String fecha_hora = fecha+" "+hora;
 
+                                            Log.d("msg-test", " | nombre de eventos: " + nombre);
+
                                             // Verifica si el nombre del evento está en eventosParticipa
                                             if (eventosParticipa.contains(nombre)) {
                                                 eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad);
