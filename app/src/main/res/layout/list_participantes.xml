@@ -78,21 +78,21 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/rol"
+                    android:id="@+id/cod"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="Rol"
+                    android:text="Código"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/rolParticipante"
+                    android:id="@+id/codigo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
-                    android:text="Estudiante"
+                    android:text="20191696"
                     android:textColor="@color/black"
                     android:textSize="11sp" />
             </LinearLayout>
