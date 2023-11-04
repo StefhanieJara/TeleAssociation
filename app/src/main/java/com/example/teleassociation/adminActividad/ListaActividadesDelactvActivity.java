@@ -42,6 +42,9 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("Evento creado.", false)) {
             Toast.makeText(this, "Evento creado con éxito.", Toast.LENGTH_SHORT).show();
         }
+        if (getIntent().getBooleanExtra("Pago con éxito.", false)) {
+            Toast.makeText(this, "Pago enviado. Esperar su confirmación.", Toast.LENGTH_SHORT).show();
+        }
         db = FirebaseFirestore.getInstance();
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
