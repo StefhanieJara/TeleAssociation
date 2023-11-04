@@ -101,26 +101,28 @@ public class SecondFragment extends Fragment {
                                 .addOnCompleteListener(task2 -> {
                                     if (task2.isSuccessful()) {
                                         QuerySnapshot eventosCollection2 = task2.getResult();
-                                        for (QueryDocumentSnapshot document2 : eventosCollection2) {
-                                            String eventoId = document2.getId();
-                                            String nombre = (String) document2.get("nombre");
-                                            String nombre_actividad = (String) document2.get("nombre_actividad");
-                                            Date date = document2.getDate("fecha");
-                                            String apoyos = (String) document2.get("apoyos");
-                                            String fechaSt = date.toString();
-                                            String[] partes = fechaSt.split(" ");
-                                            String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
-                                            String hora = partes[3];
-                                            String fecha_hora = fecha+" "+hora;
+                                        if(eventLista.isEmpty()){
+                                            for (QueryDocumentSnapshot document2 : eventosCollection2) {
+                                                String eventoId = document2.getId();
+                                                String nombre = (String) document2.get("nombre");
+                                                String nombre_actividad = (String) document2.get("nombre_actividad");
+                                                Date date = document2.getDate("fecha");
+                                                String apoyos = (String) document2.get("apoyos");
+                                                String fechaSt = date.toString();
+                                                String[] partes = fechaSt.split(" ");
+                                                String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                                String hora = partes[3];
+                                                String fecha_hora = fecha+" "+hora;
 
-                                            Log.d("msg-test", " | nombre de eventos: " + nombre);
+                                                Log.d("msg-test", " | nombre de eventos: " + nombre);
 
-                                            // Verifica si el nombre del evento está en eventosParticipa
-                                            if (eventosParticipa.contains(nombre)) {
-                                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad);
-                                                eventos.setId(eventoId);
-                                                eventLista.add(eventos);
-                                                Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
+                                                // Verifica si el nombre del evento está en eventosParticipa
+                                                if (eventosParticipa.contains(nombre)) {
+                                                    eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad);
+                                                    eventos.setId(eventoId);
+                                                    eventLista.add(eventos);
+                                                    Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
+                                                }
                                             }
                                         }
 
