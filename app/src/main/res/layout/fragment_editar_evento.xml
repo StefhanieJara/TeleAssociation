@@ -34,22 +34,23 @@
             android:layout_marginTop="64dp"
             android:layout_marginEnd="16dp"
             android:hint="Titulo del evento"
-            app:layout_constraintBottom_toTopOf="@+id/descripcion"
+            app:layout_constraintBottom_toTopOf="@+id/descrEvento"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView19"> <!-- Aquí se aplica el recurso de bordes redondeados -->
 
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/titulo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_corner"/>
+                android:background="@drawable/round_corner" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- TextInputLayout y TextInputEditText para la Descripción -->
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/descripcion"
+            android:id="@+id/descrEvento"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -61,6 +62,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tituloEvento">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/descrEvent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_corner" />
@@ -78,9 +80,10 @@
             android:hint="Fecha"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/descripcion">
+            app:layout_constraintTop_toBottomOf="@+id/descrEvento">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fechaDelEvento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_corner" />
@@ -100,6 +103,7 @@
             app:layout_constraintTop_toBottomOf="@+id/fechaDelActv">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lugarDelEvento"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_corner" />
@@ -107,7 +111,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fecha"
+            android:id="@+id/fechaDelEvento1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -124,7 +128,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/SubirImagen"
+                    android:id="@+id/subirImagen"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -156,7 +160,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fecha" />
+            app:layout_constraintTop_toBottomOf="@+id/fechaDelEvento1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -64,7 +64,7 @@ public class MisEventAdapterAdminActv extends RecyclerView.Adapter<MisEventAdapt
         // Asigna los datos a los elementos de la vista
         holder.miActividad.setText(event.getNombre_actividad());
         holder.miEvento.setText(event.getNombre());
-        holder.fechaHoraRegistrada.setText(event.getFecha()+" "+event.getHora());
+        holder.fechaHoraRegistrada.setText(event.getFecha());
 
         // Aquí puedes asignar otros datos como la descripción, estado, actividad, etc.
 

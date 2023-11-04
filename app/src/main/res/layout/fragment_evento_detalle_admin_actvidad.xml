@@ -13,6 +13,19 @@
         android:background="@android:color/system_neutral1_900"
         tools:targetApi="s">
 
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="350dp"
+            android:layout_height="156dp"
+            android:layout_marginBottom="68dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subirFoto"
+            app:layout_constraintVertical_bias="0.958"
+            app:srcCompat="@drawable/map_pucp" />
+
         <Button
             android:id="@+id/subirFoto"
             android:layout_width="150dp"
@@ -164,7 +177,7 @@
             android:text="Ver Participantes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.816"
+            app:layout_constraintHorizontal_bias="0.804"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView3"
             app:layout_constraintVertical_bias="0.06" />
@@ -179,17 +192,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView2" />
-
-        <FrameLayout
-            android:id="@+id/map_container"
-            android:layout_width="264dp"
-            android:layout_height="104dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/verParticipantes"
-            app:layout_constraintVertical_bias="0.277" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

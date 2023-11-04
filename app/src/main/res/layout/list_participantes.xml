@@ -57,7 +57,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/miActividad"
+                    android:id="@+id/nameParticipante"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
@@ -109,7 +109,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/asignacion"
+                    android:id="@+id/asignacionPart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"
@@ -119,7 +119,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/asignacionParticipante"
+                    android:id="@+id/asignacion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="1dp"

@@ -35,8 +35,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listMisEventos"
-            android:layout_width="42dp"
-            android:layout_height="389dp"
+            android:layout_width="373dp"
+            android:layout_height="400dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -62,7 +62,7 @@
             android:layout_marginEnd="144dp"
             android:fontFamily="@font/roboto_black"
             android:gravity="center|start|right|center_horizontal"
-            android:text="Mis Eventos"
+            android:text="Eventos Apoyados"
             android:textColor="#558A9A"
             android:textSize="34sp"
             android:textStyle="bold"

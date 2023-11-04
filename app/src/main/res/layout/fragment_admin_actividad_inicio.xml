@@ -7,9 +7,6 @@
     tools:context=".adminActividad.AdminActividadInicioFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Usuario.inicio_usuario"
@@ -38,8 +35,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listRecyclerActv"
-            android:layout_width="wrap_content"
-            android:layout_height="428dp"
+            android:layout_width="321dp"
+            android:layout_height="411dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -73,5 +70,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/verEventosApoyados"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#274D76"
+            android:text="Ver Eventos Apoyados"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/listRecyclerActv"
+            app:layout_constraintVertical_bias="0.155" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

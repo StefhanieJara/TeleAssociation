@@ -3,64 +3,86 @@ package com.example.teleassociation.adminActividad;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.adapter.ListAdaptParticipantes;
+import com.example.teleassociation.adapter.MisEventAdapterAdminActv;
+import com.example.teleassociation.adapter.PersonasGeneralAdapter;
+import com.example.teleassociation.dto.eventoListarUsuario;
+import com.example.teleassociation.dto.participante;
+import com.example.teleassociation.dto.usuario;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ListaParticipantesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class ListaParticipantesFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    FirebaseFirestore db;
+    private RecyclerView recyclerView;
+    private List<participante> participantesLista = new ArrayList<>();
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public ListaParticipantesFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListaParticipantesFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ListaParticipantesFragment newInstance(String param1, String param2) {
+    public static ListaParticipantesFragment newInstance(String nombreEvento) {
         ListaParticipantesFragment fragment = new ListaParticipantesFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString("nombreEvento", nombreEvento);
         fragment.setArguments(args);
         return fragment;
     }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lista_participantes, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_lista_participantes_admin_actv, container, false);
+        String eventoParticipante = getArguments().getString("nombreEvento"); // Asegúrate de que sea "nombreEvento" y no "nombre_evento"
+
+        db = FirebaseFirestore.getInstance();
+        recyclerView = rootView.findViewById(R.id.listaParticipantes);
+
+        db.collection("participantes")
+                .whereEqualTo("evento", eventoParticipante)  // Filtra por documentos con el campo "nombre" igual a nombreEvento
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot eventosCollection = task.getResult();
+
+                        for (QueryDocumentSnapshot document : eventosCollection) {
+                            String nombre = (String) document.get("nombre");
+                            String codigo = (String) document.get("codigo");
+                            String asignacion = (String) document.get("asignacion");
+                            String evento = (String) document.get("evento");
+
+                            participante part = new participante(asignacion, codigo, evento, nombre);
+                            participantesLista.add(part);
+                            Log.d("msg-test", "Tamaño de la lista: " + participantesLista.size());
+                            Log.d("msg-test", " | nombre: " + nombre + " | codigo: " + codigo + " | asignacion: " + asignacion);
+                        }
+
+                        if (task.isSuccessful()) {
+                            ListAdaptParticipantes eventAdapter = new ListAdaptParticipantes();
+                            eventAdapter.setParticipanteList(participantesLista);
+                            eventAdapter.setContext(getContext());
+
+                            TextView textViewTitulo = rootView.findViewById(R.id.titulo);
+                            textViewTitulo.setText("Participantes de " + eventoParticipante);
+
+                            recyclerView.setAdapter(eventAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+                        }
+                    }
+                });
+
+        return rootView;
     }
 }

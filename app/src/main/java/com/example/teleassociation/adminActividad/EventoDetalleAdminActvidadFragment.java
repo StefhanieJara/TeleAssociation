@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
@@ -25,6 +26,7 @@ import java.util.Date;
 public class EventoDetalleAdminActvidadFragment extends Fragment {
 
     private FirebaseFirestore db;
+    private String nombreEventoParticipante;
 
     public static EventoDetalleAdminActvidadFragment newInstance(String nombreEvento) {
         EventoDetalleAdminActvidadFragment fragment = new EventoDetalleAdminActvidadFragment();
@@ -69,6 +71,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment {
                             String apoyos = (String) documentSnapshot.get("apoyos");
                             String descripcion = (String) documentSnapshot.get("descripcion");
                             Log.d("msg-test", " | nombre: " + nombreEvento + " | fecha: " + fechaEvento + " | hora: " + horaEvento);
+                            nombreEventoParticipante=nombreEvento;
 
                             // Ahora puedes actualizar tus TextViews u otros elementos de la vista
                             TextView textViewNombreEvento = view.findViewById(R.id.evento);
@@ -82,6 +85,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment {
                             textViewHora.setText("Hora: " + horaEvento);
                             textViewApoyos.setText("Apoyos: " + apoyos);
                             textViewDescripcion.setText(descripcion);
+
                         } else {
                             Log.d("msg-test", "El documento no existe");
                         }
@@ -93,7 +97,43 @@ public class EventoDetalleAdminActvidadFragment extends Fragment {
                         Log.e("msg-test", "Error al obtener documento: " + e.getMessage());
                     }
                 });
+        Button btnVerParticipantes = view.findViewById(R.id.verParticipantes);
+        btnVerParticipantes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear un Intent o Fragment y pasar el nombre del evento como argumento
+                String nombreEvento = nombreEventoParticipante;
+
+                // O si estás iniciando un nuevo Fragment:
+
+                ListaParticipantesFragment fragment = ListaParticipantesFragment.newInstance(nombreEvento);
+                getParentFragmentManager().beginTransaction()
+                    .replace(R.id.frame_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            }
+        });
+        Button editarEvento = view.findViewById(R.id.editarEvento);
+        editarEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Crear un Intent o Fragment y pasar el nombre del evento como argumento
+                String nombreEvento = nombreEventoParticipante;
+
+                // O si estás iniciando un nuevo Fragment:
+
+                EditarEventoFragment fragment = EditarEventoFragment.newInstance(nombreEvento);
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        });
+
 
         return view;
     }
+
 }

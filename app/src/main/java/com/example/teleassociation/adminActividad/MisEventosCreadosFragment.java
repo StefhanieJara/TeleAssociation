@@ -37,7 +37,6 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         eventLista.clear(); // Limpiar la lista antes de agregar nuevos elementos
-
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_mis_eventos_creados, container, false);
 
@@ -46,6 +45,7 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
         recyclerView = rootView.findViewById(R.id.listMisEventos);
 
         db.collection("eventos")
+                .whereEqualTo("nombre_actividad", "futbol")  // Filtra por documentos con el campo "nombre" igual a nombreEvento
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

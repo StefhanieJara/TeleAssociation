@@ -81,6 +81,7 @@ public class CrearEventoFragment extends Fragment {
                 evento.setNombre(nombreEvento);
                 evento.setNombre_actividad("");
                 evento.setNombre_lugar(lugarName);
+                evento.setNombre_actividad("futbol");
                 String fechaHoraString = "2023-11-01 15:30:00";
                 SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 try {
