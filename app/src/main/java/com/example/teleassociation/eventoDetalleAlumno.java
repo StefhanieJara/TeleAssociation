@@ -68,6 +68,11 @@ public class eventoDetalleAlumno extends AppCompatActivity {
                 loadFragment(thirdFragment);
                 return true;
             }
+            if(item.getItemId()==R.id.fourFragment){
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                return true;
+            }
             return false;
         }
     };
