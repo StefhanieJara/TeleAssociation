@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.teleassociation.R;
@@ -83,6 +84,16 @@ public class CrearActividadFragment extends Fragment {
                         .addOnFailureListener(e -> {
                             Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
                         });
+            }
+        });
+
+        ImageView btnStats = rootView.findViewById(R.id.btnStats);
+        btnStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), estadisticasAdmin.class);
+                startActivity(intent);
+
             }
         });
 
