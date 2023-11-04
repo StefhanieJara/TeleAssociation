@@ -6,46 +6,77 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.Usuario.FirstFragment;
 import com.example.teleassociation.Usuario.SecondFragment;
 import com.example.teleassociation.Usuario.ThirdFragment;
+import com.example.teleassociation.databinding.ActivityEventoDetalleAdminBinding;
+import com.example.teleassociation.databinding.ActivityEventoDetalleAlumnoBinding;
+import com.example.teleassociation.databinding.ActivityMainBinding;
 import com.example.teleassociation.pagosAlumno;
 import com.example.teleassociation.subirFotoEventAlum;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
 
 public class eventoDetalleAlumno extends AppCompatActivity {
     FirstFragment firstFragment = new FirstFragment();
     SecondFragment secondFragment = new SecondFragment();
     ThirdFragment thirdFragment = new ThirdFragment();
+    FirebaseFirestore db;
 
+    private String fechaEvento;
+    private String nombreEvento;
+    private Date date;
+    private String apoyosEvento;
+    private String descripcion;
+    ActivityEventoDetalleAlumnoBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_evento_detalle_alumno);
+        binding= ActivityEventoDetalleAlumnoBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        Intent intent = getIntent();
+        String eventoId = intent.getStringExtra("eventoId");
+        Log.d("msg-test", "Llegó el codigo: "+eventoId);
+
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
+        db=FirebaseFirestore.getInstance();
         if (actionBar != null) {
             actionBar.hide();
         }
 
-        BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
+        db.collection("eventos")
+                .document(eventoId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        // Obtén los datos del documento
+                        nombreEvento = documentSnapshot.getString("nombre");
+                        date = documentSnapshot.getDate("fecha");
+                        apoyosEvento = (String) documentSnapshot.get("apoyos");
+                        descripcion = (String) documentSnapshot.get("descripcion");
+                        // Actualiza la vista con la información obtenida
+                        updateUIWithEventData();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Maneja posibles errores aquí
+                });
+        BottomNavigationView navigation = findViewById(R.id.bottom_navigation2);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-
-
-
-    }
-    public void apoyarEvento(View view){
-        Intent intent=new Intent(this, pagosAlumno.class);
-        startActivity(intent);
     }
     public void nuevaFoto(View view){
         Intent intent=new Intent(this, subirFotoEventAlum.class);
@@ -86,5 +117,28 @@ public class eventoDetalleAlumno extends AppCompatActivity {
         transaction.commit();
 
     }
+    private void updateUIWithEventData() {
+        // Actualiza los elementos de la vista con los valores de fechaEvento y apoyosEvento
+        TextView nombreTexView = findViewById(R.id.nombreEvento);
+        TextView fechaTextView = findViewById(R.id.fecha);
+        TextView horaTextView = findViewById(R.id.hora);
+        TextView apoyosTextView = findViewById(R.id.cantApoyos);
+        TextView descripcionTextView = findViewById(R.id.decripcionEvento);
+
+
+        nombreTexView.setText(nombreEvento);
+        String fechaSt = date.toString();
+        String[] partesFechaHora = fechaSt.split(" ");
+        if (partesFechaHora.length >= 2) {
+            fechaTextView.setText("Fecha: " + partesFechaHora[0] + " " + partesFechaHora[1] + " " + partesFechaHora[2]);
+            horaTextView.setText("Hora: " + partesFechaHora[3]);
+        } else {
+            fechaTextView.setText("Fecha: No disponible");
+            horaTextView.setText("Hora: No disponible");
+        }
+        apoyosTextView.setText("Apoyos: " + apoyosEvento);
+        descripcionTextView.setText(descripcion);
+    }
+
 
 }
