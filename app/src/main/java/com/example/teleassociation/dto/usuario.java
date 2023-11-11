@@ -1,6 +1,7 @@
 package com.example.teleassociation.dto;
+import java.io.Serializable;
 
-public class usuario {
+public class usuario implements Serializable {
 
     private String condicion;
     private String contrasenha;

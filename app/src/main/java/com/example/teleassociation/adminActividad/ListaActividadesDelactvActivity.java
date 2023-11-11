@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -17,9 +18,12 @@ import com.example.teleassociation.adminActividad.AdminActividadInicioFragment;
 import com.example.teleassociation.adminActividad.CrearEventoFragment;
 import com.example.teleassociation.adminActividad.DonacionesAdminActividadFragment;
 import com.example.teleassociation.adminActividad.MisEventosCreadosFragment;
+import com.example.teleassociation.dto.usuario;
 import com.example.teleassociation.listElement;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -29,6 +33,7 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
     List<listElement> elements;
 
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
     AdminActividadInicioFragment adminActividadInicioFragment = new AdminActividadInicioFragment();
     CrearEventoFragment crearEventoFragment = new CrearEventoFragment();
     DonacionesAdminActividadFragment donacionesAdminActividadFragment = new DonacionesAdminActividadFragment();
@@ -46,6 +51,14 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
             Toast.makeText(this, "Pago enviado. Esperar su confirmación.", Toast.LENGTH_SHORT).show();
         }
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            Log.d("msg-test", "El correo que ingresó es: "+email);
+        }
+        usuario usuario = (usuario) getIntent().getSerializableExtra("usuario");
+        Log.d("msg-test", "El correo realmente es: "+usuario.getCorreo()+" y el codigo es: "+usuario.getId());
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

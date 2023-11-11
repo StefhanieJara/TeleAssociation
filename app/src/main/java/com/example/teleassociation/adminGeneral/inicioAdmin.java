@@ -9,18 +9,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
+import com.example.teleassociation.dto.usuario;
 import com.example.teleassociation.services.ActividadService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class inicioAdmin extends AppCompatActivity {
 
     ActividadService actividadService;
     private RecyclerView recyclerView;
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
 
     private static String TAG = "aqui estoy";
 
@@ -47,6 +54,16 @@ public class inicioAdmin extends AppCompatActivity {
         if (getIntent().getBooleanExtra("Nuevo delegado.", false)) {
             Toast.makeText(this, "Nuevo delegado asignado con éxito.", Toast.LENGTH_SHORT).show();
         }
+
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            Log.d("msg-test", "El correo que ingresó es: "+email);
+        }
+        usuario usuario = (usuario) getIntent().getSerializableExtra("usuario");
+        Log.d("msg-test", "El correo realmente es: "+usuario.getCorreo()+" y el codigo es: "+usuario.getId());
 
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();

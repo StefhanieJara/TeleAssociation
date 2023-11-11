@@ -15,8 +15,11 @@ import android.widget.Toast;
 
 import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
+import com.example.teleassociation.dto.usuario;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -26,6 +29,7 @@ import java.util.Date;
 public class inicio_usuario extends AppCompatActivity {
 
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
     FirstFragment firstFragment = new FirstFragment();
     SecondFragment secondFragment = new SecondFragment();
     ThirdFragment thirdFragment = new ThirdFragment();
@@ -38,6 +42,14 @@ public class inicio_usuario extends AppCompatActivity {
         setContentView(R.layout.activity_inicio_usuario);
 
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            Log.d("msg-test", "El correo que ingresó es: "+email);
+        }
+        usuario usuario = (usuario) getIntent().getSerializableExtra("usuario");
+        Log.d("msg-test", "El correo realmente es: "+usuario.getCorreo()+" y el codigo es: "+usuario.getId());
 
         if (getIntent().getBooleanExtra("Pago con éxito.", false)) {
             Toast.makeText(this, "Pago enviado. Esperar su confirmación.", Toast.LENGTH_SHORT).show();
