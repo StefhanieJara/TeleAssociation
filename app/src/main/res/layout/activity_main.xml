@@ -38,7 +38,7 @@
         android:id="@+id/emailLayout"
         android:layout_width="353dp"
         android:layout_height="wrap_content"
-        android:hint="Ingresa tu usuario"
+        android:hint="Ingresa tu correo"
         app:boxBackgroundMode="outline"
         app:boxBackgroundColor="@color/white"
         app:boxCornerRadiusBottomEnd="20dp"

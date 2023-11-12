@@ -83,11 +83,15 @@ public class Registrarse extends AppCompatActivity {
                         .set(usuario)
                         .addOnSuccessListener(unused -> {
 
+                            Log.d("msg-test", " Entre a la coleccion" );
+
                             mAuth.createUserWithEmailAndPassword(correo, contrasena)
                                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                                         @Override
                                         public void onComplete(@NonNull Task<AuthResult> task) {
+                                            Log.d("msg-test", " OnComplete" );
                                             if (task.isSuccessful()) {
+                                                Log.d("msg-test", " isSuccessful" );
                                                 FirebaseUser user = mAuth.getCurrentUser();
                                                 updateUI(user);
                                                 Intent intent = new Intent(Registrarse.this, MainActivity.class);
@@ -96,6 +100,7 @@ public class Registrarse extends AppCompatActivity {
                                                 finish(); // Finalizar la actividad actual
                                             } else {
                                                 // If sign in fails, display a message to the user.
+                                                Log.d("msg-test", " Fail" );
                                                 updateUI(null);
                                                 Toast.makeText(Registrarse.this, "Algo pasó al guardar ", Toast.LENGTH_SHORT).show();
                                             }

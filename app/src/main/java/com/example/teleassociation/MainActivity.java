@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUI(FirebaseUser user) {}
 
-    public void onStart() {
+    /*public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish(); // Cierra la actividad actual para que el usuario no pueda retroceder
         }
-    }
+    }*/
 
 
 }
