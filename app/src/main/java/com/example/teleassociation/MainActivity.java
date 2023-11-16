@@ -65,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("registroExitoso", false)) {
             Toast.makeText(this, "Registro exitoso, espere su validación.", Toast.LENGTH_SHORT).show();
         }
+        if (getIntent().getBooleanExtra("resetPassword", false)) {
+            Toast.makeText(this, "Se ha enviado un mensaje de recuperación al correo.", Toast.LENGTH_SHORT).show();
+        }
 
         binding.iniciarSesion.setOnClickListener(v -> {
             String email = binding.email.getEditableText().toString();
