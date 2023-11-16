@@ -27,6 +27,7 @@ import com.example.teleassociation.adminGeneral.inicioAdmin;
 import com.example.teleassociation.databinding.ActivityMainBinding;
 import com.example.teleassociation.dto.usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,10 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
         createNotificationChannel();
 
-        credencial.put("w@gmail.com","12345");
-        credencial.put("l@gmail.com","12345");
-        credencial.put("m@gmail.com","12345");
-
         // Verificar si se ha pasado un mensaje de registro exitoso a través del Intent
         if (getIntent().getBooleanExtra("registroExitoso", false)) {
             Toast.makeText(this, "Registro exitoso, espere su validación.", Toast.LENGTH_SHORT).show();
@@ -94,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                                             .addOnCompleteListener(task2 -> {
                                                 if (task2.isSuccessful()) {
                                                     QuerySnapshot usuariosCollection = task2.getResult();
+                                                    Log.d("msg-test", "task2 ha sido valido");
                                                     for (QueryDocumentSnapshot document : usuariosCollection) {
                                                         String codigo = document.getId();
                                                         String comentario = (String) document.get("comentario");
@@ -119,14 +117,17 @@ public class MainActivity extends AppCompatActivity {
                                                     }
                                                     if(usuario.getValidado().equals("Si")){
                                                         if(usuario.getRol().equals("Usuario")){
+                                                            Log.d("msg-test", "Entra rol usuario");
                                                             Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
                                                             intent.putExtra("usuario", usuario);
                                                             startActivity(intent);
                                                         }else if(usuario.getRol().equals("DelegadoActividad")){
                                                             Intent intent = new Intent(MainActivity.this, ListaActividadesDelactvActivity.class);
+                                                            Log.d("msg-test", "Entra rol delegado actividad");
                                                             intent.putExtra("usuario", usuario);
                                                             startActivity(intent);
                                                         }else if(usuario.getRol().equals("DelegadoGeneral")){
+                                                            Log.d("msg-test", "Entra rol delegado general");
                                                             Intent intent = new Intent(MainActivity.this, inicioAdmin.class);
                                                             intent.putExtra("usuario", usuario);
                                                             startActivity(intent);
@@ -137,6 +138,11 @@ public class MainActivity extends AppCompatActivity {
                                                     }
 
                                                 }
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                // Maneja la excepción que ocurra al intentar obtener los documentos
+                                                Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                                                Toast.makeText(MainActivity.this, "Error al obtener datos del usuario.", Toast.LENGTH_SHORT).show();
                                             });
                                 } else {
                                     // If sign in fails, display a message to the user.
@@ -145,6 +151,13 @@ public class MainActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                     updateUI(null);
                                 }
+                            }
+                        })
+                        .addOnFailureListener(this, new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Manejar la excepción
+                                Log.e("msg-test", "Exception: " + e.getMessage());
                             }
                         });
             } else {

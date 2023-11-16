@@ -97,6 +97,7 @@ public class inicioAdmin extends AppCompatActivity {
                 return true;
             }
             if(item.getItemId()==R.id.fiveFragment){
+                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 return true;

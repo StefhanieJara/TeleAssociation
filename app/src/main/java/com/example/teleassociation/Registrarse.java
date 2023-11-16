@@ -105,6 +105,10 @@ public class Registrarse extends AppCompatActivity {
                                                 Toast.makeText(Registrarse.this, "Algo pasó al guardar ", Toast.LENGTH_SHORT).show();
                                             }
                                         }
+                                    }).addOnFailureListener(e -> {
+                                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                                        Log.e("msg-test", "Excepción al ingresar datos al documento de la colección usuarios: ", e);
+                                        Toast.makeText(Registrarse.this, "Error al ingresar datos del usuario.", Toast.LENGTH_SHORT).show();
                                     });
 
 
@@ -116,6 +120,7 @@ public class Registrarse extends AppCompatActivity {
                             finish(); // Finalizar la actividad actual*/
                         })
                         .addOnFailureListener(e -> {
+                            Log.e("msg-test", "Excepción al ingresar datos al documento de la colección usuarios: ", e);
                             Toast.makeText(this, "Algo pasó al guardar ", Toast.LENGTH_SHORT).show();
                         });
             }
