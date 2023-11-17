@@ -26,28 +26,33 @@ import java.util.Date;
 import java.util.List;
 
 
-public class MisEventosCreadosFragment extends Fragment implements MisEventAdapterAdminActv.OnVerEventoClickListener, MisEventAdapterAdminActv.OnVerEventosFinalizadosClickListener,
-        MisEventAdapterAdminActv.OnBorrarEventoClickListener {
+public class EventosFinalizadosFragment extends Fragment {
+    private FirebaseFirestore db;
+    private String nombreEventoParticipante;
 
+    public static EventosFinalizadosFragment newInstance(String nombreEvento) {
+        EventosFinalizadosFragment fragment = new EventosFinalizadosFragment();
+        Bundle args = new Bundle();
+        args.putString("nombreEvento", nombreEvento);
+        fragment.setArguments(args);
+        return fragment;
+    }
     ListenerRegistration snapshotListener;
-    FirebaseFirestore db;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     private RecyclerView recyclerView;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser = mAuth.getCurrentUser();
     String nombreActividad;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        eventLista.clear(); // Limpiar la lista antes de agregar nuevos elementos
         if (currentUser != null) {
             String nombreUsuario = currentUser.getDisplayName();
 
             // Realizar la consulta en Firestore
             db.collection("actividad")
                     .whereEqualTo("delegado", nombreUsuario)
-                    .whereEqualTo("activo", 1)  // Reemplaza con tu otra condición
+                    .whereEqualTo("activo", 0)  // Reemplaza con tu otra condición
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -97,7 +102,6 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
                             MisEventAdapterAdminActv eventAdapter = new MisEventAdapterAdminActv();
                             eventAdapter.setEventList(eventLista);
                             eventAdapter.setContext(getContext());
-                            eventAdapter.setListener(this);
 
                             recyclerView.setAdapter(eventAdapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -108,62 +112,4 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
         return rootView;
     }
 
-    @Override
-    public void onVerEventoClick(eventoListarUsuario evento) {
-        String nombreEvento = evento.getNombre();
-
-        EventoDetalleAdminActvidadFragment fragment = EventoDetalleAdminActvidadFragment.newInstance(nombreEvento);
-
-        getParentFragmentManager().beginTransaction()
-                .replace(R.id.frame_container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-    @Override
-    public void onVerEventosFinalizadosClick(eventoListarUsuario evento) {
-        String nombreEvento = evento.getNombre();
-
-        EventosFinalizadosFragment fragment = EventosFinalizadosFragment.newInstance(nombreEvento);
-
-        getParentFragmentManager().beginTransaction()
-                .replace(R.id.frame_container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-    @Override
-    public void onBorrarEventoClick(eventoListarUsuario evento) {
-        String nombreActividad = evento.getNombre_actividad();
-
-        // Verifica que el nombre de la actividad no sea nulo o vacío antes de intentar modificar
-        if (nombreActividad != null && !nombreActividad.isEmpty()) {
-            // Buscar el documento en la colección "actividad" con el mismo nombre de actividad
-            db.collection("actividad")
-                    .whereEqualTo("nombre", nombreActividad)
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // Actualiza el campo "activo" a 0 en lugar de borrar el documento
-                                document.getReference().update("activo", 0)
-                                        .addOnSuccessListener(aVoid -> {
-                                            // Éxito al actualizar el campo
-                                            Log.d("msg-test", "Campo 'activo' actualizado a 0 con éxito");
-                                            // Puedes realizar alguna acción adicional después de la actualización, si es necesario
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            // Error al actualizar el campo
-                                            Log.e("msg-test", "Error al actualizar el campo 'activo'", e);
-                                        });
-                            }
-                        } else {
-                            Log.e("msg-test", "Error al buscar el documento de actividad", task.getException());
-                        }
-                    });
-        } else {
-            Log.e("msg-test", "Nombre de la actividad es nulo o vacío");
-        }
-    }
-
 }
-
-

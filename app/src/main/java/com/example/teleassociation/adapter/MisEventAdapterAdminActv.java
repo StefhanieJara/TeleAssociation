@@ -76,6 +76,15 @@ public class MisEventAdapterAdminActv extends RecyclerView.Adapter<MisEventAdapt
                 listener.onVerEventoClick(event);
             }
         });
+        // Manejar el clic del botón "Borrar Evento"
+        holder.btnBorrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (borrarEventoListener != null) {
+                    borrarEventoListener.onBorrarEventoClick(event);
+                }
+            }
+        });
     }
 
     @Override
@@ -88,6 +97,12 @@ public class MisEventAdapterAdminActv extends RecyclerView.Adapter<MisEventAdapt
         TextView miEvento;
         TextView fechaHoraRegistrada;
         Button verEvento;
+        // Agregar el botón de borrado en el ViewHolder
+        Button btnBorrar;
+
+        Button verEventosFinalizados;
+
+
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,6 +110,31 @@ public class MisEventAdapterAdminActv extends RecyclerView.Adapter<MisEventAdapt
             miEvento = itemView.findViewById(R.id.miEvento);
             fechaHoraRegistrada = itemView.findViewById(R.id.fechaHoraRegistrada);
             verEvento = itemView.findViewById(R.id.verEvento);
+            // Inicializar el botón de borrado
+            btnBorrar = itemView.findViewById(R.id.btnBorrar);
+            verEventosFinalizados = itemView.findViewById(R.id.verEventosFinalizados);
+
         }
     }
+    // Nueva interfaz para manejar clics en el botón "borrarEvento"
+    public interface OnBorrarEventoClickListener {
+        void onBorrarEventoClick(eventoListarUsuario evento);
+    }
+
+    private OnBorrarEventoClickListener borrarEventoListener;
+
+    // ...
+
+    public void setBorrarEventoListener(OnBorrarEventoClickListener borrarEventoListener) {
+        this.borrarEventoListener = borrarEventoListener;
+    }
+
+    public interface OnVerEventosFinalizadosClickListener {
+        void onVerEventosFinalizadosClick(eventoListarUsuario evento);
+    }
+    private  OnVerEventosFinalizadosClickListener verEventosFinalizadosListener;
+    public void setVerEventosFinalizadosListener(OnVerEventosFinalizadosClickListener verEventosFinalizadosListener) {
+        this.verEventosFinalizadosListener = verEventosFinalizadosListener;
+    }
+
 }
