@@ -7,6 +7,15 @@ public class actividad {
     private String nombre;
     private String url_imagen;
     private String id;
+    private int activo = 1;
+
+    public int getActivo() {
+        return activo;
+    }
+
+    public void setActivo(int activo) {
+        this.activo = activo;
+    }
 
     public String getId() {
         return id;
