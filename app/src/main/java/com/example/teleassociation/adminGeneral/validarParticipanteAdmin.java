@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
+import com.example.teleassociation.EmailSender;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.actividad;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -100,6 +101,7 @@ public class validarParticipanteAdmin extends AppCompatActivity {
                                 usuarioRef
                                         .update("comentario", rechazo)
                                         .addOnSuccessListener(unused2 -> {
+                                            EmailSender.sendEmail(usuarioCorreo,rechazo,"Su usuario no es valido para estar dentro de la aplicación.");
                                             Intent intent = new Intent(this, inicioAdmin.class);
                                             intent.putExtra("Usuario validado.", true);
                                             startActivity(intent);
