@@ -21,8 +21,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <Button
@@ -31,32 +30,31 @@
             android:layout_height="50dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="120dp"
+            android:backgroundTint="#558A9A"
             android:text="SUBIR BOLETA"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
-            app:layout_constraintVertical_bias="0.0"
-            android:backgroundTint="#558A9A"/>
+            app:layout_constraintVertical_bias="0.847" />
+
 
         <TextView
             android:id="@+id/textPago"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="61dp"
-            android:layout_marginEnd="154dp"
-            android:layout_marginBottom="605dp"
             android:fontFamily="@font/lokanova_std"
             android:text="MÉTODOS DE PAGO"
             android:textColor="#558A9A"
             android:textSize="38sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.293"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintVertical_bias="0.244" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
@@ -67,9 +65,10 @@
             app:cardCornerRadius="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textPago"
-            app:layout_constraintVertical_bias="0.07">
+            app:layout_constraintVertical_bias="0.11">
 
             <LinearLayout
                 android:id="@+id/loyout1"
@@ -149,7 +148,7 @@
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView"
-            app:layout_constraintVertical_bias="0.111">
+            app:layout_constraintVertical_bias="0.174">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/donativoAdminActividad"
@@ -162,13 +161,14 @@
                 tools:layout_editor_absoluteY="209dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <ImageView
             android:id="@+id/imageView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="80dp"
+            app:layout_constraintBottom_toTopOf="@+id/cardView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.126"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button100"
             app:srcCompat="@drawable/savings_24px" />

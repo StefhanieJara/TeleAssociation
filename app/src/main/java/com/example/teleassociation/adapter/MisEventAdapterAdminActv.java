@@ -77,14 +77,8 @@ public class MisEventAdapterAdminActv extends RecyclerView.Adapter<MisEventAdapt
             }
         });
         // Manejar el clic del botón "Borrar Evento"
-        holder.btnBorrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (borrarEventoListener != null) {
-                    borrarEventoListener.onBorrarEventoClick(event);
-                }
-            }
-        });
+        // Manejar el clic del botón "Borrar Evento"
+
     }
 
     @Override
@@ -122,8 +116,6 @@ public class MisEventAdapterAdminActv extends RecyclerView.Adapter<MisEventAdapt
     }
 
     private OnBorrarEventoClickListener borrarEventoListener;
-
-    // ...
 
     public void setBorrarEventoListener(OnBorrarEventoClickListener borrarEventoListener) {
         this.borrarEventoListener = borrarEventoListener;

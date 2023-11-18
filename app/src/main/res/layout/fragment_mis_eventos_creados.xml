@@ -34,8 +34,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listMisEventos"
-            android:layout_width="369dp"
-            android:layout_height="410dp"
+            android:layout_width="366dp"
+            android:layout_height="351dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -91,8 +91,10 @@
             android:text="Eventos finalizados"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnBorrar" />
+            app:layout_constraintTop_toBottomOf="@+id/btnBorrar"
+            app:layout_constraintVertical_bias="0.174" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

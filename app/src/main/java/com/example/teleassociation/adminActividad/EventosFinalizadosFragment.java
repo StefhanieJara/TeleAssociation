@@ -1,5 +1,7 @@
 package com.example.teleassociation.adminActividad;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.adapter.MisEventAdapterAdminActv;
@@ -26,9 +29,12 @@ import java.util.Date;
 import java.util.List;
 
 
-public class EventosFinalizadosFragment extends Fragment {
+public class EventosFinalizadosFragment extends Fragment implements MisEventAdapterAdminActv.OnVerEventoClickListener{
     private FirebaseFirestore db;
     private String nombreEventoParticipante;
+    private String nombreActividad;
+    private String nombreUsuario;
+    private MisEventAdapterAdminActv adapter;
 
     public static EventosFinalizadosFragment newInstance(String nombreEvento) {
         EventosFinalizadosFragment fragment = new EventosFinalizadosFragment();
@@ -42,39 +48,103 @@ public class EventosFinalizadosFragment extends Fragment {
     private RecyclerView recyclerView;
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser currentUser = mAuth.getCurrentUser();
-    String nombreActividad;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (currentUser != null) {
-            String nombreUsuario = currentUser.getDisplayName();
-
-            // Realizar la consulta en Firestore
-            db.collection("actividad")
-                    .whereEqualTo("delegado", nombreUsuario)
-                    .whereEqualTo("activo", 0)  // Reemplaza con tu otra condición
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                // Manejar cada documento que cumple con la condición
-                                // Aquí puedes acceder a los datos del documento según tus necesidades
-                                nombreActividad = document.getString("nombre");
-                                // ...
-                            }
-                        } else {
-                            // Manejar el error
-                            Log.e("msg-test", "Error al realizar la consulta", task.getException());
-                        }
-                    });
-        } else {
-            // El usuario no está autenticado
-        }
+        eventLista.clear(); // Limpiar la lista antes de agregar nuevos elementos
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_mis_eventos_creados, container, false);
 
-        db = FirebaseFirestore.getInstance();
         recyclerView = rootView.findViewById(R.id.listMisEventos);
+        // Configurar el LayoutManager y otros ajustes necesarios para tu RecyclerView
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        // Crear e instanciar tu adaptador
+        adapter = new MisEventAdapterAdminActv();
+
+        // Establecer el adaptador en el RecyclerView
+        recyclerView.setAdapter(adapter);
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        Log.d("msg-test", "clash");
+        if (currentUser != null) {
+            String emailUsuario = currentUser.getEmail();
+            Log.d("msg-test", emailUsuario);
+            if (emailUsuario != null && !emailUsuario.isEmpty()) {
+                // Realizar la consulta en Firestore para obtener el nombre asociado al correo electrónico
+                db.collection("usuarios")
+                        .whereEqualTo("correo", emailUsuario)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    nombreUsuario = document.getString("nombre");
+                                    Log.d("msg-test", "Nombre de usuario: " + nombreUsuario);
+                                    if (nombreUsuario != null && !nombreUsuario.isEmpty()) {
+                                        // El nombre de usuario está disponible, ahora realiza la consulta a actividades
+                                        consultarActividades();
+                                    } else {
+                                        // El nombre de usuario está ausente o vacío
+                                        Log.e("msg-test", "Nombre de usuario ausente o vacío");
+                                    }
+                                }
+                            } else {
+                                // Manejar el error al realizar la consulta
+                                Log.e("msg-test", "Error al realizar la consulta en Firestore", task.getException());
+                            }
+                        });
+
+            } else {
+                // El correo electrónico del usuario está ausente o vacío
+                Log.e("msg-test", "Correo electrónico del usuario ausente o vacío");
+            }
+        } else {
+            // El usuario no está autenticado
+            Log.e("msg-test", "Usuario no autenticado");
+        }
+
+        return rootView;
+    }
+
+    @Override
+    public void onVerEventoClick(eventoListarUsuario evento) {
+        String nombreEvento = evento.getNombre();
+
+        EventoDetalleAdminActvidadFragment fragment = EventoDetalleAdminActvidadFragment.newInstance(nombreEvento);
+
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.frame_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void consultarActividades() {
+        // Realizar la consulta en Firestore para actividades
+        db.collection("actividad")
+                .whereEqualTo("delegado", nombreUsuario)
+                .whereEqualTo("activo", 0)  // Reemplaza con tu otra condición
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Manejar cada documento que cumple con la condición
+                            // Aquí puedes acceder a los datos del documento según tus necesidades
+                            nombreActividad = document.getString("nombre");
+                            listar(nombreActividad);
+                            // ...
+                            Log.d("msg-test", "Nombre de actividad: " + nombreActividad);
+                        }
+                    } else {
+                        // Manejar el error
+                        Log.e("msg-test", "Error al realizar la consulta", task.getException());
+                    }
+                });
+    }
+
+    private void listar(String nombreActividad){
 
         db.collection("eventos")
                 .whereEqualTo("nombre_actividad", nombreActividad)  // Filtra por documentos con el campo "nombre" igual a nombreEvento
@@ -102,6 +172,7 @@ public class EventosFinalizadosFragment extends Fragment {
                             MisEventAdapterAdminActv eventAdapter = new MisEventAdapterAdminActv();
                             eventAdapter.setEventList(eventLista);
                             eventAdapter.setContext(getContext());
+                            eventAdapter.setListener(this);
 
                             recyclerView.setAdapter(eventAdapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -109,7 +180,6 @@ public class EventosFinalizadosFragment extends Fragment {
                     }
                 });
 
-        return rootView;
     }
 
 }

@@ -32,7 +32,13 @@ public class EventosApoyadosFragment extends Fragment implements MisEventAdapter
     FirebaseFirestore db;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     private RecyclerView recyclerView;
-
+    public static EventosApoyadosFragment newInstance(String nombreEvento) {
+        EventosApoyadosFragment fragment = new EventosApoyadosFragment();
+        Bundle args = new Bundle();
+        args.putString("nombreEvento", nombreEvento);
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
