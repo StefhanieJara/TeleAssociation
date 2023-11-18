@@ -7,10 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
 import com.example.teleassociation.adminGeneral.EditarActividadAdmin;
 import com.example.teleassociation.dto.actividad;
@@ -57,6 +59,13 @@ public class AdminGeneralInicioAdapter extends RecyclerView.Adapter<AdminGeneral
         holder.delegado.setText("Delegado: "+actividad.getDelegado());
         holder.descripcion.setText("Descripción: "+actividad.getDescripcion());
 
+        // Carga la imagen usando Glide
+        if (actividad.getUrl_imagen() != null && !actividad.getUrl_imagen().isEmpty()) {
+            Glide.with(context)
+                    .load(actividad.getUrl_imagen())
+                    .into(holder.imageActividad);
+        }
+
         holder.buttonEditarActividad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,12 +93,15 @@ public class AdminGeneralInicioAdapter extends RecyclerView.Adapter<AdminGeneral
         TextView delegado;
         TextView descripcion;
         Button buttonEditarActividad;
+        ImageView imageActividad;  // Asegúrate de tener esta línea
+
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
             titleActividad = itemView.findViewById(R.id.titleActividad);
             delegado = itemView.findViewById(R.id.delegado);
             descripcion = itemView.findViewById(R.id.descripcion);
+            imageActividad = itemView.findViewById(R.id.imageActividad);  // Asegúrate de tener esta línea
             buttonEditarActividad = itemView.findViewById(R.id.buttonEditarActividad);
         }
     }

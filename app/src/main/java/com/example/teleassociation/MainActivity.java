@@ -3,6 +3,7 @@ package com.example.teleassociation;
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -55,6 +56,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding= ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Ocultar barra de título
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -127,12 +134,12 @@ public class MainActivity extends AppCompatActivity {
                                                         }else if(usuario.getRol().equals("DelegadoActividad")){
                                                             Intent intent = new Intent(MainActivity.this, ListaActividadesDelactvActivity.class);
                                                             Log.d("msg-test", "Entra rol delegado actividad");
-                                                            intent.putExtra("usuario", usuario);
+                                                            //intent.putExtra("usuario", usuario);
                                                             startActivity(intent);
                                                         }else if(usuario.getRol().equals("DelegadoGeneral")){
                                                             Log.d("msg-test", "Entra rol delegado general");
                                                             Intent intent = new Intent(MainActivity.this, inicioAdmin.class);
-                                                            intent.putExtra("usuario", usuario);
+                                                            //intent.putExtra("usuario", usuario);
                                                             startActivity(intent);
                                                         }
                                                     }else{
