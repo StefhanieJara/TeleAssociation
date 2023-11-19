@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="8dp"
-        android:fontFamily="@font/lokanova_std"
+        android:fontFamily="@font/anton_regular"
         android:gravity="center"
         android:text="ENSAYO DE PEÑA"
         android:textColor="#191C1E"
