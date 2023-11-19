@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.teleassociation.MainActivity;
@@ -138,7 +139,7 @@ public class inicioAdmin extends AppCompatActivity {
                 loadFragment(personasGeneralFragment);
                 return true;
             }
-            if(item.getItemId()==R.id.fiveFragment){
+            if(item.getItemId()==R.id.sixtFragment){
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);

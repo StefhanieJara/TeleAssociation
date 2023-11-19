@@ -27,14 +27,20 @@ import com.example.teleassociation.R;
 import com.example.teleassociation.Usuario.inicio_usuario;
 import com.example.teleassociation.dto.actividad;
 import com.example.teleassociation.dto.pagos;
+import com.example.teleassociation.dto.usuario;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CrearActividadFragment extends Fragment {
@@ -50,6 +56,7 @@ public class CrearActividadFragment extends Fragment {
     private View rootView; // Declarar rootView aquí
     // URI de la imagen seleccionada
     private Uri uri;
+    usuario usuario = new usuario();
 
 
 
@@ -68,8 +75,56 @@ public class CrearActividadFragment extends Fragment {
 
         TextInputEditText actividad = rootView.findViewById(R.id.actividad);
         TextInputEditText descripcion = rootView.findViewById(R.id.descripcion);
+        List<String> nombreUsuario = new ArrayList<>();
+        delegado = rootView.findViewById(R.id.delegado);
 
-        String[] items = {"Diego Lavado", "Leonardo Abanto", "Miguel Ahumada"};
+        db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(task2 -> {
+                    if (task2.isSuccessful()) {
+                        QuerySnapshot usuariosCollection = task2.getResult();
+                        Log.d("msg-test", "task2 ha sido valido");
+                        for (QueryDocumentSnapshot document : usuariosCollection) {
+                            String codigo = document.getId();
+                            String comentario = (String) document.get("comentario");
+                            String condicion = (String) document.get("condicion");
+                            String pass = (String) document.get("contrasenha");
+                            String correo = (String) document.get("correo");
+                            String nombre = (String) document.get("nombre");
+                            String validacion = (String) document.get("validado");
+                            String rol = (String) document.get("rol");
+
+                            if (rol.equals("Usuario")) {
+                                // usuario.setComentario(comentario);  // Esto no parece ser necesario en este contexto
+                                // ... (Resto de tu código para configurar el objeto usuario)
+
+                                Log.d("msg-test", "| codigo: " + codigo + " | nombre: " + nombre + "| correo: " + correo + " | condicion: " + condicion + " | validacion: " + validacion);
+                                nombreUsuario.add(nombre);
+                            }
+                        }
+
+                        // Convertir la lista de nombres de usuario a un arreglo de String
+                        String[] items = nombreUsuario.toArray(new String[0]);
+
+                        // Inicializar el ArrayAdapter con el nuevo arreglo y establecerlo en el ListView
+                        adapterItems = new ArrayAdapter<>(requireContext(), R.layout.list_item, items);
+                        delegado.setAdapter(adapterItems);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Maneja la excepción que ocurra al intentar obtener los documentos
+                    Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                });
+
+        delegado.setOnItemClickListener((adapterView, view, i, l) -> {
+            String selectedName = adapterView.getItemAtPosition(i).toString();
+            // Puedes realizar acciones con el nombre seleccionado aquí
+            Toast.makeText(requireContext(), "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
+        });
+
+        //String[] items = {"Diego Lavado", "Leonardo Abanto", "Miguel Ahumada"};
+        /*String[] items = new String[nombreUsuario.size()];
+        nombreUsuario.toArray(items);
 
         delegado = rootView.findViewById(R.id.delegado);
         adapterItems = new ArrayAdapter<>(requireContext(), R.layout.list_item, items);
@@ -81,7 +136,7 @@ public class CrearActividadFragment extends Fragment {
                 // Puedes realizar acciones con el nombre seleccionado aquí
                 Toast.makeText(requireContext(), "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         button12.setOnClickListener(view -> {
             String nombreActividad = actividad.getText().toString().trim();
