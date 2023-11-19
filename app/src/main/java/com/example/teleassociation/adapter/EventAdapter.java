@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,13 +82,15 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.buttonApoyarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int apoyosActual = Integer.parseInt(event.getApoyos());
+                final EventViewHolder finalHolder = holder;
+                showConfirmationDialog(event, finalHolder);
+                /*int apoyosActual = Integer.parseInt(event.getApoyos());
                 apoyosActual++;
                 String nuevoValorApoyos = String.valueOf(apoyosActual);
 
                 actualizarCampoApoyos(event.getId(), nuevoValorApoyos);
                 registrarParticipantes(event.getNombre());
-                holder.cantApoyos.setText("Apoyos: " + nuevoValorApoyos);
+                holder.cantApoyos.setText("Apoyos: " + nuevoValorApoyos);*/
             }
         });
 
@@ -170,5 +175,30 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                         Toast.makeText(context, "Error al registrar al participante", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+    private void showConfirmationDialog(eventoListarUsuario event,  EventViewHolder holder) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Confirmar Apoyo");
+        builder.setMessage("¿Estás seguro de que quieres apoyar este evento?");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Usuario hizo clic en "Sí", realiza la acción de apoyo
+                int apoyosActual = Integer.parseInt(event.getApoyos());
+                apoyosActual++;
+                String nuevoValorApoyos = String.valueOf(apoyosActual);
+
+                actualizarCampoApoyos(event.getId(), nuevoValorApoyos);
+                registrarParticipantes(event.getNombre());
+                holder.cantApoyos.setText("Apoyos: " + nuevoValorApoyos);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Usuario hizo clic en "No", no hace nada o puedes mostrar un mensaje de cancelación
+            }
+        });
+        builder.show();
     }
 }
