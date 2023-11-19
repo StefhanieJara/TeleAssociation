@@ -9,6 +9,8 @@ public class evento {
     private String estado;
     private String actividad;
     private int apoyos;
+    private String url_imagen;
+
 
     public String getEvento() {
         return evento;
@@ -65,4 +67,12 @@ public class evento {
     public void setApoyos(int apoyos) {
         this.apoyos = apoyos;
     }
+
+    public String getUrl_imagen() {
+        return url_imagen;
+    }
+    public void setUrl_imagen(String url_imagen) {
+        this.url_imagen = url_imagen;
+    }
+
 }

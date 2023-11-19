@@ -108,6 +108,7 @@ public class SecondFragment extends Fragment {
                                                 String nombre_actividad = (String) document2.get("nombre_actividad");
                                                 Date date = document2.getDate("fecha");
                                                 String apoyos = (String) document2.get("apoyos");
+                                                String url_imagen = (String) document2.get("url_imagen");
                                                 String fechaSt = date.toString();
                                                 String[] partes = fechaSt.split(" ");
                                                 String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
@@ -118,7 +119,7 @@ public class SecondFragment extends Fragment {
 
                                                 // Verifica si el nombre del evento está en eventosParticipa
                                                 if (eventosParticipa.contains(nombre)) {
-                                                    eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad);
+                                                    eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad,url_imagen);
                                                     eventos.setId(eventoId);
                                                     eventLista.add(eventos);
                                                     Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);

@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.participante;
@@ -60,6 +62,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.hora.setText("Hora: " + event.getHora());
         holder.cantApoyos.setText("Apoyos: " + event.getApoyos());
 
+        // Carga la imagen usando Glide
+        if (event.getUrl_imagen() != null && !event.getUrl_imagen().isEmpty()) {
+            Glide.with(context)
+                    .load(event.getUrl_imagen())
+                    .into(holder.imageEvento);
+        }
         // Aquí puedes asignar otros datos como la descripción, estado, actividad, etc.
 
         // Configura el OnClickListener para el botón "Apoyar"
@@ -97,6 +105,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         Button buttonVerEvento;
         Button buttonApoyarEvento;
 
+        ImageView imageEvento;  // Asegúrate de tener esta línea
+
+
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
             titleActividad = itemView.findViewById(R.id.titleActividad);
@@ -105,6 +116,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             cantApoyos = itemView.findViewById(R.id.cantApoyos);
             buttonVerEvento = itemView.findViewById(R.id.buttonVerEvento);
             buttonApoyarEvento = itemView.findViewById(R.id.buttonApoyar);
+            imageEvento = itemView.findViewById(R.id.imageActividad);  // Asegúrate de tener esta línea
+
         }
     }
     private void actualizarCampoApoyos(String eventoId, String nuevoValorApoyos) {

@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.participante;
@@ -69,6 +71,13 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
         holder.hora.setText("Hora: " + event.getHora());
         holder.cantApoyos.setText("Apoyos: " + event.getApoyos());
 
+        // Carga la imagen usando Glide
+        if (event.getUrl_imagen() != null && !event.getUrl_imagen().isEmpty()) {
+            Glide.with(context)
+                    .load(event.getUrl_imagen())
+                    .into(holder.imageEvento);
+        }
+
         // Aquí puedes asignar otros datos como la descripción, estado, actividad, etc.
 
         // Configura el OnClickListener para el botón "Apoyar"
@@ -112,6 +121,8 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
         Button verListaEvento;
         Button apoyarListaEvento;
         Button verEventosApoyados;
+        ImageView imageEvento;  // Asegúrate de tener esta línea
+
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -121,6 +132,8 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
             cantApoyos = itemView.findViewById(R.id.cantApoyos);
             verListaEvento = itemView.findViewById(R.id.verListaEvento);
             apoyarListaEvento = itemView.findViewById(R.id.apoyarListaEvento);
+            imageEvento = itemView.findViewById(R.id.imageActividad);  // Asegúrate de tener esta línea
+
         }
     }
     private void actualizarCampoApoyos(String eventoId, String nuevoValorApoyos) {

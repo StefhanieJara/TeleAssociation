@@ -62,11 +62,12 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
                                 String nombre_actividad = (String) document.get("nombre_actividad");
                                 Date date = document.getDate("fecha");
                                 String apoyos = (String) document.get("apoyos");
+                                String url_imagen = (String) document.get("url_imagen");
                                 String fechaSt = date.toString();
                                 String[] partes = fechaSt.split(" ");
                                 String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
                                 String hora = partes[3];
-                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad);
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
                                 eventos.setId(eventoId);
                                 eventLista.add(eventos);
                                 Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
