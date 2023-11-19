@@ -1,11 +1,18 @@
 package com.example.teleassociation.adminActividad;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -27,8 +34,10 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -107,7 +116,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                             String apoyos = (String) documentSnapshot.get("apoyos");
                             String descripcion = (String) documentSnapshot.get("descripcion");
                             Log.d("msg-test", " | nombre: " + nombreEvento + " | fecha: " + fechaEvento + " | hora: " + horaEvento);
-                            nombreEventoParticipante=nombreEvento;
+                            nombreEventoParticipante = nombreEvento;
 
                             // Ahora puedes actualizar tus TextViews u otros elementos de la vista
                             TextView textViewNombreEvento = view.findViewById(R.id.evento);
@@ -144,9 +153,9 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
                 ListaParticipantesFragment fragment = ListaParticipantesFragment.newInstance(nombreEvento);
                 getParentFragmentManager().beginTransaction()
-                    .replace(R.id.frame_container, fragment)
-                    .addToBackStack(null)
-                    .commit();
+                        .replace(R.id.frame_container, fragment)
+                        .addToBackStack(null)
+                        .commit();
 
             }
         });
@@ -186,31 +195,126 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
         return view;
     }
 
+    private void solicitarPermisosDeUbicacion() {
+        if (ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Si no tienes permisos, solicítalos
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+        } else {
+            // Si ya tienes permisos, puedes habilitar la capa de "mi ubicación" y obtener la ubicación actual
+            mMap.setMyLocationEnabled(true);
+            obtenerUbicacionActual();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido, habilita la capa de "mi ubicación" y obtén la ubicación actual
+                mMap.setMyLocationEnabled(true);
+                obtenerUbicacionActual();
+            } else {
+                // Permiso denegado, maneja la situación según tus requerimientos
+            }
+        }
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Personaliza el mapa según tus necesidades
-        // Puedes agregar marcadores, rutas, etc.
-
-        // Por ejemplo, para agregar un marcador en la PUCP:
-        LatLng pucpLatLng = new LatLng(-12.072976093146243, -77.08197447754557);
-        mMap.addMarker(new MarkerOptions().position(pucpLatLng).title("PUCP"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pucpLatLng, 15f));
-
-        // Agrega un segundo marcador (punto de destino)
-        LatLng destinoLatLng = new LatLng(-12.0768, -77.0696);
-        mMap.addMarker(new MarkerOptions().position(destinoLatLng).title("Destino"));
-
-        obtenerYMostrarRuta(pucpLatLng, destinoLatLng);
+        // Llama a la función para solicitar permisos y obtener la ubicación actual
+        solicitarPermisosDeUbicacion();
     }
-        private void obtenerYMostrarRuta(LatLng origen, LatLng destino) {
+
+    private void obtenerUbicacionActual() {
+        // Verificar permisos de ubicación
+        if (ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Si no tienes permisos, solicítalos
+            ActivityCompat.requestPermissions(requireActivity(),
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    1);
+        } else {
+            LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+            if (locationManager != null) {
+                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                if (lastKnownLocation != null) {
+                    LatLng miUbicacion = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                    Log.d("msg-test", String.valueOf(miUbicacion));
+
+                    // Agregar un marcador en la ubicación actual del usuario
+                    mMap.addMarker(new MarkerOptions().position(miUbicacion).title("Mi Ubicación"));
+
+                    // Mover la cámara al marcador de la ubicación actual
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(miUbicacion, 15f));
+
+                    // Referencia a la colección "eventos" en Firestore
+                    CollectionReference eventosCollection = FirebaseFirestore.getInstance().collection("eventos");
+
+// Realizar la consulta para encontrar el evento por su nombre
+                    eventosCollection
+                            .whereEqualTo("nombre", nombreEventoParticipante)
+                            .get()
+                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    // Verificar si se encontraron documentos
+                                    if (!queryDocumentSnapshots.isEmpty()) {
+                                        // Suponiendo que solo esperas un resultado, obten el primer documento
+                                        DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+
+                                        // Obtén el GeoPoint del campo "ubicacion" (ajusta el nombre del campo según sea necesario)
+                                        GeoPoint ubicacion = documentSnapshot.getGeoPoint("ubicacion");
+
+                                        if (ubicacion != null) {
+                                            // Obtén las coordenadas
+                                            double latitud = ubicacion.getLatitude();
+                                            double longitud = ubicacion.getLongitude();
+
+                                            // Ahora puedes usar latitud y longitud según sea necesario
+                                            Log.d("Coordenadas", "Latitud: " + latitud + ", Longitud: " + longitud);
+                                        } else {
+                                            // Manejar el caso en que la ubicación sea nula
+                                            Log.d("Coordenadas", "La ubicación es nula para el evento: " + nombreEventoParticipante);
+                                        }
+                                    } else {
+                                        // Manejar el caso en que no se encontraron documentos
+                                        Log.d("Evento", "No se encontró el evento: " + nombreEventoParticipante);
+                                    }
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    // Manejar el error en la consulta
+                                    Log.e("Error", "Error al realizar la consulta: " + e.getMessage());
+                                }
+                            });
+
+                    // Obtener la dirección y mostrar la ruta desde la ubicación actual hasta un destino (por ejemplo, PUCP)
+                    LatLng destinoLatLng = new LatLng(-12.072976093146243, -77.08197447754557);
+                    obtenerYMostrarRuta(miUbicacion, destinoLatLng);
+                }
+            }
+        }
+    }
+
+    private void obtenerYMostrarRuta(LatLng origen, LatLng destino) {
             String url = obtenerURLDirecciones(origen, destino);
             new ObtenerRuta().execute(url);
         }
 
         private String obtenerURLDirecciones(LatLng origen, LatLng destino) {
-            String apiKey = "AIzaSyDzZL2jw2ZN70NIoQp35YwnhxYObxrDRY4";  // Reemplaza con tu clave de API
+            String apiKey = "AIzaSyAUQXpnbBf2qrLbTViHWD3rcXsRMSod-KQ";  // Reemplaza con tu clave de API
             String str_origen = "origin=" + origen.latitude + "," + origen.longitude;
             String str_destino = "destination=" + destino.latitude + "," + destino.longitude;
             String sensor = "sensor=false";
