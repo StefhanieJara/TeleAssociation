@@ -135,12 +135,18 @@ public class validarParticipanteAdmin extends AppCompatActivity {
             String usuarioCodigo = getIntent().getStringExtra("usuarioCodigo");
             String validacionStr = validacion.getText().toString().trim();
 
+            Log.d("msg-test", "El codigo del usuario es: "+usuarioCodigo);
+
             DocumentReference usuarioRef = db.collection("usuarios").document(usuarioCodigo);
 
             if(validacionStr.equals("Si")){
                 usuarioRef
                         .update("validado", validacionStr)
                         .addOnSuccessListener(unused -> {
+                            String id = (String) usuarioRef.getId();
+                            Log.d("msg-test", "el ID es: " + id);
+                            Log.d("msg-test", "Validacion: " + validacionStr);
+                            EmailSender.sendEmail(usuarioCorreo,"Usuario valido en TeleAssociation","Su usuario ha sido valido para estar dentro de la aplicación.");
                             Intent intent = new Intent(this, inicioAdmin.class);
                             intent.putExtra("Usuario validado.", true);
                             startActivity(intent);
@@ -158,7 +164,8 @@ public class validarParticipanteAdmin extends AppCompatActivity {
                                 usuarioRef
                                         .update("comentario", rechazo)
                                         .addOnSuccessListener(unused2 -> {
-                                            EmailSender.sendEmail(usuarioCorreo,rechazo,"Su usuario no es valido para estar dentro de la aplicación.");
+                                            Log.d("msg-test", "Validacion: "+ validacionStr);
+                                            EmailSender.sendEmail(usuarioCorreo,"Usuario invalido en TeleAssociation",rechazo);
                                             Intent intent = new Intent(this, inicioAdmin.class);
                                             intent.putExtra("Usuario validado.", true);
                                             startActivity(intent);

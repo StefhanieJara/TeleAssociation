@@ -123,9 +123,7 @@ public class EditarActividadAdmin extends AppCompatActivity {
                             String validacion = (String) document.get("validado");
                             String rol = (String) document.get("rol");
 
-                            if (rol.equals("Usuario")) {
-                                // usuario.setComentario(comentario);  // Esto no parece ser necesario en este contexto
-                                // ... (Resto de tu código para configurar el objeto usuario)
+                            if (rol.equals("Usuario") && validacion.equals("Si")) {
 
                                 Log.d("msg-test", "| codigo: " + codigo + " | nombre: " + nombre + "| correo: " + correo + " | condicion: " + condicion + " | validacion: " + validacion);
                                 nombreUsuario.add(nombre);

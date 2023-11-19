@@ -147,7 +147,7 @@ public class CrearActividadFragment extends Fragment {
                             String validacion = (String) document.get("validado");
                             String rol = (String) document.get("rol");
 
-                            if (rol.equals("Usuario")) {
+                            if (rol.equals("Usuario") && validacion.equals("Si")) {
                                 // usuario.setComentario(comentario);  // Esto no parece ser necesario en este contexto
                                 // ... (Resto de tu código para configurar el objeto usuario)
 
