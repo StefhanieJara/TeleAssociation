@@ -15,6 +15,7 @@ import com.example.teleassociation.databinding.ActivityRegistrarseBinding;
 import com.example.teleassociation.dto.usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,16 +54,23 @@ public class Registrarse extends AppCompatActivity {
             String rol = "Usuario";
             String cometario = "";
 
+            // Resetear errores
+            resetErrorAndDisable(binding.Nombre);
+            resetErrorAndDisable(binding.Codigo);
+            resetErrorAndDisable(binding.Correo);
+            resetErrorAndDisable(binding.Contrasenha);
+            resetErrorAndDisable(binding.ConfirmaContra);
+
             if (nombre.isEmpty()) {
-                showError("El campo 'Nombre' no puede estar vacío.");
+                binding.Nombre.setError("El campo 'Nombre' no puede estar vacío.");
             } else if (!isValidCodigo(codigo)) {
-                showError("Código no válido");
+                binding.Codigo.setError("Código no válido");
             } else if (!isValidEmail(correo)) {
-                showError("Correo electrónico no válido");
-            }  else if (!isValidPassword(contrasena)) {
-                showError("Contraseña no válida. Debe tener al menos 8 caracteres y al menos un carácter especial.");
+                binding.Correo.setError("Correo electrónico no válido");
+            } else if (!isValidPassword(contrasena)) {
+                binding.Contrasenha.setError("Contraseña no válida. Debe tener al menos 8 caracteres y al menos un carácter especial.");
             } else if (!contrasena.equals(confirmaContra)) {
-                showError("Las contraseñas no coinciden");
+                binding.ConfirmaContra.setError("Las contraseñas no coinciden");
             } else {
                 // Agregar  lógica de registro
                 // ...
@@ -144,5 +152,9 @@ public class Registrarse extends AppCompatActivity {
     }
     private boolean isValidPassword(String password) {
         return password.length() >= 8 && Pattern.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*", password);
+    }
+    private void resetErrorAndDisable(TextInputLayout textInputLayout) {
+        textInputLayout.setError(null);
+        textInputLayout.setErrorEnabled(false);
     }
 }

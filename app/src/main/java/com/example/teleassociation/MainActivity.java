@@ -157,8 +157,7 @@ public class MainActivity extends AppCompatActivity {
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("msg-test", "signInWithEmail:failure", task.getException());
-                                    Toast.makeText(MainActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
+                                    binding.contrasena.setError("Email o contraseña incorrectos");
                                     updateUI(null);
                                 }
                             }
@@ -171,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
             } else {
-                Toast.makeText(this, "Correo electrónico incorrecto", Toast.LENGTH_SHORT).show();
+                binding.emailLayout.setError("Correo electrónico incorrecto");
             }
         });
         binding.recuperarPass.setOnClickListener(v -> {

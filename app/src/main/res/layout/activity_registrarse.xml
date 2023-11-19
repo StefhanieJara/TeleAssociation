@@ -1,46 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#191C1E"
+    android:background="#3178A6"
     tools:context=".Registrarse">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="131dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2"
+        app:srcCompat="@drawable/telito" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif-black"
-        android:textColor="@color/white"
         android:text="BIENVENIDO TELECO"
+        android:textColor="#191C1E"
         android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.192" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="262dp"
-        android:layout_height="104dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/telito" />
-
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <LinearLayout
-        android:layout_width="389dp"
-        android:layout_height="411dp"
-        android:layout_marginTop="12dp"
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="12dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/registrarse"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
@@ -49,20 +52,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="2dp"
+            android:layout_margin="8dp"
             android:hint="Nombres y Apellidos"
+            android:textColorHint="#A59E9E"
             app:boxBackgroundColor="@color/white"
             app:boxCornerRadiusBottomEnd="20dp"
             app:boxCornerRadiusBottomStart="20dp"
             app:boxCornerRadiusTopEnd="20dp"
             app:boxCornerRadiusTopStart="20dp"
-            android:textColorHint="#A59E9E"
             tools:ignore="MissingConstraints">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextNombre"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextNombre"/>
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="2dp"
+            android:layout_margin="8dp"
             android:hint="Codigo"
             android:textColorHint="#A59E9E"
             app:boxBackgroundColor="@color/white"
@@ -82,9 +85,9 @@
             tools:ignore="MissingConstraints">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCodigo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextCodigo"/>
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,20 +96,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="2dp"
+            android:layout_margin="8dp"
             android:hint="Correo Electronico"
-            tools:ignore="MissingConstraints"
+            android:textColorHint="#A59E9E"
             app:boxBackgroundColor="@color/white"
             app:boxCornerRadiusBottomEnd="20dp"
             app:boxCornerRadiusBottomStart="20dp"
             app:boxCornerRadiusTopEnd="20dp"
             app:boxCornerRadiusTopStart="20dp"
-            android:textColorHint="#A59E9E">
+            tools:ignore="MissingConstraints">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextCorreo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/editTextCorreo"/>
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -115,73 +118,74 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="4dp"
-            android:hint="Condición"
+            android:layout_margin="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="3dp"
             android:background="@drawable/diseno1"
+            android:hint="Condición"
             android:textColorHint="#A59E9E"
             app:layout_constraintTop_toBottomOf="@+id/Correo"
             tools:ignore="MissingConstraints">
 
             <Spinner
                 android:id="@+id/spinnerCondicion"
-                android:layout_width="380sp"
+                android:layout_width="360sp"
                 android:layout_height="44sp"
-                android:hint="Condición"
-                android:layout_margin="4dp"
                 android:layout_gravity="center"
+                android:layout_margin="4dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:textColor="@color/black"
                 tools:ignore="TouchTargetSizeCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/Contraseña"
+            android:id="@+id/Contrasenha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="2dp"
+            android:layout_margin="8dp"
             android:hint="Ingrese contraseña"
-            app:endIconMode="password_toggle"
-            tools:ignore="MissingConstraints"
+            android:textColorHint="#A59E9E"
             app:boxBackgroundColor="@color/white"
             app:boxCornerRadiusBottomEnd="20dp"
             app:boxCornerRadiusBottomStart="20dp"
             app:boxCornerRadiusTopEnd="20dp"
             app:boxCornerRadiusTopStart="20dp"
-            android:textColorHint="#A59E9E">
+            app:endIconMode="password_toggle"
+            tools:ignore="MissingConstraints">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextContraseña"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:inputType="textPassword"
-                android:id="@+id/editTextContraseña"/>
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ConfirmaContra"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="2dp"
+            android:layout_margin="8dp"
             android:hint="Confirmar contraseña"
-            app:endIconMode="password_toggle"
+            android:textColorHint="#A59E9E"
             app:boxBackgroundColor="@color/white"
             app:boxCornerRadiusBottomEnd="20dp"
             app:boxCornerRadiusBottomStart="20dp"
             app:boxCornerRadiusTopEnd="20dp"
             app:boxCornerRadiusTopStart="20dp"
-            android:textColorHint="#A59E9E"
+            app:endIconMode="password_toggle"
             app:layout_constraintTop_toBottomOf="@+id/Contraseña"
             tools:ignore="MissingConstraints">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextConfirmaContra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:inputType="textPassword"
-                android:id="@+id/editTextConfirmaContra"/>
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
@@ -189,14 +193,14 @@
     <Button
         android:id="@+id/registrarse"
         android:layout_width="320dp"
-        android:layout_height="60sp"
-        android:layout_marginBottom="52dp"
-        android:textSize="18sp"
-        android:backgroundTint="#558A9A"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:backgroundTint="#191C1E"
         android:text="Registrarse"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
