@@ -101,8 +101,6 @@ public class inicio_usuario extends AppCompatActivity {
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         loadFragment(firstFragment);
-
-        //agreguen esto para cambiar el diseño de los fragments
         navigation.setBackgroundColor(getResources().getColor(R.color.system_bar));
         navigation.setItemTextColor(ColorStateList.valueOf(getResources().getColor(android.R.color.white)));
         navigation.setItemIconTintList(ColorStateList.valueOf(getResources().getColor(android.R.color.white)));

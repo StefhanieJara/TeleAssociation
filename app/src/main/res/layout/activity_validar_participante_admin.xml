@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/system_neutral1_900"
+    android:background="#A2C6DD"
     tools:context=".adminGeneral.validarParticipanteAdmin"
     tools:targetApi="s">
 
@@ -41,7 +41,6 @@
         android:id="@+id/nombre"
         android:layout_width="353dp"
         android:layout_height="66dp"
-        android:background="@drawable/round_corner"
         android:inputType="none"
         android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +70,6 @@
         android:id="@+id/correo"
         android:layout_width="match_parent"
         android:layout_height="66dp"
-        android:background="@drawable/round_corner"
         android:inputType="none"
         android:focusable="false"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +99,6 @@
         android:id="@+id/validacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corner"
         android:inputType="none" />
   </com.google.android.material.textfield.TextInputLayout>
 
@@ -126,7 +123,6 @@
         android:id="@+id/rechazo"
         android:layout_width="match_parent"
         android:layout_height="175dp"
-        android:background="@drawable/round_corner"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="399dp" />
   </com.google.android.material.textfield.TextInputLayout>
@@ -137,7 +133,7 @@
       android:layout_width="245dp"
       android:layout_height="52dp"
       android:layout_marginBottom="88dp"
-      android:backgroundTint="#558A9A"
+      android:backgroundTint="#191C1E"
       android:text="Registrar"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
@@ -151,7 +147,7 @@
       android:fontFamily="@font/lokanova_std"
       android:foregroundGravity="center"
       android:text="VALIDAR USUARIO"
-      android:textColor="#558A9A"
+      android:textColor="#191C1E"
       android:textSize="34sp"
       android:textStyle="bold"
       app:layout_constraintEnd_toEndOf="parent"

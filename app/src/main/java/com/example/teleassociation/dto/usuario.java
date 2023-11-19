@@ -6,10 +6,10 @@ public class usuario implements Serializable {
     private String condicion;
     private String contrasenha;
     private String correo;
-    private String nombre;
+    private static String nombre;
     private String rol;
     private String validado;
-    private String id;
+    private static String id;
     private String comentario;
 
     public String getComentario() {
@@ -20,7 +20,7 @@ public class usuario implements Serializable {
         this.comentario = comentario;
     }
 
-    public String getId() {
+    public static String getId() {
         return id;
     }
 
@@ -52,7 +52,7 @@ public class usuario implements Serializable {
         this.correo = correo;
     }
 
-    public String getNombre() {
+    public static String getNombre() {
         return nombre;
     }
 

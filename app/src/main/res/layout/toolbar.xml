@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:fontFamily="@font/roboto_black"
-            android:text="Diego Lavado"
+            android:text=""
             android:textColor="#EFEEEE"
             android:textSize="20sp"
             android:textStyle="bold" />

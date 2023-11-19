@@ -13,6 +13,8 @@ public class eventoCrear {
     private String nombre_actividad;
     private String nombre_lugar;
 
+    private String url_imagen;
+
     public String getApoyos() {
         return apoyos;
     }
@@ -67,5 +69,14 @@ public class eventoCrear {
 
     public void setNombre_lugar(String nombre_lugar) {
         this.nombre_lugar = nombre_lugar;
+    }
+
+
+    public String getUrl_imagen() {
+        return url_imagen;
+    }
+
+    public void setUrl_imagen(String url_imagen) {
+        this.url_imagen = url_imagen;
     }
 }

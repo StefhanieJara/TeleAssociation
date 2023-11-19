@@ -12,11 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.adapter.EventAdapter;
 import com.example.teleassociation.adapter.ListaActividadesGeneralAdapter;
 import com.example.teleassociation.dto.eventoListarUsuario;
+import com.example.teleassociation.dto.usuario;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -41,6 +45,9 @@ public class ListaActividadesGeneralFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    TextView nameUser;
+    usuario usuario = new usuario();
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     private RecyclerView recyclerView;
 
@@ -80,6 +87,54 @@ public class ListaActividadesGeneralFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_lista_actividades_general, container, false);
         db = FirebaseFirestore.getInstance();
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            Log.d("msg-test", "El correo que ingresó es: "+email);
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            Log.d("msg-test", "task2 ha sido valido");
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String comentario = (String) document.get("comentario");
+                                String condicion = (String) document.get("condicion");
+                                String pass = (String) document.get("contrasenha");
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+                                String validacion = (String) document.get("validado");
+                                String rol = (String) document.get("rol");
+
+                                if(correo.equals(email)){
+                                    usuario.setComentario(comentario);
+                                    usuario.setCondicion(condicion);
+                                    usuario.setContrasenha(pass);
+                                    usuario.setCorreo(correo);
+                                    usuario.setId(codigo);
+                                    usuario.setNombre(nombre);
+                                    usuario.setRol(rol);
+                                    usuario.setValidado(validacion);
+                                    Log.d("msg-test", "| codigo: " + usuario.getId() + " | nombre: " + usuario.getNombre() + "| correo: "+ usuario.getCorreo() +" | condicion: " + usuario.getCondicion() + " | validacion: " + usuario.getValidado());
+                                    break;
+                                }
+                            }
+                            nameUser = rootView.findViewById(R.id.nameUser);
+                            Log.d("msg-test", "El nombre del usuario es: "+usuario.getNombre());
+                            nameUser.setText(usuario.getNombre());
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+
+
         recyclerView = rootView.findViewById(R.id.listRecyclerEventoAdmin);
 
         db.collection("eventos")
@@ -95,10 +150,11 @@ public class ListaActividadesGeneralFragment extends Fragment {
                                 Date date = document.getDate("fecha");
                                 String apoyos = (String) document.get("apoyos");
                                 String fechaSt = date.toString();
+                                String url_imagen = (String) document.get("url_imagen");
                                 String[] partes = fechaSt.split(" ");
                                 String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
                                 String hora = partes[3];
-                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad);
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
                                 eventLista.add(eventos);
                                 Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
                             }

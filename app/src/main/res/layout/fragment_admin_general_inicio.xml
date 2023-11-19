@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#191C1E"
+    android:background="#A2C6DD"
     tools:context=".adminGeneral.AdminGeneralInicioFragment">
 
     <include
@@ -47,7 +47,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         android:gravity="center|start|right|center_horizontal"
         android:text="Actividades"
-        android:textColor="#558A9A"
+        android:textColor="#191C1E"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

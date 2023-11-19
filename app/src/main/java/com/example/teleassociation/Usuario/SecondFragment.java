@@ -10,11 +10,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.adapter.EventAdapter;
 import com.example.teleassociation.adapter.MisEventAdapter;
 import com.example.teleassociation.dto.eventoListarUsuario;
+import com.example.teleassociation.dto.usuario;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -35,6 +39,8 @@ public class SecondFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    TextView nameUser;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     private RecyclerView recyclerView;
 
@@ -80,6 +86,16 @@ public class SecondFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_second, container, false);
         db = FirebaseFirestore.getInstance();
         recyclerView = rootView.findViewById(R.id.listRecyclerView);
+
+        obtenerDatosUsuario(usuario -> {
+            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
+
+            // Ahora puedes utilizar el nombre del usuario como lo necesites, por ejemplo:
+            nameUser = rootView.findViewById(R.id.nameUser);
+            nameUser.setText(usuario.getNombre());
+        });
+
+
         ArrayList<String> eventosParticipa = new ArrayList<>();
         Log.d("msg-test", " inicio");
         db.collection("participantes")
@@ -91,7 +107,7 @@ public class SecondFragment extends Fragment {
                             String asignacion = (String) document.get("asignacion");
                             String codigo = (String) document.get("codigo");
                             String evento = (String) document.get("evento");
-                            if ("20190050".equals(codigo)) {
+                            if (usuario.getId().equals(codigo)) {
                                 Log.d("msg-test", " | evento: " + evento);
                                 eventosParticipa.add(evento);}}
 
@@ -108,6 +124,7 @@ public class SecondFragment extends Fragment {
                                                 String nombre_actividad = (String) document2.get("nombre_actividad");
                                                 Date date = document2.getDate("fecha");
                                                 String apoyos = (String) document2.get("apoyos");
+                                                String url_imagen = (String) document2.get("url_imagen");
                                                 String fechaSt = date.toString();
                                                 String[] partes = fechaSt.split(" ");
                                                 String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
@@ -118,7 +135,7 @@ public class SecondFragment extends Fragment {
 
                                                 // Verifica si el nombre del evento está en eventosParticipa
                                                 if (eventosParticipa.contains(nombre)) {
-                                                    eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad);
+                                                    eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad,url_imagen);
                                                     eventos.setId(eventoId);
                                                     eventLista.add(eventos);
                                                     Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
@@ -142,5 +159,45 @@ public class SecondFragment extends Fragment {
 
 
         return rootView;
+    }
+
+    private void obtenerDatosUsuario(FirstFragment.FirestoreCallback callback) {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        usuario usuario = new usuario();
+
+        if (user != null) {
+            String email = user.getEmail();
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+
+                                if (correo.equals(email)) {
+                                    usuario.setId(codigo);
+                                    usuario.setNombre(nombre);
+                                    usuario.setCorreo(correo);
+                                    // Llamada al método de la interfaz con el nombre del usuario
+                                    callback.onCallback(usuario);
+                                    return;
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+    }
+
+    public interface FirestoreCallback {
+        void onCallback(usuario usuario);
     }
 }

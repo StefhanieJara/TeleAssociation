@@ -9,6 +9,8 @@ public class eventoListarUsuario {
     private String hora;
     private String apoyos;
     private String nombre_actividad;
+    private String url_imagen;
+
 
     public String getNombre_actividad() {
         return nombre_actividad;
@@ -54,12 +56,21 @@ public class eventoListarUsuario {
     public void setHora(String hora) {
         this.hora = hora;
     }
+    public String getUrl_imagen() {
+        return url_imagen;
+    }
 
-    public eventoListarUsuario(String nombre, String fecha, String hora, String apoyos, String nombre_actividad) {
+    public void setUrl_imagen(String url_imagen) {
+        this.url_imagen = url_imagen;
+    }
+
+    public eventoListarUsuario(String nombre, String fecha, String hora, String apoyos, String nombre_actividad, String url_imagen) {
         this.nombre = nombre;
         this.fecha = fecha;
         this.hora = hora;
         this.apoyos = apoyos;
         this.nombre_actividad = nombre_actividad;
+        this.url_imagen = url_imagen;
+
     }
 }
