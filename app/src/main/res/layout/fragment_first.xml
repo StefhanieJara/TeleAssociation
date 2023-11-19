@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Usuario.inicio_usuario"
-    android:background="#191C1E">
+    android:background="#A2C6DD"
+    tools:context=".Usuario.inicio_usuario">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/cointainerView"
@@ -60,7 +60,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         android:gravity="center|start|right|center_horizontal"
         android:text="Eventos"
-        android:textColor="#558A9A"
+        android:textColor="#191C1E"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

@@ -30,6 +30,7 @@ import com.example.teleassociation.dto.usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -82,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
             Log.d("msg-test", "se recibio los parametros de sesion");
             Log.d("msg-test", email+" "+pass);
 
+            resetErrorAndDisable(binding.emailLayout);
+            resetErrorAndDisable(binding.contrasena);
             if (isValidEmail(email)) {
                 Log.d("msg-test", "email valido");
                 mAuth.signInWithEmailAndPassword(email, pass)
@@ -172,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 binding.emailLayout.setError("Correo electrónico incorrecto");
             }
+
         });
         binding.recuperarPass.setOnClickListener(v -> {
             // Navegar a la actividad de recuperación de contraseña al hacer clic en "Olvidé mi contraseña"
@@ -226,6 +230,10 @@ public class MainActivity extends AppCompatActivity {
     private boolean isValidEmail(String email) {
         String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
         return Pattern.matches(emailRegex, email);
+    }
+    private void resetErrorAndDisable(TextInputLayout textInputLayout) {
+        textInputLayout.setError(null);
+        textInputLayout.setErrorEnabled(false);
     }
 
     private void updateUI(FirebaseUser user) {}
