@@ -257,16 +257,15 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                     // Mover la cámara al marcador de la ubicación actual
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(miUbicacion, 15f));
 
-                    // Referencia a la colección "eventos" en Firestore
-                    CollectionReference eventosCollection = FirebaseFirestore.getInstance().collection("eventos");
 
 // Realizar la consulta para encontrar el evento por su nombre
-                    eventosCollection
+                    db.collection("eventos")
                             .whereEqualTo("nombre", nombreEventoParticipante)
                             .get()
                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                    Log.d("msg-test",nombreEventoParticipante);
                                     // Verificar si se encontraron documentos
                                     if (!queryDocumentSnapshots.isEmpty()) {
                                         // Suponiendo que solo esperas un resultado, obten el primer documento
