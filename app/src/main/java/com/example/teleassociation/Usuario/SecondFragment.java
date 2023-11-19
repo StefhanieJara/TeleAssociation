@@ -107,7 +107,7 @@ public class SecondFragment extends Fragment {
                             String asignacion = (String) document.get("asignacion");
                             String codigo = (String) document.get("codigo");
                             String evento = (String) document.get("evento");
-                            if ("20190050".equals(codigo)) {
+                            if (usuario.getId().equals(codigo)) {
                                 Log.d("msg-test", " | evento: " + evento);
                                 eventosParticipa.add(evento);}}
 

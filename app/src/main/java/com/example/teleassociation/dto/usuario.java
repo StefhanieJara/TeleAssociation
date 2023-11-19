@@ -6,7 +6,7 @@ public class usuario implements Serializable {
     private String condicion;
     private String contrasenha;
     private String correo;
-    private String nombre;
+    private static String nombre;
     private String rol;
     private String validado;
     private static String id;
@@ -52,7 +52,7 @@ public class usuario implements Serializable {
         this.correo = correo;
     }
 
-    public String getNombre() {
+    public static String getNombre() {
         return nombre;
     }
 

@@ -20,6 +20,7 @@ import com.example.teleassociation.dto.participante;
 import com.example.teleassociation.eventoDetalleAlumno;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -29,6 +30,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     private List<eventoListarUsuario> eventList;
     private Context context;
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
 
     public EventAdapter() {
         this.context = context;
