@@ -118,6 +118,7 @@ public class validarParticipanteAdmin extends AppCompatActivity {
         // Obtener los valores de usuarioNombre y usuarioCorreo
         String usuarioNombre = getIntent().getStringExtra("usuarioNombre");
         String usuarioCorreo = getIntent().getStringExtra("usuarioCorreo");
+        String usuarioCodigo = getIntent().getStringExtra("usuarioCodigo");
 
         // Encontrar los TextInputLayout correspondientes
         textInputNombre = findViewById(R.id.textInputLayout27);
@@ -132,40 +133,36 @@ public class validarParticipanteAdmin extends AppCompatActivity {
         button16.setOnClickListener(view -> {
             textRechazo = findViewById(R.id.rechazo);
             String rechazo = textRechazo.getText().toString().trim();
-            String usuarioCodigo = getIntent().getStringExtra("usuarioCodigo");
             String validacionStr = validacion.getText().toString().trim();
 
-            Log.d("msg-test", "El codigo del usuario es: "+usuarioCodigo);
+            //Log.d("msg-test", "El codigo del usuario es: "+usuarioCodigo);
 
-            DocumentReference usuarioRef = db.collection("usuarios").document(usuarioCodigo);
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            Log.d("msg-test", "task2 ha sido valido");
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String correo = (String) document.get("correo");
 
-            if(validacionStr.equals("Si")){
-                usuarioRef
-                        .update("validado", validacionStr)
-                        .addOnSuccessListener(unused -> {
-                            String id = (String) usuarioRef.getId();
-                            Log.d("msg-test", "el ID es: " + id);
-                            Log.d("msg-test", "Validacion: " + validacionStr);
-                            EmailSender.sendEmail(usuarioCorreo,"Usuario valido en TeleAssociation","Su usuario ha sido valido para estar dentro de la aplicación.");
-                            Intent intent = new Intent(this, inicioAdmin.class);
-                            intent.putExtra("Usuario validado.", true);
-                            startActivity(intent);
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(this, "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
-                        });
-            }else{
-                if(rechazo.isEmpty()){
-                    Toast.makeText(this, "El campo del motivo de rechazo no puede estar vacio", Toast.LENGTH_SHORT).show();
-                }else{
-                    usuarioRef
-                            .update("validado", validacionStr)
-                            .addOnSuccessListener(unused -> {
+                                if(correo.equals(usuarioCorreo)){
+                                    usuario.setCorreo(correo);
+                                    usuario.setId(codigo);
+                                    break;
+                                }
+                            }
+                            Log.d("msg-test", "El codigo del usuario es: "+usuario.getId());
+                            DocumentReference usuarioRef = db.collection("usuarios").document(usuario.getId());
+                            if(validacionStr.equals("Si")){
                                 usuarioRef
-                                        .update("comentario", rechazo)
-                                        .addOnSuccessListener(unused2 -> {
-                                            Log.d("msg-test", "Validacion: "+ validacionStr);
-                                            EmailSender.sendEmail(usuarioCorreo,"Usuario invalido en TeleAssociation",rechazo);
+                                        .update("validado", validacionStr)
+                                        .addOnSuccessListener(unused -> {
+                                            String id = (String) usuarioRef.getId();
+                                            Log.d("msg-test", "el ID de del usuario aceptado es es: " + id);
+                                            Log.d("msg-test", "Validacion: " + validacionStr);
+                                            EmailSender.sendEmail(usuarioCorreo,"Usuario valido en TeleAssociation","Su usuario ha sido valido para estar dentro de la aplicación.");
                                             Intent intent = new Intent(this, inicioAdmin.class);
                                             intent.putExtra("Usuario validado.", true);
                                             startActivity(intent);
@@ -173,12 +170,40 @@ public class validarParticipanteAdmin extends AppCompatActivity {
                                         .addOnFailureListener(e -> {
                                             Toast.makeText(this, "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
                                         });
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(this, "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
-                            });
-                }
-            }
+                            }else{
+                                if(rechazo.isEmpty()){
+                                    Toast.makeText(this, "El campo del motivo de rechazo no puede estar vacio", Toast.LENGTH_SHORT).show();
+                                }else{
+                                    usuarioRef
+                                            .update("validado", validacionStr)
+                                            .addOnSuccessListener(unused -> {
+                                                usuarioRef
+                                                        .update("comentario", rechazo)
+                                                        .addOnSuccessListener(unused2 -> {
+                                                            String id = (String) usuarioRef.getId();
+                                                            Log.d("msg-test", "el ID de del usuario denegado es es: " + id);
+                                                            Log.d("msg-test", "Validacion: "+ validacionStr);
+                                                            EmailSender.sendEmail(usuarioCorreo,"Usuario invalido en TeleAssociation",rechazo);
+                                                            Intent intent = new Intent(this, inicioAdmin.class);
+                                                            intent.putExtra("Usuario validado.", true);
+                                                            startActivity(intent);
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            Toast.makeText(this, "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                                        });
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(this, "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                            });
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+
 
         });
 
