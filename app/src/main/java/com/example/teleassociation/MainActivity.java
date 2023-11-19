@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
                                                         if(usuario.getRol().equals("Usuario")){
                                                             Log.d("msg-test", "Entra rol usuario");
                                                             Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
-                                                            intent.putExtra("usuario", usuario);
+                                                            //intent.putExtra("usuario", usuario);
                                                             startActivity(intent);
                                                         }else if(usuario.getRol().equals("DelegadoActividad")){
                                                             Intent intent = new Intent(MainActivity.this, ListaActividadesDelactvActivity.class);
