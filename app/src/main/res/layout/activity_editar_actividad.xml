@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#191C1E"
+    android:background="#A2C6DD"
     tools:context=".adminGeneral.EditarActividadAdmin">
 
     <include
@@ -23,7 +23,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/lokanova_std"
         android:text="EDITAR ACTIVIDAD"
-        android:textColor="#558A9A"
+        android:textColor="#191C1E"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -35,6 +35,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Titulo de la Actividad"
+        android:textColorHint="#A59E9E"
+        app:boxBackgroundColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/textView19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,8 +48,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/actividadEdit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_corner" />
+            android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,6 +57,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Descripción"
+        android:textColorHint="#A59E9E"
+        app:boxBackgroundColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/tituloActividadEdit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,8 +70,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descripcionEdit"
             android:layout_width="match_parent"
-            android:layout_height="95dp"
-            android:background="@drawable/round_corner" />
+            android:layout_height="95dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,6 +81,8 @@
         android:layout_height="51dp"
         android:layout_marginTop="24dp"
         android:hint="@string/select"
+        android:textColorHint="#A59E9E"
+        app:boxBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titulodescripcionEdit">
@@ -87,7 +91,6 @@
             android:id="@+id/delegadoEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_corner"
             android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -99,6 +102,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:hint="Subir Imagen"
+        android:textColorHint="#A59E9E"
+        app:boxBackgroundColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/buttonEditarActividad"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +113,6 @@
             android:id="@+id/imagenEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_corner"
             android:hint="@string/subir_imagen"
             android:textColor="#000000"
             android:textColorHint="#000000" />
@@ -122,7 +126,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="196dp"
-        android:backgroundTint="#558A9A"
+        android:backgroundTint="#191C1E"
         android:text="Editar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

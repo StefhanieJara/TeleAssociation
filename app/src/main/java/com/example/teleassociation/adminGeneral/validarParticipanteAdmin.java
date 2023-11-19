@@ -16,14 +16,21 @@ import android.widget.AutoCompleteTextView;
 import com.example.teleassociation.EmailSender;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.actividad;
+import com.example.teleassociation.dto.usuario;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class validarParticipanteAdmin extends AppCompatActivity {
@@ -33,6 +40,9 @@ public class validarParticipanteAdmin extends AppCompatActivity {
     TextInputLayout textInputNombre;
     TextInputLayout textInputCorreo;
     TextInputEditText textRechazo;
+    FirebaseAuth mAuth;
+    TextView nameUser;
+    com.example.teleassociation.dto.usuario usuario = new usuario();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +54,53 @@ public class validarParticipanteAdmin extends AppCompatActivity {
             actionBar.hide();
         }
         db = FirebaseFirestore.getInstance();
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            String email = user.getEmail();
+            Log.d("msg-test", "El correo que ingresó es: "+email);
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            Log.d("msg-test", "task2 ha sido valido");
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String comentario = (String) document.get("comentario");
+                                String condicion = (String) document.get("condicion");
+                                String pass = (String) document.get("contrasenha");
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+                                String validacion = (String) document.get("validado");
+                                String rol = (String) document.get("rol");
+
+                                if(correo.equals(email)){
+                                    usuario.setComentario(comentario);
+                                    usuario.setCondicion(condicion);
+                                    usuario.setContrasenha(pass);
+                                    usuario.setCorreo(correo);
+                                    usuario.setId(codigo);
+                                    usuario.setNombre(nombre);
+                                    usuario.setRol(rol);
+                                    usuario.setValidado(validacion);
+                                    Log.d("msg-test", "| codigo: " + usuario.getId() + " | nombre: " + usuario.getNombre() + "| correo: "+ usuario.getCorreo() +" | condicion: " + usuario.getCondicion() + " | validacion: " + usuario.getValidado());
+                                    break;
+                                }
+                            }
+                            nameUser = findViewById(R.id.nameUser);
+                            Log.d("msg-test", "El nombre del usuario es: "+usuario.getNombre());
+                            nameUser.setText(usuario.getNombre());
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+
 
         String[] items = {"Si", "No"};
         validacion = findViewById(R.id.validacion);
