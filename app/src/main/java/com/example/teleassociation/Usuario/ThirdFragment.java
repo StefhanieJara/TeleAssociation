@@ -10,14 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
 import com.example.teleassociation.databinding.ActivityInicioUsuarioBinding;
 import com.example.teleassociation.dto.pagos;
+import com.example.teleassociation.dto.usuario;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -26,6 +32,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
  */
 public class ThirdFragment extends Fragment {
     FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    TextView nameUser;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -73,6 +81,14 @@ public class ThirdFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_third, container, false);
         db = FirebaseFirestore.getInstance();
+
+        obtenerDatosUsuario(usuario -> {
+            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
+
+            // Ahora puedes utilizar el nombre del usuario como lo necesites, por ejemplo:
+            nameUser = rootView.findViewById(R.id.nameUser);
+            nameUser.setText(usuario.getNombre());
+        });
 
         Button button9 = rootView.findViewById(R.id.button9);
         TextInputEditText donativo = rootView.findViewById(R.id.donativo);
@@ -127,6 +143,46 @@ public class ThirdFragment extends Fragment {
         }
 
         return randomCode.toString();
+    }
+
+    private void obtenerDatosUsuario(FirstFragment.FirestoreCallback callback) {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        usuario usuario = new usuario();
+
+        if (user != null) {
+            String email = user.getEmail();
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+
+                                if (correo.equals(email)) {
+                                    usuario.setId(codigo);
+                                    usuario.setNombre(nombre);
+                                    usuario.setCorreo(correo);
+                                    // Llamada al método de la interfaz con el nombre del usuario
+                                    callback.onCallback(usuario);
+                                    return;
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+    }
+
+    public interface FirestoreCallback {
+        void onCallback(usuario usuario);
     }
 
 }
