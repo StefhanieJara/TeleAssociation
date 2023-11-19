@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout4"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#191C1E"
+    android:background="#A2C6DD"
     tools:context=".adminGeneral.CrearActividadFragment">
 
     <include
@@ -24,7 +24,7 @@
         android:layout_marginTop="4dp"
         android:fontFamily="@font/lokanova_std"
         android:text="CREAR ACTIVIDAD"
-        android:textColor="#558A9A"
+        android:textColor="#191C1E"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,6 +36,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Titulo de la Actividad"
+        android:textColorHint="#A59E9E"
+        app:boxBackgroundColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/textView19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,8 +49,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/actividad"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_corner" />
+            android:layout_height="wrap_content"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,6 +58,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Descripción"
+        android:textColorHint="#A59E9E"
+        app:boxBackgroundColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/tituloActividad"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -68,8 +71,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descripcion"
             android:layout_width="match_parent"
-            android:layout_height="95dp"
-            android:background="@drawable/round_corner" />
+            android:layout_height="95dp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -80,6 +82,8 @@
         android:layout_height="51dp"
         android:layout_marginTop="24dp"
         android:hint="@string/select"
+        android:textColorHint="#A59E9E"
+        app:boxBackgroundColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titulodescripcion">
@@ -88,7 +92,6 @@
             android:id="@+id/delegado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_corner"
             android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -113,7 +116,7 @@
         android:layout_height="55dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="212dp"
-        android:backgroundTint="#558A9A"
+        android:backgroundTint="#191C1E"
         android:text="Agregar Imagen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -128,7 +131,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="64dp"
-        android:backgroundTint="#558A9A"
+        android:backgroundTint="#191C1E"
         android:text="Guardar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

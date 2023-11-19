@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EditarActividadAdmin extends AppCompatActivity {
 
@@ -42,19 +48,51 @@ public class EditarActividadAdmin extends AppCompatActivity {
         TextInputEditText descripcionEdit = findViewById(R.id.descripcionEdit);
         TextInputEditText imagenEdit = findViewById(R.id.imagenEdit);
 
-        String[] items = {"Diego Lavado", "Leonardo Abanto", "Miguel Ahumada"};
-        String actividadDelegado = getIntent().getStringExtra("actividadDelegado");
-
+        List<String> nombreUsuario = new ArrayList<>();
         delegadoEdit = findViewById(R.id.delegadoEdit);
-        adapterItems = new ArrayAdapter<>(this, R.layout.list_item, items);
-        delegadoEdit.setAdapter(adapterItems);
 
-        delegadoEdit.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedName = adapterView.getItemAtPosition(i).toString();
-                Toast.makeText(EditarActividadAdmin.this, "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
-            }
+        db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(task2 -> {
+                    if (task2.isSuccessful()) {
+                        QuerySnapshot usuariosCollection = task2.getResult();
+                        Log.d("msg-test", "task2 ha sido valido");
+                        for (QueryDocumentSnapshot document : usuariosCollection) {
+                            String codigo = document.getId();
+                            String comentario = (String) document.get("comentario");
+                            String condicion = (String) document.get("condicion");
+                            String pass = (String) document.get("contrasenha");
+                            String correo = (String) document.get("correo");
+                            String nombre = (String) document.get("nombre");
+                            String validacion = (String) document.get("validado");
+                            String rol = (String) document.get("rol");
+
+                            if (rol.equals("Usuario")) {
+                                // usuario.setComentario(comentario);  // Esto no parece ser necesario en este contexto
+                                // ... (Resto de tu código para configurar el objeto usuario)
+
+                                Log.d("msg-test", "| codigo: " + codigo + " | nombre: " + nombre + "| correo: " + correo + " | condicion: " + condicion + " | validacion: " + validacion);
+                                nombreUsuario.add(nombre);
+                            }
+                        }
+
+                        // Convertir la lista de nombres de usuario a un arreglo de String
+                        String[] items = nombreUsuario.toArray(new String[0]);
+
+                        // Inicializar el ArrayAdapter con el nuevo arreglo y establecerlo en el ListView
+                        adapterItems = new ArrayAdapter<>(EditarActividadAdmin.this, R.layout.list_item, items);
+                        delegadoEdit.setAdapter(adapterItems);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Maneja la excepción que ocurra al intentar obtener los documentos
+                    Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                });
+
+        delegadoEdit.setOnItemClickListener((adapterView, view, i, l) -> {
+            String selectedName = adapterView.getItemAtPosition(i).toString();
+            // Puedes realizar acciones con el nombre seleccionado aquí
+            Toast.makeText(EditarActividadAdmin.this, "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
         });
 
         // Obtener los valores restantes
