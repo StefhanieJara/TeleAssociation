@@ -46,14 +46,10 @@ import java.util.List;
 
 
 public class CrearActividadFragment extends Fragment {
-
     FirebaseFirestore db;
-
     private AutoCompleteTextView delegado;
     FirebaseStorage storage;
-
     StorageReference reference;
-
     private ArrayAdapter<String> adapterItems;
     private View rootView; // Declarar rootView aquí
     // URI de la imagen seleccionada
@@ -61,7 +57,6 @@ public class CrearActividadFragment extends Fragment {
     usuario usuario = new usuario();
     FirebaseAuth mAuth;
     TextView nameUser;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -114,14 +109,8 @@ public class CrearActividadFragment extends Fragment {
                     });
         }
 
-
-
-
         storage = FirebaseStorage.getInstance();
-
         reference=storage.getReference();
-
-
 
         Button button12 = rootView.findViewById(R.id.button12);
         Button botonimage = rootView.findViewById(R.id.imagen);
@@ -175,9 +164,7 @@ public class CrearActividadFragment extends Fragment {
             Toast.makeText(requireContext(), "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
         });
 
-        //String[] items = {"Diego Lavado", "Leonardo Abanto", "Miguel Ahumada"};
-        /*String[] items = new String[nombreUsuario.size()];
-        nombreUsuario.toArray(items);
+        /*String[] items = {"Diego Lavado", "Leonardo Abanto", "Miguel Ahumada"};
 
         delegado = rootView.findViewById(R.id.delegado);
         adapterItems = new ArrayAdapter<>(requireContext(), R.layout.list_item, items);
@@ -290,9 +277,4 @@ public class CrearActividadFragment extends Fragment {
                     Log.d("PhotoPicker", "No media selected");
                 }
             });
-
-
-
-
-
 }
