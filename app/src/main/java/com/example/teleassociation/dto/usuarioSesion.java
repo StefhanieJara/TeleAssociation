@@ -1,15 +1,13 @@
 package com.example.teleassociation.dto;
-import java.io.Serializable;
 
-public class usuario implements Serializable {
-
+public class usuarioSesion {
     private String condicion;
     private String contrasenha;
     private String correo;
-    private String nombre;
+    private static String nombre;
     private String rol;
     private String validado;
-    private String id;
+    private static String id;
     private String comentario;
 
     public String getCondicion() {
@@ -36,12 +34,12 @@ public class usuario implements Serializable {
         this.correo = correo;
     }
 
-    public String getNombre() {
+    public static String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public static void setNombre(String nombre) {
+        usuarioSesion.nombre = nombre;
     }
 
     public String getRol() {
@@ -60,12 +58,12 @@ public class usuario implements Serializable {
         this.validado = validado;
     }
 
-    public String getId() {
+    public static String getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public static void setId(String id) {
+        usuarioSesion.id = id;
     }
 
     public String getComentario() {

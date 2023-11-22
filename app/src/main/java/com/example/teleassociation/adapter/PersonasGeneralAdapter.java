@@ -2,6 +2,7 @@ package com.example.teleassociation.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,6 +49,8 @@ public class PersonasGeneralAdapter extends RecyclerView.Adapter<PersonasGeneral
     @Override
     public void onBindViewHolder(@NonNull PersonasGeneralViewHolder holder, int position) {
         usuario usuario = usuarioLista.get(position);
+
+        Log.d("msg-test", " Dentro del onBind | codigo: " + usuario.getId() + " | nombre: " + usuario.getNombre() + " | condicion: " + usuario.getCondicion() + " | validacion: " + usuario.getValidado());
 
         // Asigna los datos a los elementos de la vista
         holder.usuario.setText(usuario.getNombre());

@@ -2,7 +2,6 @@ package com.example.teleassociation.Usuario;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,21 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.adapter.EventAdapter;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.usuario;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.teleassociation.dto.usuarioSesion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -103,7 +97,7 @@ public class FirstFragment extends Fragment {
 
         });
 
-        Log.d("msg-test", "El id del usuario fuera del collection es: " + usuario.getId());
+        Log.d("msg-test", "El id del usuario fuera del collection es: " + usuarioSesion.getId());
 
 
 
@@ -147,10 +141,11 @@ public class FirstFragment extends Fragment {
         return rootView;
     }
 
-    private void obtenerDatosUsuario(FirestoreCallback callback) {
+    private void obtenerDatosUsuario(FirstFragment.FirestoreCallback callback) {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         usuario usuario = new usuario();
+        usuarioSesion usuarioSesion = new usuarioSesion();
 
         if (user != null) {
             String email = user.getEmail();
@@ -166,11 +161,11 @@ public class FirstFragment extends Fragment {
                                 String nombre = (String) document.get("nombre");
 
                                 if (correo.equals(email)) {
-                                    usuario.setId(codigo);
-                                    usuario.setNombre(nombre);
-                                    usuario.setCorreo(correo);
+                                    usuarioSesion.setId(codigo);
+                                    usuarioSesion.setNombre(nombre);
+                                    usuarioSesion.setCorreo(correo);
                                     // Llamada al método de la interfaz con el nombre del usuario
-                                    callback.onCallback(usuario);
+                                    callback.onCallback(usuarioSesion);
                                     return;
                                 }
                             }
@@ -184,7 +179,7 @@ public class FirstFragment extends Fragment {
     }
 
     public interface FirestoreCallback {
-        void onCallback(usuario usuario);
+        void onCallback(usuarioSesion usuario);
     }
 
 }

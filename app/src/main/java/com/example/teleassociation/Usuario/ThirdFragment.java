@@ -9,15 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
-import com.example.teleassociation.databinding.ActivityInicioUsuarioBinding;
 import com.example.teleassociation.dto.pagos;
 import com.example.teleassociation.dto.usuario;
+import com.example.teleassociation.dto.usuarioSesion;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -149,6 +147,7 @@ public class ThirdFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         usuario usuario = new usuario();
+        usuarioSesion usuarioSesion = new usuarioSesion();
 
         if (user != null) {
             String email = user.getEmail();
@@ -164,11 +163,11 @@ public class ThirdFragment extends Fragment {
                                 String nombre = (String) document.get("nombre");
 
                                 if (correo.equals(email)) {
-                                    usuario.setId(codigo);
-                                    usuario.setNombre(nombre);
-                                    usuario.setCorreo(correo);
+                                    usuarioSesion.setId(codigo);
+                                    usuarioSesion.setNombre(nombre);
+                                    usuarioSesion.setCorreo(correo);
                                     // Llamada al método de la interfaz con el nombre del usuario
-                                    callback.onCallback(usuario);
+                                    callback.onCallback(usuarioSesion);
                                     return;
                                 }
                             }

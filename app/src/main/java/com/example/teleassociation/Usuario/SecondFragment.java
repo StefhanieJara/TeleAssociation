@@ -13,10 +13,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
-import com.example.teleassociation.adapter.EventAdapter;
 import com.example.teleassociation.adapter.MisEventAdapter;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.usuario;
+import com.example.teleassociation.dto.usuarioSesion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -107,7 +107,7 @@ public class SecondFragment extends Fragment {
                             String asignacion = (String) document.get("asignacion");
                             String codigo = (String) document.get("codigo");
                             String evento = (String) document.get("evento");
-                            if (usuario.getId().equals(codigo)) {
+                            if (usuarioSesion.getId().equals(codigo)) {
                                 Log.d("msg-test", " | evento: " + evento);
                                 eventosParticipa.add(evento);}}
 
@@ -165,6 +165,7 @@ public class SecondFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         usuario usuario = new usuario();
+        usuarioSesion usuarioSesion = new usuarioSesion();
 
         if (user != null) {
             String email = user.getEmail();
@@ -180,11 +181,11 @@ public class SecondFragment extends Fragment {
                                 String nombre = (String) document.get("nombre");
 
                                 if (correo.equals(email)) {
-                                    usuario.setId(codigo);
-                                    usuario.setNombre(nombre);
-                                    usuario.setCorreo(correo);
+                                    usuarioSesion.setId(codigo);
+                                    usuarioSesion.setNombre(nombre);
+                                    usuarioSesion.setCorreo(correo);
                                     // Llamada al método de la interfaz con el nombre del usuario
-                                    callback.onCallback(usuario);
+                                    callback.onCallback(usuarioSesion);
                                     return;
                                 }
                             }
