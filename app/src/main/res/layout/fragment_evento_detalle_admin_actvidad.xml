@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/system_neutral1_900"
+        android:background="#A2C6DD"
         tools:targetApi="s">
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapView"
@@ -30,7 +30,7 @@
             android:layout_height="56dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#274D76"
+            android:backgroundTint="#191C1E"
             android:text="Subir Foto(s)"
             app:layout_constraintEnd_toStartOf="@+id/verParticipantes"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +43,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="96dp"
             android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="#D2DDC5"
+            app:cardBackgroundColor="#EFEEEE"
             app:cardCornerRadius="10dp"
 
             app:layout_constraintDimensionRatio="w,1:1"
@@ -129,7 +129,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="20dp"
-            app:cardBackgroundColor="#D2DDC5"
+            app:cardBackgroundColor="#EFEEEE"
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -171,7 +171,7 @@
             android:id="@+id/verParticipantes"
             android:layout_width="160dp"
             android:layout_height="56dp"
-            android:backgroundTint="#274D76"
+            android:backgroundTint="#191C1E"
             android:text="Ver Participantes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -185,7 +185,7 @@
             android:layout_width="146dp"
             android:layout_height="43dp"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#558A9A"
+            android:backgroundTint="#191C1E"
             android:text="Editar Evento"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

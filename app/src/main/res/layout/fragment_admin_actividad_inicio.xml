@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".Usuario.inicio_usuario"
-        android:background="#191C1E">
+        android:background="#A2C6DD">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/cointainerView"
@@ -64,7 +64,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             android:gravity="center|start|right|center_horizontal"
             android:text="Eventos"
-            android:textColor="#558A9A"
+            android:textColor="#191C1E"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +75,7 @@
             android:id="@+id/verEventosApoyados"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#274D76"
+            android:backgroundTint="#191C1E"
             android:text="Ver Eventos Apoyados"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

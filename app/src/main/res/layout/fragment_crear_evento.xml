@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/system_neutral1_900"
+        android:background="#A2C6DD"
         tools:context=".CrearEventoDelactvActivity"
         tools:targetApi="s">
 
@@ -22,7 +22,7 @@
             android:layout_marginTop="88dp"
             android:fontFamily="@font/lokanova_std"
             android:text="CREAR EVENTO"
-            android:textColor="#558A9A"
+            android:textColor="#191C1E"
             android:textSize="34sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -37,6 +37,8 @@
             android:layout_marginTop="22dp"
             android:layout_marginEnd="16dp"
             android:hint="Titulo del evento"
+            android:textColorHint="#A59E9E"
+            app:boxBackgroundColor="@color/white"
             app:layout_constraintBottom_toTopOf="@+id/descripcionEvento"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -47,8 +49,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/evento"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round_corner" />
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,6 +61,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:hint="Descripción"
+            android:textColorHint="#A59E9E"
+            app:boxBackgroundColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tituloEvento">
@@ -67,8 +70,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/descripcion"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round_corner" />
+                android:layout_height="wrap_content"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,6 +83,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:hint="Fecha"
+            android:textColorHint="#A59E9E"
+            app:boxBackgroundColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/descripcionEvento">
@@ -88,8 +92,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fecha"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/round_corner" />
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,6 +105,8 @@
             android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
             android:hint="Lugar del Evento"
+            android:textColorHint="#A59E9E"
+            app:boxBackgroundColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fechaDelActv">
@@ -110,7 +115,6 @@
                 android:id="@+id/lugar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/round_corner"
                 android:inputType="none" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -134,7 +138,7 @@
             android:layout_height="55dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="168dp"
-            android:backgroundTint="#558A9A"
+            android:backgroundTint="#191C1E"
             android:text="Agregar Imagen"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -163,7 +167,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="60dp"
-            android:backgroundTint="#558A9A"
+            android:backgroundTint="#191C1E"
             android:text="Guardar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
