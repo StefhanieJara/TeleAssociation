@@ -42,7 +42,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class CrearActividadFragment extends Fragment {
@@ -160,23 +162,10 @@ public class CrearActividadFragment extends Fragment {
 
         delegado.setOnItemClickListener((adapterView, view, i, l) -> {
             String selectedName = adapterView.getItemAtPosition(i).toString();
-            // Puedes realizar acciones con el nombre seleccionado aquí
+
             Toast.makeText(requireContext(), "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
         });
 
-        /*String[] items = {"Diego Lavado", "Leonardo Abanto", "Miguel Ahumada"};
-
-        delegado = rootView.findViewById(R.id.delegado);
-        adapterItems = new ArrayAdapter<>(requireContext(), R.layout.list_item, items);
-        delegado.setAdapter(adapterItems);
-        delegado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedName = adapterView.getItemAtPosition(i).toString();
-                // Puedes realizar acciones con el nombre seleccionado aquí
-                Toast.makeText(requireContext(), "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
-            }
-        });*/
 
         button12.setOnClickListener(view -> {
             String nombreActividad = actividad.getText().toString().trim();
@@ -209,9 +198,40 @@ public class CrearActividadFragment extends Fragment {
                                 .document(cod_al)
                                 .set(actividad1)
                                 .addOnSuccessListener(unused -> {
-                                    Intent intent = new Intent(getContext(), inicioAdmin.class);
-                                    intent.putExtra("Actividad creada.", true);
-                                    startActivity(intent);
+                                    db.collection("usuarios")
+                                            .whereEqualTo("nombre", delegadoName)
+                                            .get()
+                                            .addOnCompleteListener(task -> {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        // Obtener el ID del documento
+                                                        String usuarioId = document.getId();
+
+                                                        // Crear un mapa con los campos que deseas actualizar
+                                                        Map<String, Object> updates = new HashMap<>();
+                                                        updates.put("rol", "DelegadoActividad");
+
+                                                        // Actualizar el documento en la colección "usuarios"
+                                                        db.collection("usuarios")
+                                                                .document(usuarioId)
+                                                                .update(updates)
+                                                                .addOnSuccessListener(aVoid -> {
+                                                                    // La actualización fue exitosa
+                                                                    Intent intent = new Intent(getContext(), inicioAdmin.class);
+                                                                    intent.putExtra("Actividad creada.", true);
+                                                                    startActivity(intent);
+                                                                    Log.d("msg-test", "Usuario actualizado con éxito.");
+                                                                })
+                                                                .addOnFailureListener(e -> {
+                                                                    // Manejar el error en caso de falla en la actualización
+                                                                    Log.e("msg-test", "Error al actualizar usuario: " + e.getMessage());
+                                                                });
+                                                    }
+                                                } else {
+                                                    // Manejar el error en caso de falla en la consulta
+                                                    Log.e("msg-test", "Error al obtener documentos: " + task.getException());
+                                                }
+                                            });
                                 })
                                 .addOnFailureListener(e -> {
                                     Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();

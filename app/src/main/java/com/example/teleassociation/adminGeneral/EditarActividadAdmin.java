@@ -20,13 +20,19 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EditarActividadAdmin extends AppCompatActivity {
 
@@ -163,22 +169,111 @@ public class EditarActividadAdmin extends AppCompatActivity {
 
         buttonEditarActividad.setOnClickListener(view -> {
             String delegadoStr = delegadoEdit.getText().toString().trim();
+            String actividadDelegadoAntiguo = getIntent().getStringExtra("actividadDelegado");
 
             DocumentReference actividadRef = db.collection("actividad").document(actividadID);
+            //DocumentReference actividadRef2 = db.collection("actividad").document(actividadID);
 
             if(delegadoStr.isEmpty()){
                 Toast.makeText(this, "Se debe seleccionar un delegado de actividad", Toast.LENGTH_SHORT).show();
             }else{
-                actividadRef
-                        .update("delegado", delegadoStr)
-                        .addOnSuccessListener(unused -> {
-                            Intent intent = new Intent(this, inicioAdmin.class);
-                            intent.putExtra("Nuevo delegado.", true);
-                            startActivity(intent);
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(this, "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
-                        });
+
+
+                CollectionReference usuariosCollection = FirebaseFirestore.getInstance().collection("usuarios");
+
+                // Consulta para encontrar el documento con el nombre igual a actividadDelegadoAntiguo
+                Query query = usuariosCollection.whereEqualTo("nombre", actividadDelegadoAntiguo);
+
+                query.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+
+                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                            // Se encontraron documentos que cumplen con la condición de la consulta
+                            for (QueryDocumentSnapshot document : querySnapshot) {
+                                // Obtiene el ID del documento para realizar la actualización
+                                String documentId = document.getId();
+
+                                // Actualiza el documento con el nuevo valor para el campo "rol"
+                                usuariosCollection.document(documentId)
+                                        .update("rol", "Usuario")
+                                        .addOnSuccessListener(aVoid -> {
+                                            // La actualización fue exitosa
+                                            Log.d("msg-test", "Documento delegado antiguo actualizado exitosamente.");
+
+
+                                            CollectionReference usuariosCollection2 = FirebaseFirestore.getInstance().collection("usuarios");
+
+                                            // Consulta para encontrar el documento con el nombre igual a delegadoStr
+                                            Query query2 = usuariosCollection2.whereEqualTo("nombre", delegadoStr);
+
+                                            query2.get().addOnCompleteListener(task3 -> {
+                                                if (task3.isSuccessful()) {
+                                                    QuerySnapshot querySnapshot2 = task3.getResult();
+
+                                                    if (querySnapshot2 != null && !querySnapshot2.isEmpty()) {
+                                                        // Se encontraron documentos que cumplen con la condición de la consulta
+                                                        for (QueryDocumentSnapshot document2 : querySnapshot2) {
+                                                            // Obtiene el ID del documento para realizar la actualización
+                                                            String documentId2 = document2.getId();
+
+                                                            // Actualiza el documento con el nuevo valor para el campo "rol"
+                                                            usuariosCollection2.document(documentId2)
+                                                                    .update("rol", "DelegadoActividad")
+                                                                    .addOnSuccessListener(aVoid2 -> {
+                                                                        // La actualización fue exitosa
+                                                                        Log.d("msg-test", "Documento actualizado exitosamente para el nuevo delegado.");
+                                                                        actividadRef
+                                                                                .update("delegado", delegadoStr)
+                                                                                .addOnSuccessListener(unused -> {
+                                                                                    Intent intent = new Intent(this, inicioAdmin.class);
+                                                                                    intent.putExtra("Nuevo delegado.", true);
+                                                                                    startActivity(intent);
+                                                                                    Log.d("msg-test", "Usuario actualizado con éxito.");
+                                                                                })
+                                                                                .addOnFailureListener(e -> {
+                                                                                    Toast.makeText(this, "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                                                                });
+                                                                    })
+                                                                    .addOnFailureListener(e -> {
+                                                                        // Maneja la excepción en caso de error en la actualización
+                                                                        Log.e("msg-test", "Error al actualizar el documento: " + e.getMessage());
+                                                                    });
+                                                        }
+                                                    } else {
+                                                        // No se encontraron documentos que cumplan con la condición de la consulta
+                                                        Log.d("msg-test", "No se encontraron documentos con nombre igual a " + delegadoStr);
+                                                    }
+                                                } else {
+                                                    // Maneja el error en caso de falla en la consulta
+                                                    Log.e("msg-test", "Error al obtener documentos: " + task.getException());
+                                                }
+                                            });
+
+
+
+
+
+
+
+
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // Maneja la excepción en caso de error en la actualización
+                                            Log.e("msg-test", "Error al actualizar el documento: " + e.getMessage());
+                                        });
+                            }
+                        } else {
+                            // No se encontraron documentos que cumplan con la condición de la consulta
+                            Log.d("msg-test", "No se encontraron documentos con nombre igual a " + actividadDelegadoAntiguo);
+                        }
+                    } else {
+                        // Maneja el error en caso de falla en la consulta
+                        Log.e("msg-test", "Error al obtener documentos: " + task.getException());
+                    }
+                });
+
+
             }
         });
 

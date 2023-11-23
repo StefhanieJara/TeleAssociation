@@ -2,6 +2,8 @@ package com.example.teleassociation.adminActividad;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -37,7 +39,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class EditarEventoFragment extends Fragment {
 
@@ -68,12 +72,14 @@ public class EditarEventoFragment extends Fragment {
         TextInputEditText lugar = view.findViewById(R.id.lugarDelEvento);
         String eventoParticipante = getArguments().getString("nombreEvento"); // Asegúrate de que sea "nombreEvento" y no "nombre_evento"
 
+        fecha.setOnClickListener(v -> showDateTimePickerDialog());
+
         buttonEditarActividad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String tituloEvento = titulo.getText().toString();
                 String descripcionEvento = descripcion.getText().toString();
-                String fechaEvento = fecha.getText().toString();
+                String fechaEvento = fecha.getText().toString().trim();
                 String lugarEvento = lugar.getText().toString();
 
                 actualizarInformacionFirebase(eventoParticipante, tituloEvento, descripcionEvento, fechaEvento, lugarEvento);
@@ -126,5 +132,50 @@ public class EditarEventoFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+
+    private void showDateTimePickerDialog() {
+        // Obtén la fecha y la hora actuales
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        // Crea una instancia de DatePickerDialog para seleccionar la fecha
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                requireContext(),
+                (view, selectedYear, selectedMonth, selectedDay) -> {
+                    // El usuario ha seleccionado una fecha
+                    Calendar selectedDateTime = Calendar.getInstance();
+                    selectedDateTime.set(selectedYear, selectedMonth, selectedDay);
+
+                    // Crea una instancia de TimePickerDialog para seleccionar la hora
+                    TimePickerDialog timePickerDialog = new TimePickerDialog(
+                            requireContext(),
+                            (view1, selectedHour, selectedMinute) -> {
+                                // El usuario ha seleccionado la hora
+                                selectedDateTime.set(Calendar.HOUR_OF_DAY, selectedHour);
+                                selectedDateTime.set(Calendar.MINUTE, selectedMinute);
+
+                                // Formatea la fecha y la hora según el patrón deseado
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                                String formattedDateTime = dateFormat.format(selectedDateTime.getTime());
+
+                                // Actualiza el texto en el TextInputEditText con la fecha y la hora formateadas
+                                TextInputEditText fechaEditText = requireView().findViewById(R.id.fecha);
+                                fechaEditText.setText(formattedDateTime);
+                            },
+                            hour, minute, true);
+
+                    // Muestra el TimePickerDialog
+                    timePickerDialog.show();
+                },
+                year, month, day);
+
+        // Muestra el DatePickerDialog
+        datePickerDialog.show();
     }
 }

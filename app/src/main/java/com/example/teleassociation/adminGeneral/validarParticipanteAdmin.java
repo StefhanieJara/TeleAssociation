@@ -39,7 +39,6 @@ public class validarParticipanteAdmin extends AppCompatActivity {
     private ArrayAdapter<String> adapterItems;
     TextInputLayout textInputNombre;
     TextInputLayout textInputCorreo;
-    TextInputEditText textRechazo;
     FirebaseAuth mAuth;
     TextView nameUser;
     com.example.teleassociation.dto.usuario usuario = new usuario();
@@ -48,6 +47,8 @@ public class validarParticipanteAdmin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_validar_participante_admin);
+        final TextInputEditText textRechazo = findViewById(R.id.rechazo);
+        final TextInputLayout textHint = findViewById(R.id.motivoHint);
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -112,6 +113,14 @@ public class validarParticipanteAdmin extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String selectedName = adapterView.getItemAtPosition(i).toString();
                 Toast.makeText(validarParticipanteAdmin.this, "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
+
+                if ("Si".equals(selectedName)) {
+                    textRechazo.setVisibility(View.GONE);
+                    textHint.setVisibility(View.GONE);
+                } else {
+                    textRechazo.setVisibility(View.VISIBLE);
+                    textHint.setVisibility(View.VISIBLE);
+                }
             }
         });
 
@@ -131,7 +140,6 @@ public class validarParticipanteAdmin extends AppCompatActivity {
         Button button16 = findViewById(R.id.button16);
 
         button16.setOnClickListener(view -> {
-            textRechazo = findViewById(R.id.rechazo);
             String rechazo = textRechazo.getText().toString().trim();
             String validacionStr = validacion.getText().toString().trim();
 
