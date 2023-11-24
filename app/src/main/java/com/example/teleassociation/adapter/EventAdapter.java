@@ -36,6 +36,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     FirebaseFirestore db;
     FirebaseAuth mAuth;
 
+    private String delegadoActividad;
+
+    public EventAdapter(String delegadoActividad) {
+        this.delegadoActividad = delegadoActividad;
+    }
+
     public EventAdapter() {
         this.context = context;
     }
@@ -76,23 +82,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     .load(event.getUrl_imagen())
                     .into(holder.imageEvento);
         }
-        // Aquí puedes asignar otros datos como la descripción, estado, actividad, etc.
 
-        // Configura el OnClickListener para el botón "Apoyar"
-        holder.buttonApoyarEvento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final EventViewHolder finalHolder = holder;
-                showConfirmationDialog(event, finalHolder);
-                /*int apoyosActual = Integer.parseInt(event.getApoyos());
-                apoyosActual++;
-                String nuevoValorApoyos = String.valueOf(apoyosActual);
-
-                actualizarCampoApoyos(event.getId(), nuevoValorApoyos);
-                registrarParticipantes(event.getNombre());
-                holder.cantApoyos.setText("Apoyos: " + nuevoValorApoyos);*/
-            }
-        });
+        // Aquí agregamos la condición para ocultar el botón
+        if (delegadoActividad != null && delegadoActividad.equals(event.getNombre())) {
+            holder.buttonApoyarEvento.setVisibility(View.GONE);
+        } else {
+            holder.buttonApoyarEvento.setVisibility(View.VISIBLE);
+            // Configuramos el OnClickListener solo si el botón está visible
+            holder.buttonApoyarEvento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final EventViewHolder finalHolder = holder;
+                    showConfirmationDialog(event, finalHolder);
+                }
+            });
+        }
 
         holder.buttonVerEvento.setOnClickListener(new View.OnClickListener() {
             @Override

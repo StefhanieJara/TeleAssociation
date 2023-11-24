@@ -12,6 +12,15 @@ public class eventoCrear {
     private String nombre;
     private String nombre_actividad;
     private String nombre_lugar;
+    private String delegado;
+
+    public String getDelegado() {
+        return delegado;
+    }
+
+    public void setDelegado(String delegado) {
+        this.delegado = delegado;
+    }
 
     private String url_imagen;
 

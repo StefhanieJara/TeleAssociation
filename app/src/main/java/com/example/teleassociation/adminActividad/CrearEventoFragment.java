@@ -25,13 +25,21 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
+import com.example.teleassociation.adminActividad.CrearEventoFragment;
 import com.example.teleassociation.adminGeneral.inicioAdmin;
 import com.example.teleassociation.dto.actividad;
 import com.example.teleassociation.dto.evento;
 import com.example.teleassociation.dto.eventoCrear;
+import com.example.teleassociation.dto.usuario;
+import com.example.teleassociation.dto.usuarioSesion;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -40,13 +48,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class CrearEventoFragment extends Fragment {
 
     FirebaseFirestore db;
     FirebaseStorage storage;
     StorageReference reference;
+    FirebaseAuth mAuth;
+    String nombreDelegado;
 
     private AutoCompleteTextView lugar;
     private ArrayAdapter<String> adapterItems;
@@ -65,113 +77,144 @@ public class CrearEventoFragment extends Fragment {
 
         reference=storage.getReference();
 
+        obtenerDatosUsuario(usuarioSesion -> {
+            //Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
+            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuarioSesion.getNombre());
+            nombreDelegado = usuarioSesion.getNombre();
+            // Ahora puedes utilizar el nombre del usuario como lo necesites, por ejemplo:
 
-        TextInputEditText fechaEditText = rootView.findViewById(R.id.fecha);
-        TextInputEditText eventoNombre = rootView.findViewById(R.id.evento);
-        TextInputEditText descripcion = rootView.findViewById(R.id.descripcion);
-        Button button80 = rootView.findViewById(R.id.button80);
-        Button botonimage = rootView.findViewById(R.id.imagen);
+            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + nombreDelegado);
+
+            db.collection("actividad")
+                    .whereEqualTo("delegado", nombreDelegado)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                            String nombreActividad = documentSnapshot.getString("nombre");
+
+                            TextInputEditText fechaEditText = rootView.findViewById(R.id.fecha);
+                            TextInputEditText eventoNombre = rootView.findViewById(R.id.evento);
+                            TextInputEditText descripcion = rootView.findViewById(R.id.descripcion);
+                            Button button80 = rootView.findViewById(R.id.button80);
+                            Button botonimage = rootView.findViewById(R.id.imagen);
 
 
-        String[] items = {"Minas", "Bati", "Digimundo", "Estacionamiento de Letras", "Polideportivo"};
+                            String[] items = {"Minas", "Bati", "Digimundo", "Estacionamiento de Letras", "Polideportivo"};
 
-        lugar = rootView.findViewById(R.id.lugar);
-        adapterItems = new ArrayAdapter<>(requireContext(), R.layout.list_item, items);
-        lugar.setAdapter(adapterItems);
+                            lugar = rootView.findViewById(R.id.lugar);
+                            adapterItems = new ArrayAdapter<>(requireContext(), R.layout.list_item, items);
+                            lugar.setAdapter(adapterItems);
 
-        lugar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String selectedName = adapterView.getItemAtPosition(i).toString();
-                // Puedes realizar acciones con el nombre seleccionado aquí
-                Toast.makeText(requireContext(), "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
-            }
-        });
+                            lugar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                    String selectedName = adapterView.getItemAtPosition(i).toString();
+                                    // Puedes realizar acciones con el nombre seleccionado aquí
+                                    Toast.makeText(requireContext(), "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
+                                }
+                            });
 
-        fechaEditText.setOnClickListener(v -> showDateTimePickerDialog());
+                            fechaEditText.setOnClickListener(v -> showDateTimePickerDialog());
 
-        button80.setOnClickListener(view -> {
-            String nombreEvento = eventoNombre.getText().toString().trim();
-            String descripcionEvento = descripcion.getText().toString().trim();
-            String lugarName = lugar.getText().toString().trim();
-            String fecha = fechaEditText.getText().toString().trim();
+                            button80.setOnClickListener(view -> {
+                                String nombreEvento = eventoNombre.getText().toString().trim();
+                                String descripcionEvento = descripcion.getText().toString().trim();
+                                String lugarName = lugar.getText().toString().trim();
+                                String fecha = fechaEditText.getText().toString().trim();
 
-            if (nombreEvento.isEmpty() || descripcionEvento.isEmpty() || lugarName.isEmpty()) {
-                Toast.makeText(getContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show();
-            } else {
-                String cod_al = generateRandomCode();
+                                if (nombreEvento.isEmpty() || descripcionEvento.isEmpty() || lugarName.isEmpty()) {
+                                    Toast.makeText(getContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    String cod_al = generateRandomCode();
 
-                eventoCrear evento = new eventoCrear();
-                evento.setApoyos("0");
-                evento.setDescripcion(descripcionEvento);
-                evento.setEstado("proceso");
-                evento.setNombre(nombreEvento);
-                evento.setNombre_actividad("");
-                evento.setNombre_lugar(lugarName);
-                evento.setNombre_actividad("futbol");
+                                    eventoCrear evento = new eventoCrear();
+                                    evento.setApoyos("0");
+                                    evento.setDescripcion(descripcionEvento);
+                                    evento.setEstado("proceso");
+                                    evento.setNombre(nombreEvento);
+                                    evento.setNombre_lugar(lugarName);
+                                    evento.setNombre_actividad(nombreActividad);
+                                    evento.setDelegado(nombreDelegado);
 
-                // Subir la imagen a Firebase Storage
-                StorageReference imageRef = reference.child("eventos/" + uri.getLastPathSegment());
-                UploadTask uploadTask = imageRef.putFile(uri);
+                                    // Subir la imagen a Firebase Storage
+                                    StorageReference imageRef = reference.child("eventos/" + uri.getLastPathSegment());
+                                    UploadTask uploadTask = imageRef.putFile(uri);
 
-                uploadTask.addOnFailureListener(exception -> {
-                    exception.printStackTrace();
-                    Log.e("msg-test", "Error en la carga de la imagen", exception);
-                }).addOnSuccessListener(taskSnapshot -> {
-                    // Obtén la URL de la imagen subida
-                    imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
-                        // Guarda la URL de la imagen en el evento
-                        evento.setUrl_imagen(downloadUri.toString());
+                                    uploadTask.addOnFailureListener(exception -> {
+                                        exception.printStackTrace();
+                                        Log.e("msg-test", "Error en la carga de la imagen", exception);
+                                    }).addOnSuccessListener(taskSnapshot -> {
+                                        // Obtén la URL de la imagen subida
+                                        imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                                            // Guarda la URL de la imagen en el evento
+                                            evento.setUrl_imagen(downloadUri.toString());
 
-                        // Manejo del formato de fecha
-                        String fechaHoraString = "2023-11-01 15:30:00";
-                        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                            // Manejo del formato de fecha
+                                            //String fechaHoraString = "2023-11-01 15:30:00";
+                                            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                        try {
-                            // Parsea la cadena en un objeto Date
-                            //Date fechaHoraDate = formato.parse(fechaHoraString);
-                            Date fechaHoraDate = formato.parse(fecha);
+                                            try {
+                                                // Parsea la cadena en un objeto Date
+                                                //Date fechaHoraDate = formato.parse(fechaHoraString);
+                                                Date fechaHoraDate = formato.parse(fecha);
 
-                            // Crea un Timestamp a partir del objeto Date
-                            Timestamp timestamp = new Timestamp(fechaHoraDate);
-                            evento.setFecha(timestamp);
+                                                // Crea un Timestamp a partir del objeto Date
+                                                Timestamp timestamp = new Timestamp(fechaHoraDate);
+                                                evento.setFecha(timestamp);
 
-                            Log.d("msg-test", evento.getNombre() + " " + evento.getNombre_lugar() + " .");
+                                                Log.d("msg-test", evento.getNombre() + " " + evento.getNombre_lugar() + " .");
 
-                            db.collection("eventos")
-                                    .document(cod_al)
-                                    .set(evento)
-                                    .addOnSuccessListener(unused -> {
-                                        Intent intent = new Intent(getContext(), ListaActividadesDelactvActivity.class);
-                                        intent.putExtra("Evento creado.", true);
-                                        startActivity(intent);
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                                db.collection("eventos")
+                                                        .document(cod_al)
+                                                        .set(evento)
+                                                        .addOnSuccessListener(unused -> {
+                                                            Intent intent = new Intent(getContext(), ListaActividadesDelactvActivity.class);
+                                                            intent.putExtra("Evento creado.", true);
+                                                            startActivity(intent);
+                                                        })
+                                                        .addOnFailureListener(e -> {
+                                                            Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                                        });
+
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                                Log.e("msg-test", "Error en el bloque try-catch", e);
+                                            }
+                                        });
+                                    }).addOnProgressListener(snapshot -> {
+                                        long bytesTransferred = snapshot.getBytesTransferred();
+                                        long totalByteCount = snapshot.getTotalByteCount();
+                                        double porcentajeSubida = Math.round(bytesTransferred * 1.0f / totalByteCount * 100);
+                                        TextView textoSubida = rootView.findViewById(R.id.subiendo);
+                                        textoSubida.setText(porcentajeSubida + "%");
                                     });
+                                }
+                            });
 
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            Log.e("msg-test", "Error en el bloque try-catch", e);
+                            botonimage.setOnClickListener(view -> {
+                                pickMedia.launch(new PickVisualMediaRequest.Builder()
+                                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                                        .build());
+                            });
+
+
+                        } else {
+                            // Manejar el error en caso de falla en la consulta
+                            Log.e("msg-test", "Error al obtener documentos: " + task.getException());
                         }
                     });
-                }).addOnProgressListener(snapshot -> {
-                    long bytesTransferred = snapshot.getBytesTransferred();
-                    long totalByteCount = snapshot.getTotalByteCount();
-                    double porcentajeSubida = Math.round(bytesTransferred * 1.0f / totalByteCount * 100);
-                    TextView textoSubida = rootView.findViewById(R.id.subiendo);
-                    textoSubida.setText(porcentajeSubida + "%");
-                });
-            }
+
+
+
         });
 
-        botonimage.setOnClickListener(view -> {
-            pickMedia.launch(new PickVisualMediaRequest.Builder()
-                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                    .build());
-        });
+
 
         return rootView;
+
+
     }
 
 
@@ -245,5 +288,46 @@ public class CrearEventoFragment extends Fragment {
 
         // Muestra el DatePickerDialog
         datePickerDialog.show();
+    }
+
+
+    private void obtenerDatosUsuario(CrearEventoFragment.FirestoreCallback callback) {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        usuarioSesion usuarioSesion = new usuarioSesion();
+
+        if (user != null) {
+            String email = user.getEmail();
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+
+                                if (correo.equals(email)) {
+                                    usuarioSesion.setId(codigo);
+                                    usuarioSesion.setNombre(nombre);
+                                    usuarioSesion.setCorreo(correo);
+                                    // Llamada al método de la interfaz con el nombre del usuario
+                                    callback.onCallback(usuarioSesion);
+                                    return;
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+    }
+
+    public interface FirestoreCallback {
+        void onCallback(usuarioSesion usuario);
     }
 }

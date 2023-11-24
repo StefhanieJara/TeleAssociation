@@ -119,10 +119,10 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
             public void onClick(View v) {
                 // Tu lógica para el botón VerEventosFinalizados
 
-                EventosApoyadosFragment fragment = EventosApoyadosFragment.newInstance(nombreActividad);
+                EventosFinalizadosFragment fragment1 = EventosFinalizadosFragment.newInstance(nombreActividad);
 
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, fragment)
+                        .replace(R.id.frame_container, fragment1)
                         .addToBackStack(null)
                         .commit();
             }

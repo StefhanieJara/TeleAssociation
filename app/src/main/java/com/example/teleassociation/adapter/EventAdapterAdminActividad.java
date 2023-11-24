@@ -37,7 +37,7 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
         this.listener = listener;
     }
 
-    public EventAdapterAdminActividad() {
+    public EventAdapterAdminActividad(String delegadoAct) {
         this.context = context;
     }
 

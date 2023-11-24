@@ -43,11 +43,11 @@ public class resetPassword extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.d("msg-test", "Email sent.");
-                                Toast.makeText(resetPassword.this, "Correcto",
-                                        Toast.LENGTH_SHORT).show();
-                                /*Intent intent = new Intent(resetPassword.this, MainActivity.class);
+                                /*Toast.makeText(resetPassword.this, "Correcto",
+                                        Toast.LENGTH_SHORT).show();*/
+                                Intent intent = new Intent(resetPassword.this, MainActivity.class);
                                 intent.putExtra("resetPassword", true);
-                                startActivity(intent);*/
+                                startActivity(intent);
                             }
                         }
                     })

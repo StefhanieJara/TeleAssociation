@@ -10,7 +10,15 @@ public class eventoListarUsuario {
     private String apoyos;
     private String nombre_actividad;
     private String url_imagen;
+    private String delegado;
 
+    public String getDelegado() {
+        return delegado;
+    }
+
+    public void setDelegado(String delegado) {
+        this.delegado = delegado;
+    }
 
     public String getNombre_actividad() {
         return nombre_actividad;
