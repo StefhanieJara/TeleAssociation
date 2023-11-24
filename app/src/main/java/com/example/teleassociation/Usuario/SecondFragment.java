@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
+import com.example.teleassociation.Usuario.SecondFragment;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -161,7 +161,7 @@ public class SecondFragment extends Fragment {
         return rootView;
     }
 
-    private void obtenerDatosUsuario(FirstFragment.FirestoreCallback callback) {
+    private void obtenerDatosUsuario(SecondFragment.FirestoreCallback callback) {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         usuario usuario = new usuario();
@@ -199,6 +199,6 @@ public class SecondFragment extends Fragment {
     }
 
     public interface FirestoreCallback {
-        void onCallback(usuario usuario);
+        void onCallback(usuarioSesion usuario);
     }
 }

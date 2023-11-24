@@ -20,6 +20,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import com.example.teleassociation.Usuario.ThirdFragment;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -143,7 +145,7 @@ public class ThirdFragment extends Fragment {
         return randomCode.toString();
     }
 
-    private void obtenerDatosUsuario(FirstFragment.FirestoreCallback callback) {
+    private void obtenerDatosUsuario(ThirdFragment.FirestoreCallback callback) {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         usuario usuario = new usuario();
@@ -181,7 +183,7 @@ public class ThirdFragment extends Fragment {
     }
 
     public interface FirestoreCallback {
-        void onCallback(usuario usuario);
+        void onCallback(usuarioSesion usuario);
     }
 
 }
