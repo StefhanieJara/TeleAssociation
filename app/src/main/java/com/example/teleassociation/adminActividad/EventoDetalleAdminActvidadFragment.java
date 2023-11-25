@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.dto.usuarioSesion;
 import com.example.teleassociation.subirFotoEventAlum;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -70,6 +71,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
     LatLng destinoLatLng;
     FirebaseAuth mAuth;
     TextView nameUser;
+    String delegadoSesion;
 
     public static EventoDetalleAdminActvidadFragment newInstance(String nombreEvento) {
         EventoDetalleAdminActvidadFragment fragment = new EventoDetalleAdminActvidadFragment();
@@ -83,7 +85,9 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_evento_detalle_admin_actvidad, container, false);
-// Obtén la referencia al MapView desde el layout
+
+
+        // Obtén la referencia al MapView desde el layout
         // Obtén la referencia al MapView desde el layout
         mapView = view.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
@@ -99,141 +103,137 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
         // Inicializa Firestore
         db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        db.collection("usuarios")
-                .whereEqualTo("correo", user.getEmail())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
+        obtenerDatosUsuario(usuarioSesion -> {
+            nameUser = view.findViewById(R.id.nameUser);
+            nameUser.setText(usuarioSesion.getNombre());
+            delegadoSesion=usuarioSesion.getNombre();
 
-                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                            // Solo debería haber un documento, ya que estamos buscando por correo único
-                            DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+            // Obtén una referencia al documento o la colección que necesitas
+            // Por ejemplo, si tienes una colección llamada "eventos":
+            db.collection("eventos")
+                    .whereEqualTo("nombre", nombreEvento)  // Filtra por documentos con el campo "nombre" igual a nombreEvento
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                        @Override
+                        public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            // Verifica si se encontraron documentos
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                // Si hay documentos, obtén el primero (en este caso asumimos que solo hay uno)
+                                DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
 
-                            // Obtener los campos deseados
-                            String correo = documentSnapshot.getString("correo");
-                            String id = documentSnapshot.getId(); // ID del documento
-                            String nombre = documentSnapshot.getString("nombre");
-                            String rol = documentSnapshot.getString("rol");
+                                // Ahora puedes obtener los datos del documento
+                                String nombreEvento = documentSnapshot.getString("nombre");
 
-                            // Hacer algo con los datos obtenidos
-                            // Por ejemplo, mostrarlos en el log
-                            Log.d("msg-test", "Correo: " + correo);
-                            Log.d("msg-test", "ID: " + id);
-                            Log.d("msg-test", "Nombre: " + nombre);
-                            Log.d("msg-test", "Rol: " + rol);
+                                Date date = documentSnapshot.getDate("fecha");
+                                String fechaSt = date.toString();
+                                String[] partes = fechaSt.split(" ");
+                                String fechaEvento = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
+                                String horaEvento = partes[3];
+                                String apoyos = (String) documentSnapshot.get("apoyos");
+                                String descripcion = (String) documentSnapshot.get("descripcion");
+                                String delegado = (String) documentSnapshot.get("delegado");
+                                Log.d("msg-test", " | nombre: " + nombreEvento + " | fecha: " + fechaEvento + " | hora: " + horaEvento + "| delegado: "+delegado);
+                                nombreEventoParticipante = nombreEvento;
 
-                            Log.d("msg-test", "El nombre del usuario fuera del collection es deleact: " + nombre);
-                            nameUser = view.findViewById(R.id.nameUser);
-                            nameUser.setText(nombre);
-                        } else {
-                            Log.d("msg-test", "No se encontró un usuario con el correo proporcionado.");
+                                // Ahora puedes actualizar tus TextViews u otros elementos de la vista
+                                TextView textViewNombreEvento = view.findViewById(R.id.evento);
+                                TextView textViewFecha = view.findViewById(R.id.fecha);
+                                TextView textViewHora = view.findViewById(R.id.hora);
+                                TextView textViewApoyos = view.findViewById(R.id.apoyos);
+                                TextView textViewDescripcion = view.findViewById(R.id.descripcionEvento);
+
+                                textViewNombreEvento.setText(nombreEvento);
+                                textViewFecha.setText("Fecha: " + fechaEvento);
+                                textViewHora.setText("Hora: " + horaEvento);
+                                textViewApoyos.setText("Apoyos: " + apoyos);
+                                textViewDescripcion.setText(descripcion);
+
+                                Button editarEvento = view.findViewById(R.id.editarEvento);
+                                if(delegadoSesion.equals(delegado)){
+                                    editarEvento.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            // Crear un Intent o Fragment y pasar el nombre del evento como argumento
+                                            String nombreEvento = nombreEventoParticipante;
+
+                                            // O si estás iniciando un nuevo Fragment:
+
+                                            EditarEventoFragment fragment = EditarEventoFragment.newInstance(nombreEvento);
+                                            getParentFragmentManager().beginTransaction()
+                                                    .replace(R.id.frame_container, fragment)
+                                                    .addToBackStack(null)
+                                                    .commit();
+
+                                        }
+                                    });
+                                }else{
+                                    editarEvento.setVisibility(View.GONE);
+                                }
+
+
+                            } else {
+                                Log.d("msg-test", "El documento no existe");
+                            }
                         }
-                    } else {
-                        Log.e("msg-test", "Error al obtener documentos: " + task.getException());
-                    }
-                });
-
-        // Obtén una referencia al documento o la colección que necesitas
-        // Por ejemplo, si tienes una colección llamada "eventos":
-        db.collection("eventos")
-                .whereEqualTo("nombre", nombreEvento)  // Filtra por documentos con el campo "nombre" igual a nombreEvento
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        // Verifica si se encontraron documentos
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            // Si hay documentos, obtén el primero (en este caso asumimos que solo hay uno)
-                            DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
-
-                            // Ahora puedes obtener los datos del documento
-                            String nombreEvento = documentSnapshot.getString("nombre");
-
-                            Date date = documentSnapshot.getDate("fecha");
-                            String fechaSt = date.toString();
-                            String[] partes = fechaSt.split(" ");
-                            String fechaEvento = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
-                            String horaEvento = partes[3];
-                            String apoyos = (String) documentSnapshot.get("apoyos");
-                            String descripcion = (String) documentSnapshot.get("descripcion");
-                            Log.d("msg-test", " | nombre: " + nombreEvento + " | fecha: " + fechaEvento + " | hora: " + horaEvento);
-                            nombreEventoParticipante = nombreEvento;
-
-                            // Ahora puedes actualizar tus TextViews u otros elementos de la vista
-                            TextView textViewNombreEvento = view.findViewById(R.id.evento);
-                            TextView textViewFecha = view.findViewById(R.id.fecha);
-                            TextView textViewHora = view.findViewById(R.id.hora);
-                            TextView textViewApoyos = view.findViewById(R.id.apoyos);
-                            TextView textViewDescripcion = view.findViewById(R.id.descripcionEvento);
-
-                            textViewNombreEvento.setText(nombreEvento);
-                            textViewFecha.setText("Fecha: " + fechaEvento);
-                            textViewHora.setText("Hora: " + horaEvento);
-                            textViewApoyos.setText("Apoyos: " + apoyos);
-                            textViewDescripcion.setText(descripcion);
-
-                        } else {
-                            Log.d("msg-test", "El documento no existe");
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("msg-test", "Error al obtener documento: " + e.getMessage());
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("msg-test", "Error al obtener documento: " + e.getMessage());
-                    }
-                });
-        Button btnVerParticipantes = view.findViewById(R.id.verParticipantes);
-        btnVerParticipantes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Crear un Intent o Fragment y pasar el nombre del evento como argumento
-                String nombreEvento = nombreEventoParticipante;
+                    });
+            Button btnVerParticipantes = view.findViewById(R.id.verParticipantes);
+            btnVerParticipantes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Crear un Intent o Fragment y pasar el nombre del evento como argumento
+                    String nombreEvento = nombreEventoParticipante;
 
-                // O si estás iniciando un nuevo Fragment:
+                    // O si estás iniciando un nuevo Fragment:
 
-                ListaParticipantesFragment fragment = ListaParticipantesFragment.newInstance(nombreEvento);
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                    ListaParticipantesFragment fragment = ListaParticipantesFragment.newInstance(nombreEvento);
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.frame_container, fragment)
+                            .addToBackStack(null)
+                            .commit();
 
-            }
+                }
+            });
+            /*Button editarEvento = view.findViewById(R.id.editarEvento);
+            editarEvento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Crear un Intent o Fragment y pasar el nombre del evento como argumento
+                    String nombreEvento = nombreEventoParticipante;
+
+                    // O si estás iniciando un nuevo Fragment:
+
+                    EditarEventoFragment fragment = EditarEventoFragment.newInstance(nombreEvento);
+                    getParentFragmentManager().beginTransaction()
+                            .replace(R.id.frame_container, fragment)
+                            .addToBackStack(null)
+                            .commit();
+
+                }
+            });*/
+            Button subirFoto = view.findViewById(R.id.subirFoto);
+
+            subirFoto.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Aquí se ejecuta cuando se hace clic en el botón
+
+                    // Crear el Intent para abrir SubirFoto
+                    Intent intent = new Intent(getActivity(), subirFotoEventAlum.class);
+
+                    // Lanzar la nueva actividad
+                    startActivity(intent);
+                }
+            });
+
         });
-        Button editarEvento = view.findViewById(R.id.editarEvento);
-        editarEvento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Crear un Intent o Fragment y pasar el nombre del evento como argumento
-                String nombreEvento = nombreEventoParticipante;
 
-                // O si estás iniciando un nuevo Fragment:
 
-                EditarEventoFragment fragment = EditarEventoFragment.newInstance(nombreEvento);
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, fragment)
-                        .addToBackStack(null)
-                        .commit();
-
-            }
-        });
-        Button subirFoto = view.findViewById(R.id.subirFoto);
-
-        subirFoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Aquí se ejecuta cuando se hace clic en el botón
-
-                // Crear el Intent para abrir SubirFoto
-                Intent intent = new Intent(getActivity(), subirFotoEventAlum.class);
-
-                // Lanzar la nueva actividad
-                startActivity(intent);
-            }
-        });
 
 
         return view;
@@ -279,7 +279,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
     private void obtenerUbicacionActual() {
 
-// Realizar la consulta para encontrar el evento por su nombre
+    // Realizar la consulta para encontrar el evento por su nombre
         db.collection("eventos")
                 .whereEqualTo("nombre", nombreEvento)
                 .get()
@@ -506,6 +506,49 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+    }
+
+    private void obtenerDatosUsuario(EventoDetalleAdminActvidadFragment.FirestoreCallback callback) {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        usuarioSesion usuarioSesion = new usuarioSesion();
+
+        if (user != null) {
+            String email = user.getEmail();
+
+            Log.d("msg-test", "el email es: " + email);
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+
+                                if (correo.equals(email)) {
+                                    Log.d("msg-test", "datos del usuario " + codigo + "  correo " + " nombre");
+                                    usuarioSesion.setId(codigo);
+                                    usuarioSesion.setNombre(nombre);
+                                    usuarioSesion.setCorreo(correo);
+                                    // Llamada al método de la interfaz con el nombre del usuario
+                                    callback.onCallback(usuarioSesion);
+                                    return;
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+    }
+
+    public interface FirestoreCallback {
+        void onCallback(usuarioSesion usuario);
     }
 
 }

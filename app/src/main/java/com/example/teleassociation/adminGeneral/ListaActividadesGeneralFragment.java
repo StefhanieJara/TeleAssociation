@@ -26,9 +26,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,7 +105,7 @@ public class ListaActividadesGeneralFragment extends Fragment {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         QuerySnapshot eventosCollection = task.getResult();
-
+                        SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
                         if(eventLista.isEmpty()){
                             for (QueryDocumentSnapshot document : eventosCollection) {
                                 String nombre = (String) document.get("nombre");
@@ -113,7 +115,9 @@ public class ListaActividadesGeneralFragment extends Fragment {
                                 String fechaSt = date.toString();
                                 String url_imagen = (String) document.get("url_imagen");
                                 String[] partes = fechaSt.split(" ");
-                                String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                String fecha = formatoFechaEsp.format(date);
                                 String hora = partes[3];
                                 eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
                                 eventLista.add(eventos);

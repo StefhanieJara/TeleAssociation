@@ -21,9 +21,12 @@ import com.example.teleassociation.adapter.MisEventAdapterAdminActv;
 import com.example.teleassociation.adminActividad.AdminActividadInicioFragment;
 import com.example.teleassociation.dto.eventoListarUsuario;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.example.teleassociation.dto.usuario;
 import com.example.teleassociation.dto.usuarioSesion;
@@ -73,7 +76,7 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             QuerySnapshot eventosCollection = task.getResult();
-
+                            SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
                             if(eventLista.isEmpty()){
                                 for (QueryDocumentSnapshot document : eventosCollection) {
                                     String eventoId = document.getId();
@@ -84,7 +87,9 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
                                     String url_imagen = (String) document.get("url_imagen");
                                     String fechaSt = date.toString();
                                     String[] partes = fechaSt.split(" ");
-                                    String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                    //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                    Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                    String fecha = formatoFechaEsp.format(date);
                                     String hora = partes[3];
                                     String delegado = (String) document.get("delegado");
                                     eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
