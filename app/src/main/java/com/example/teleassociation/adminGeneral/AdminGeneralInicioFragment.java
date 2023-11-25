@@ -177,6 +177,15 @@ public class AdminGeneralInicioFragment extends Fragment {
 
             }
         });
+        ImageView btnMoney = rootView.findViewById(R.id.btnMoney);
+        btnMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), donacionesAdmin.class);
+                startActivity(intent);
+
+            }
+        });
 
 
 
