@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.s
@@ -121,6 +122,7 @@ public class FirstFragment extends Fragment {
                                     String[] partes = fechaSt.split(" ");
                                     //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
                                     Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                    Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
                                     String fecha = formatoFechaEsp.format(date);
                                     String hora = partes[3];
                                     eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
@@ -133,6 +135,7 @@ public class FirstFragment extends Fragment {
                             EventAdapter eventAdapter = new EventAdapter(nombreUsuario,codigoUsuario);
                             eventAdapter.setEventList(eventLista);
                             eventAdapter.setContext(getContext());
+
 
                             // Inicializa el RecyclerView y el adaptador
                             recyclerView.setAdapter(eventAdapter);
