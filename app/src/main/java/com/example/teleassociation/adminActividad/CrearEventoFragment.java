@@ -135,6 +135,20 @@ public class CrearEventoFragment extends Fragment {
                                     evento.setEstado("proceso");
                                     evento.setNombre(nombreEvento);
                                     evento.setNombre_lugar(lugarName);
+                                    if(lugarName.equals("Bati")){
+                                        evento.setUbicacion(-12.073198534215251,-77.08159029588224);
+                                    } else if (lugarName.equals("Digimundo")) {
+                                        evento.setUbicacion(-12.07316474474935,-77.08135327613498);
+                                    } else if (lugarName.equals("Minas")) {
+                                        evento.setUbicacion(-12.0721793337368,-77.08197205625702);
+                                    } else if (lugarName.equals("Polideportivo")) {
+                                        evento.setUbicacion(-12.0721793337368,-77.08197205625702);
+                                    } else if (lugarName.equals("Local de ensayo")) {
+                                        evento.setUbicacion(-12.075643035700846,-77.06511929051032);
+                                    } else if (lugarName.equals("Estacionamiento de Letras")) {
+                                        evento.setUbicacion(-12.0721793337368,-77.08197205625702);
+
+                                    }
                                     evento.setNombre_actividad(nombreActividad);
                                     evento.setDelegado(nombreDelegado);
 

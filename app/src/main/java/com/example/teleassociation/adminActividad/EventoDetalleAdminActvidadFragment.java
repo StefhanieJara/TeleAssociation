@@ -60,8 +60,12 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
     private FirebaseFirestore db;
     private String nombreEventoParticipante;
+    private String nombreEvento;
     private MapView mapView;
     private GoogleMap mMap;
+    private double latitud;
+    private double longitud;
+    LatLng destinoLatLng;
 
     public static EventoDetalleAdminActvidadFragment newInstance(String nombreEvento) {
         EventoDetalleAdminActvidadFragment fragment = new EventoDetalleAdminActvidadFragment();
@@ -87,7 +91,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
         // Inicializa el contexto de la API de Google Maps Directions
 
         // Recuperar el nombre del evento desde los argumentos
-        String nombreEvento = getArguments().getString("nombreEvento"); // Asegúrate de que sea "nombreEvento" y no "nombre_evento"
+       nombreEvento = getArguments().getString("nombreEvento"); // Asegúrate de que sea "nombreEvento" y no "nombre_evento"
 
         // Inicializa Firestore
         db = FirebaseFirestore.getInstance();
@@ -234,77 +238,76 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
     }
 
     private void obtenerUbicacionActual() {
-        // Verificar permisos de ubicación
-        if (ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(requireContext(),
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // Si no tienes permisos, solicítalos
-            ActivityCompat.requestPermissions(requireActivity(),
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    1);
-        } else {
-            LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
-            if (locationManager != null) {
-                Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                if (lastKnownLocation != null) {
-                    LatLng miUbicacion = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
-                    Log.d("msg-test", String.valueOf(miUbicacion));
-
-                    // Agregar un marcador en la ubicación actual del usuario
-                    mMap.addMarker(new MarkerOptions().position(miUbicacion).title("Mi Ubicación"));
-
-                    // Mover la cámara al marcador de la ubicación actual
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(miUbicacion, 15f));
-
 
 // Realizar la consulta para encontrar el evento por su nombre
-                    db.collection("eventos")
-                            .whereEqualTo("nombre", nombreEventoParticipante)
-                            .get()
-                            .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                                @Override
-                                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                                    Log.d("msg-test",nombreEventoParticipante);
-                                    // Verificar si se encontraron documentos
-                                    if (!queryDocumentSnapshots.isEmpty()) {
-                                        // Suponiendo que solo esperas un resultado, obten el primer documento
-                                        DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
+        db.collection("eventos")
+                .whereEqualTo("nombre", nombreEvento)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot queryDocumentSnapshots = task.getResult();
+                        Log.d("ala",  nombreEvento);
+                        if (queryDocumentSnapshots != null && !queryDocumentSnapshots.isEmpty()) {
+                            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                // Iterar sobre todos los documentos encontrados
 
-                                        // Obtén el GeoPoint del campo "ubicacion" (ajusta el nombre del campo según sea necesario)
-                                        GeoPoint ubicacion = documentSnapshot.getGeoPoint("ubicacion");
+                                // Obtén el GeoPoint del campo "ubicacion" (ajusta el nombre del campo según sea necesario)
+                                GeoPoint ubicacion = documentSnapshot.getGeoPoint("ubicacion");
 
-                                        if (ubicacion != null) {
-                                            // Obtén las coordenadas
-                                            double latitud = ubicacion.getLatitude();
-                                            double longitud = ubicacion.getLongitude();
+                                if (ubicacion != null) {
+                                    // Obtén las coordenadas
+                                    latitud = ubicacion.getLatitude();
+                                    longitud = ubicacion.getLongitude();
+                                    destinoLatLng = new LatLng(latitud, longitud);
 
-                                            // Ahora puedes usar latitud y longitud según sea necesario
-                                            Log.d("Coordenadas", "Latitud: " + latitud + ", Longitud: " + longitud);
-                                        } else {
-                                            // Manejar el caso en que la ubicación sea nula
-                                            Log.d("Coordenadas", "La ubicación es nula para el evento: " + nombreEventoParticipante);
-                                        }
+                                    // Ahora puedes usar latitud y longitud según sea necesario
+                                    Log.d("Coordenadas", "Latitud: " + latitud + ", Longitud: " + longitud);
+
+                                    // Verificar permisos de ubicación
+                                    if (ActivityCompat.checkSelfPermission(requireContext(),
+                                            Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                                            && ActivityCompat.checkSelfPermission(requireContext(),
+                                            Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                        // Si no tienes permisos, solicítalos
+                                        ActivityCompat.requestPermissions(requireActivity(),
+                                                new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                                1);
                                     } else {
-                                        // Manejar el caso en que no se encontraron documentos
-                                        Log.d("Evento", "No se encontró el evento: " + nombreEventoParticipante);
-                                    }
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    // Manejar el error en la consulta
-                                    Log.e("Error", "Error al realizar la consulta: " + e.getMessage());
-                                }
-                            });
+                                        LocationManager locationManager = (LocationManager) requireActivity().getSystemService(Context.LOCATION_SERVICE);
+                                        if (locationManager != null) {
+                                            Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                            if (lastKnownLocation != null) {
+                                                LatLng miUbicacion = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                                                Log.d("msg-test", String.valueOf(miUbicacion));
 
-                    // Obtener la dirección y mostrar la ruta desde la ubicación actual hasta un destino (por ejemplo, PUCP)
-                    LatLng destinoLatLng = new LatLng(-12.072976093146243, -77.08197447754557);
-                    obtenerYMostrarRuta(miUbicacion, destinoLatLng);
-                }
-            }
-        }
+                                                // Agregar un marcador en la ubicación actual del usuario
+                                                mMap.addMarker(new MarkerOptions().position(miUbicacion).title("Mi Ubicación"));
+
+                                                // Mover la cámara al marcador de la ubicación actual
+                                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(miUbicacion, 15f));
+
+                                                obtenerYMostrarRuta(miUbicacion, destinoLatLng);
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    // Manejar el caso en que la ubicación sea nula
+                                    Log.d("Coordenadas", "La ubicación es nula para el evento: " + nombreEvento);
+                                }
+                            }
+                        } else {
+                            // Manejar el caso en que no se encontraron documentos
+                            Log.d("Evento", "No se encontró el evento: " + nombreEvento);
+                        }
+                    } else {
+                        // Manejar errores en la tarea
+                        Log.e("Error", "Error al realizar la consulta: " + task.getException().getMessage());
+                    }
+                });
+
+        // Obtener la dirección y mostrar la ruta desde la ubicación actual hasta un destino (por ejemplo, PUCP)
+
+
     }
 
     private void obtenerYMostrarRuta(LatLng origen, LatLng destino) {

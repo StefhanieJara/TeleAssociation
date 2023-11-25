@@ -1,6 +1,7 @@
 package com.example.teleassociation.dto;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.GeoPoint;
 
 import java.util.Date;
 
@@ -13,6 +14,15 @@ public class eventoCrear {
     private String nombre_actividad;
     private String nombre_lugar;
     private String delegado;
+    private GeoPoint ubicacion;
+
+    public GeoPoint getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(double latitud, double longitud) {
+        this.ubicacion = new GeoPoint(latitud, longitud);
+    }
 
     public String getDelegado() {
         return delegado;
