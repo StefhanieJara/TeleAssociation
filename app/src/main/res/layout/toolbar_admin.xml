@@ -32,7 +32,7 @@
             android:layout_weight="0.3"
             android:title="campanita"
             app:showAsAction="ifRoom"
-            app:srcCompat="@drawable/statistics" />
+            app:srcCompat="@drawable/baseline_insights_24" />
         <ImageView
             android:id="@+id/btnMoney"
             android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
             android:layout_weight="0.3"
             android:title="chat"
             app:showAsAction="ifRoom"
-            app:srcCompat="@drawable/money" />
+            app:srcCompat="@drawable/baseline_attach_money_24" />
 
         <ImageView
             android:id="@+id/btnNotif"
