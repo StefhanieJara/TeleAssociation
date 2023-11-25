@@ -1,6 +1,8 @@
 package com.example.teleassociation.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +39,14 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
         this.listener = listener;
     }
 
-    public EventAdapterAdminActividad(String delegadoAct) {
+    private String delegadoAct;
+    private String codigoDelegadoAct;
+    public EventAdapterAdminActividad(String delegadoAct, String codigoDelegadoAct) {
+        this.delegadoAct = delegadoAct;
+        this.codigoDelegadoAct = codigoDelegadoAct;
+    }
+
+    public EventAdapterAdminActividad() {
         this.context = context;
     }
 
@@ -81,18 +90,19 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
         // Aquí puedes asignar otros datos como la descripción, estado, actividad, etc.
 
         // Configura el OnClickListener para el botón "Apoyar"
-        holder.apoyarListaEvento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int apoyosActual = Integer.parseInt(event.getApoyos());
-                apoyosActual++;
-                String nuevoValorApoyos = String.valueOf(apoyosActual);
 
-                actualizarCampoApoyos(event.getId(), nuevoValorApoyos);
-                registrarParticipantes(event.getNombre());
-                holder.cantApoyos.setText("Apoyos: " + nuevoValorApoyos);
-            }
-        });
+        if(delegadoAct.equals(event.getDelegado())){
+            holder.apoyarListaEvento.setVisibility(View.GONE);
+        }else{
+            holder.apoyarListaEvento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final EventAdapterAdminActividad.EventViewHolder finalHolder = holder;
+                    showConfirmationDialog(event, finalHolder);
+                }
+            });
+        }
+
 
         holder.verListaEvento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,12 +110,7 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
                 listener.onVerEventoClick(event);  // Aquí maneja el clic del botón "Ver Evento"
             }
         });
-        holder.verListaEvento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                listener.onVerEventoClick(event);  // Aquí maneja el clic del botón "Ver Evento"
-            }
-        });
+
     }
 
     @Override
@@ -159,9 +164,9 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
         // Código para registrar al participante
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String asignacion = "barra";
-        String codigo = "20213839";
+        String codigo = codigoDelegadoAct;
         String evento = nombreEvento;
-        String nombre = "Hiro";
+        String nombre = delegadoAct;
 
 
         // Crea un documento para el participante
@@ -179,5 +184,31 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
                         Toast.makeText(context, "Error al registrar al participante", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void showConfirmationDialog(eventoListarUsuario event,  EventViewHolder holder) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Confirmar Apoyo");
+        builder.setMessage("¿Estás seguro de que quieres apoyar este evento?");
+        builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Usuario hizo clic en "Sí", realiza la acción de apoyo
+                int apoyosActual = Integer.parseInt(event.getApoyos());
+                apoyosActual++;
+                String nuevoValorApoyos = String.valueOf(apoyosActual);
+
+                actualizarCampoApoyos(event.getId(), nuevoValorApoyos);
+                registrarParticipantes(event.getNombre());
+                holder.cantApoyos.setText("Apoyos: " + nuevoValorApoyos);
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Usuario hizo clic en "No", no hace nada o puedes mostrar un mensaje de cancelación
+            }
+        });
+        builder.show();
     }
 }

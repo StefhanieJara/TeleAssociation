@@ -40,6 +40,7 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     String delegadoAct;
+    String codigoDelegadoAct;
     TextView nameUser;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -61,7 +62,9 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
 
         obtenerDatosUsuario(usuario -> {
             delegadoAct= usuario.getNombre();
+            codigoDelegadoAct = usuario.getId();
             Log.d("msg-test", "El nombre del usuario fuera del collection es deleact: " + delegadoAct);
+            Log.d("msg-test", "El id del usuario fuera del collection es deleact: " + codigoDelegadoAct);
             nameUser = rootView.findViewById(R.id.nameUser);
             nameUser.setText(delegadoAct);
             // Ahora puedes utilizar el nombre del usuario como lo necesites, por ejemplo:
@@ -92,7 +95,7 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
                                 }
                             }
 
-                            EventAdapterAdminActividad eventAdapter = new EventAdapterAdminActividad(delegadoAct);
+                            EventAdapterAdminActividad eventAdapter = new EventAdapterAdminActividad(delegadoAct,codigoDelegadoAct);
                             eventAdapter.setEventList(eventLista);
                             eventAdapter.setContext(getContext());
                             eventAdapter.setListener(this);
