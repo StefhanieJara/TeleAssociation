@@ -5,10 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.eventoListarUsuario;
 
@@ -47,6 +49,13 @@ public class ListaActividadesGeneralAdapter extends RecyclerView.Adapter<ListaAc
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         eventoListarUsuario event = eventList.get(position);
 
+        // Carga la imagen usando Glide
+        if (event.getUrl_imagen() != null && !event.getUrl_imagen().isEmpty()) {
+            Glide.with(context)
+                    .load(event.getUrl_imagen())
+                    .into(holder.imageEvento);
+        }
+
         // Asigna los datos a los elementos de la vista
         holder.titleActividad.setText(event.getNombre());
         holder.fecha.setText("Fecha: " + event.getFecha());
@@ -54,6 +63,7 @@ public class ListaActividadesGeneralAdapter extends RecyclerView.Adapter<ListaAc
         holder.cantApoyos.setText("Apoyos: " + event.getApoyos());
 
         holder.buttonApoyar.setVisibility(View.GONE);
+        holder.buttonVerEvento.setVisibility(View.GONE);
 
         holder.buttonVerEvento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +85,7 @@ public class ListaActividadesGeneralAdapter extends RecyclerView.Adapter<ListaAc
         TextView cantApoyos;
         Button buttonVerEvento;
         Button buttonApoyar;
+        ImageView imageEvento;
 
         public EventViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,6 +95,7 @@ public class ListaActividadesGeneralAdapter extends RecyclerView.Adapter<ListaAc
             cantApoyos = itemView.findViewById(R.id.cantApoyos);
             buttonVerEvento = itemView.findViewById(R.id.buttonVerEvento);
             buttonApoyar = itemView.findViewById(R.id.buttonApoyar);
+            imageEvento = itemView.findViewById(R.id.imageActividad);
         }
     }
 }

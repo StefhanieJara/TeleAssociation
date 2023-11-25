@@ -81,6 +81,7 @@ public class AdminGeneralInicioFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        actividadLista.clear();
         View rootView = inflater.inflate(R.layout.fragment_admin_general_inicio, container, false);
 
         db = FirebaseFirestore.getInstance();

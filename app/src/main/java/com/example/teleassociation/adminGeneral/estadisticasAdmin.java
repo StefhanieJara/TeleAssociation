@@ -142,7 +142,8 @@ public class estadisticasAdmin extends AppCompatActivity {
                 loadFragment(personasGeneralFragment);
                 return true;
             }
-            if(item.getItemId()==R.id.fiveFragment){
+            if(item.getItemId()==R.id.sixtFragment){
+                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 return true;

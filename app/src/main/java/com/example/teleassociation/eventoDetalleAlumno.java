@@ -19,9 +19,15 @@ import com.example.teleassociation.Usuario.FirstFragment;
 import com.example.teleassociation.Usuario.SecondFragment;
 import com.example.teleassociation.Usuario.ThirdFragment;
 import com.example.teleassociation.databinding.ActivityEventoDetalleAlumnoBinding;
+import com.example.teleassociation.dto.usuario;
+import com.example.teleassociation.dto.usuarioSesion;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Date;
 
@@ -39,6 +45,8 @@ public class eventoDetalleAlumno extends AppCompatActivity {
     private String apoyosEvento;
     private String descripcion;
     ActivityEventoDetalleAlumnoBinding binding;
+    FirebaseAuth mAuth;
+    TextView nameUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,27 +65,36 @@ public class eventoDetalleAlumno extends AppCompatActivity {
             actionBar.hide();
         }
 
-        db.collection("eventos")
-                .document(eventoId)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> {
-                    if (documentSnapshot.exists()) {
-                        // Obtén los datos del documento
-                        nombreEvento = documentSnapshot.getString("nombre");
-                        date = documentSnapshot.getDate("fecha");
-                        apoyosEvento = (String) documentSnapshot.get("apoyos");
-                        descripcion = (String) documentSnapshot.get("descripcion");
-                        // Actualiza la vista con la información obtenida
-                        updateUIWithEventData(documentSnapshot);
+        obtenerDatosUsuario(usuario -> {
+            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
+            nameUser = findViewById(R.id.nameUser);
+            nameUser.setText(usuario.getNombre());
+            db.collection("eventos")
+                    .document(eventoId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            // Obtén los datos del documento
+                            nombreEvento = documentSnapshot.getString("nombre");
+                            date = documentSnapshot.getDate("fecha");
+                            apoyosEvento = (String) documentSnapshot.get("apoyos");
+                            descripcion = (String) documentSnapshot.get("descripcion");
+                            // Actualiza la vista con la información obtenida
+                            updateUIWithEventData(documentSnapshot);
 
-                    }
-                })
-                .addOnFailureListener(e -> {
-                    // Maneja posibles errores aquí
-                });
-        BottomNavigationView navigation = findViewById(R.id.bottom_navigation2);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja posibles errores aquí
+                    });
+            BottomNavigationView navigation = findViewById(R.id.bottom_navigation2);
+            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        });
+
+
     }
+
+
     public void nuevaFoto(View view){
         Intent intent=new Intent(this, subirFotoEventAlum.class);
         startActivity(intent);
@@ -149,6 +166,48 @@ public class eventoDetalleAlumno extends AppCompatActivity {
                     .into(imageViewEvento);
         }
 
+    }
+
+
+    private void obtenerDatosUsuario(eventoDetalleAlumno.FirestoreCallback callback) {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        usuario usuario = new usuario();
+        usuarioSesion usuarioSesion = new usuarioSesion();
+
+        if (user != null) {
+            String email = user.getEmail();
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+
+                                if (correo.equals(email)) {
+                                    usuarioSesion.setId(codigo);
+                                    usuarioSesion.setNombre(nombre);
+                                    usuarioSesion.setCorreo(correo);
+                                    // Llamada al método de la interfaz con el nombre del usuario
+                                    callback.onCallback(usuarioSesion);
+                                    return;
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+    }
+
+    public interface FirestoreCallback {
+        void onCallback(usuarioSesion usuario);
     }
 
 
