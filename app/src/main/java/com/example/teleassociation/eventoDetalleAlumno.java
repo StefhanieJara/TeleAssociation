@@ -6,24 +6,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.teleassociation.R;
+import com.bumptech.glide.Glide;
 import com.example.teleassociation.Usuario.FirstFragment;
 import com.example.teleassociation.Usuario.SecondFragment;
 import com.example.teleassociation.Usuario.ThirdFragment;
-import com.example.teleassociation.databinding.ActivityEventoDetalleAdminBinding;
 import com.example.teleassociation.databinding.ActivityEventoDetalleAlumnoBinding;
-import com.example.teleassociation.databinding.ActivityMainBinding;
-import com.example.teleassociation.pagosAlumno;
-import com.example.teleassociation.subirFotoEventAlum;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.Date;
@@ -36,6 +33,8 @@ public class eventoDetalleAlumno extends AppCompatActivity {
 
     private String fechaEvento;
     private String nombreEvento;
+
+    private String urlImagenEvento;  // Declarar la variable
     private Date date;
     private String apoyosEvento;
     private String descripcion;
@@ -69,7 +68,8 @@ public class eventoDetalleAlumno extends AppCompatActivity {
                         apoyosEvento = (String) documentSnapshot.get("apoyos");
                         descripcion = (String) documentSnapshot.get("descripcion");
                         // Actualiza la vista con la información obtenida
-                        updateUIWithEventData();
+                        updateUIWithEventData(documentSnapshot);
+
                     }
                 })
                 .addOnFailureListener(e -> {
@@ -117,13 +117,17 @@ public class eventoDetalleAlumno extends AppCompatActivity {
         transaction.commit();
 
     }
-    private void updateUIWithEventData() {
+    private void updateUIWithEventData(DocumentSnapshot documentSnapshot) {
         // Actualiza los elementos de la vista con los valores de fechaEvento y apoyosEvento
         TextView nombreTexView = findViewById(R.id.nombreEvento);
         TextView fechaTextView = findViewById(R.id.fecha);
         TextView horaTextView = findViewById(R.id.hora);
         TextView apoyosTextView = findViewById(R.id.cantApoyos);
         TextView descripcionTextView = findViewById(R.id.decripcionEvento);
+        ImageView imageViewEvento = findViewById(R.id.imagenView);  // Asegúrate de tener este ID en tu XML
+        urlImagenEvento = documentSnapshot.getString("url_imagen");
+
+
 
 
         nombreTexView.setText(nombreEvento);
@@ -138,6 +142,13 @@ public class eventoDetalleAlumno extends AppCompatActivity {
         }
         apoyosTextView.setText("Apoyos: " + apoyosEvento);
         descripcionTextView.setText(descripcion);
+
+        if (urlImagenEvento != null && !urlImagenEvento.isEmpty()) {
+            Glide.with(this)
+                    .load(urlImagenEvento)
+                    .into(imageViewEvento);
+        }
+
     }
 
 
