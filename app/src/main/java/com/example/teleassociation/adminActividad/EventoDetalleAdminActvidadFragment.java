@@ -34,6 +34,8 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -66,6 +68,8 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
     private double latitud;
     private double longitud;
     LatLng destinoLatLng;
+    FirebaseAuth mAuth;
+    TextView nameUser;
 
     public static EventoDetalleAdminActvidadFragment newInstance(String nombreEvento) {
         EventoDetalleAdminActvidadFragment fragment = new EventoDetalleAdminActvidadFragment();
@@ -95,6 +99,42 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
         // Inicializa Firestore
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        db.collection("usuarios")
+                .whereEqualTo("correo", user.getEmail())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+
+                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                            // Solo debería haber un documento, ya que estamos buscando por correo único
+                            DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+
+                            // Obtener los campos deseados
+                            String correo = documentSnapshot.getString("correo");
+                            String id = documentSnapshot.getId(); // ID del documento
+                            String nombre = documentSnapshot.getString("nombre");
+                            String rol = documentSnapshot.getString("rol");
+
+                            // Hacer algo con los datos obtenidos
+                            // Por ejemplo, mostrarlos en el log
+                            Log.d("msg-test", "Correo: " + correo);
+                            Log.d("msg-test", "ID: " + id);
+                            Log.d("msg-test", "Nombre: " + nombre);
+                            Log.d("msg-test", "Rol: " + rol);
+
+                            Log.d("msg-test", "El nombre del usuario fuera del collection es deleact: " + nombre);
+                            nameUser = view.findViewById(R.id.nameUser);
+                            nameUser.setText(nombre);
+                        } else {
+                            Log.d("msg-test", "No se encontró un usuario con el correo proporcionado.");
+                        }
+                    } else {
+                        Log.e("msg-test", "Error al obtener documentos: " + task.getException());
+                    }
+                });
 
         // Obtén una referencia al documento o la colección que necesitas
         // Por ejemplo, si tienes una colección llamada "eventos":
