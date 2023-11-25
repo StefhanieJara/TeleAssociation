@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="88dp"
-            android:fontFamily="@font/lokanova_std"
+            android:fontFamily="@font/anton_regular"
             android:text="EDITAR EVENTO"
             android:textColor="#191C1E"
             android:textSize="34sp"
@@ -40,11 +40,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="64dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
             android:hint="Titulo del evento"
             android:textColorHint="#A59E9E"
             app:boxBackgroundColor="@color/white"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp"
             app:layout_constraintBottom_toTopOf="@+id/descrEvento"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +58,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/titulo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +75,11 @@
             app:boxBackgroundColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tituloEvento">
+            app:layout_constraintTop_toBottomOf="@+id/tituloEvento"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/descrEvent"
@@ -93,7 +101,11 @@
             app:boxBackgroundColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/descrEvento">
+            app:layout_constraintTop_toBottomOf="@+id/descrEvento"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fechaDelEvento"
@@ -115,7 +127,11 @@
             app:boxBackgroundColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fechaDelActv">
+            app:layout_constraintTop_toBottomOf="@+id/fechaDelActv"
+            app:boxCornerRadiusBottomEnd="20dp"
+            app:boxCornerRadiusBottomStart="20dp"
+            app:boxCornerRadiusTopEnd="20dp"
+            app:boxCornerRadiusTopStart="20dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/lugarDelEvento"
@@ -146,9 +162,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@color/white"
                     android:hint="@string/subir_imagen"
-                    android:textColorHint="#A59E9E" />
+                    android:textColorHint="#A59E9E"
+                    android:background="@drawable/diseno2"/>
 
                 <ImageView
                     android:id="@+id/imageView4"

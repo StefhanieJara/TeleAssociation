@@ -21,8 +21,8 @@
         android:id="@+id/textView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:fontFamily="@font/lokanova_std"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/anton_regular"
         android:text="CREAR ACTIVIDAD"
         android:textColor="#191C1E"
         android:textSize="34sp"
@@ -37,14 +37,18 @@
         android:layout_height="wrap_content"
         android:hint="Titulo de la Actividad"
         android:textColorHint="#A59E9E"
-        app:boxBackgroundColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/textView19"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/titulodescripcion"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_marginEnd="16dp"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/actividad"
@@ -59,14 +63,18 @@
         android:layout_height="wrap_content"
         android:hint="Descripción"
         android:textColorHint="#A59E9E"
-        app:boxBackgroundColor="@color/white"
         app:layout_constraintTop_toBottomOf="@+id/tituloActividad"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/auto_complete_texto1"
         android:layout_marginTop="24dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp">
+        android:layout_marginEnd="16dp"
+        app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/descripcion"
@@ -78,12 +86,16 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/auto_complete_texto1"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-        android:layout_width="389dp"
+        android:layout_width="355dp"
         android:layout_height="51dp"
         android:layout_marginTop="24dp"
         android:hint="@string/select"
         android:textColorHint="#A59E9E"
         app:boxBackgroundColor="@color/white"
+        app:boxCornerRadiusBottomEnd="20dp"
+        app:boxCornerRadiusBottomStart="20dp"
+        app:boxCornerRadiusTopEnd="20dp"
+        app:boxCornerRadiusTopStart="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titulodescripcion">
@@ -102,7 +114,7 @@
         android:layout_width="136dp"
         android:layout_height="184dp"
         android:layout_marginTop="68dp"
-        android:src="@drawable/descargar"
+        android:src="@drawable/galeria"
         app:layout_constraintBottom_toTopOf="@+id/button12"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.167"
@@ -120,7 +132,6 @@
         android:text="Agregar Imagen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.712"
         app:layout_constraintStart_toEndOf="@+id/imageView" />
 
 

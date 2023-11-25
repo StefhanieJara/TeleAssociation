@@ -45,6 +45,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         this.codigoUsuario = codigoUsuario;
     }
 
+
     public EventAdapter() {
         this.context = context;
     }

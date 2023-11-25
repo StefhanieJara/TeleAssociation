@@ -8,5 +8,6 @@
     <string name="hello_blank_fragment">Hello, Blank Fragment!</string>
 
     <string name="select">Selecciona Delegado</string>
+    <string name="tipo_estudiante">Selecciona tipo de estudiante</string>
 
 </resources>
