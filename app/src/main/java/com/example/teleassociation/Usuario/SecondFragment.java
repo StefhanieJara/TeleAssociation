@@ -83,7 +83,7 @@ public class SecondFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        eventLista.clear();
         View rootView = inflater.inflate(R.layout.fragment_second, container, false);
         db = FirebaseFirestore.getInstance();
         recyclerView = rootView.findViewById(R.id.listRecyclerView);

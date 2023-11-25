@@ -82,6 +82,7 @@ public class FirstFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        eventLista.clear();
         View rootView = inflater.inflate(R.layout.fragment_first, container, false);
         // Inflate the layout for this fragment
         db = FirebaseFirestore.getInstance();
@@ -94,48 +95,51 @@ public class FirstFragment extends Fragment {
             nameUser = rootView.findViewById(R.id.nameUser);
             nameUser.setText(usuario.getNombre());
 
+            String nombreUsuario = usuario.getNombre();
+            //String codigoUsuario = usuario.getNombre();
+
+            Log.d("msg-test", "El id del usuario fuera del collection es: " + usuarioSesion.getId());
+            String codigoUsuario = usuarioSesion.getId();
+
+            db.collection("eventos")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot eventosCollection = task.getResult();
+                            if(eventLista.isEmpty()){
+                                for (QueryDocumentSnapshot document : eventosCollection) {
+                                    String eventoId = document.getId();
+                                    String nombre = (String) document.get("nombre");
+                                    String nombre_actividad = (String) document.get("nombre_actividad");
+                                    Date date = document.getDate("fecha");
+                                    String apoyos = (String) document.get("apoyos");
+                                    String url_imagen = (String) document.get("url_imagen");
+                                    String fechaSt = date.toString();
+                                    String[] partes = fechaSt.split(" ");
+                                    String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                    String hora = partes[3];
+                                    eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                    eventos.setId(eventoId);
+                                    eventLista.add(eventos);
+                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
+                                }
+                            }
+
+                            EventAdapter eventAdapter = new EventAdapter(nombreUsuario,codigoUsuario);
+                            eventAdapter.setEventList(eventLista);
+                            eventAdapter.setContext(getContext());
+
+                            // Inicializa el RecyclerView y el adaptador
+                            recyclerView.setAdapter(eventAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+
+                        }
+                    });
 
         });
 
-        Log.d("msg-test", "El id del usuario fuera del collection es: " + usuarioSesion.getId());
 
-
-
-        db.collection("eventos")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot eventosCollection = task.getResult();
-                        if(eventLista.isEmpty()){
-                            for (QueryDocumentSnapshot document : eventosCollection) {
-                                String eventoId = document.getId();
-                                String nombre = (String) document.get("nombre");
-                                String nombre_actividad = (String) document.get("nombre_actividad");
-                                Date date = document.getDate("fecha");
-                                String apoyos = (String) document.get("apoyos");
-                                String url_imagen = (String) document.get("url_imagen");
-                                String fechaSt = date.toString();
-                                String[] partes = fechaSt.split(" ");
-                                String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
-                                String hora = partes[3];
-                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
-                                eventos.setId(eventoId);
-                                eventLista.add(eventos);
-                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
-                            }
-                        }
-
-                        EventAdapter eventAdapter = new EventAdapter();
-                        eventAdapter.setEventList(eventLista);
-                        eventAdapter.setContext(getContext());
-
-                        // Inicializa el RecyclerView y el adaptador
-                        recyclerView.setAdapter(eventAdapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-
-                    }
-                });
 
 
         return rootView;

@@ -2,6 +2,7 @@ package com.example.teleassociation.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +37,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     FirebaseFirestore db;
     FirebaseAuth mAuth;
 
-    private String delegadoActividad;
+    private String nombreUsuario;
+    private String codigoUsuario;
 
-    public EventAdapter(String delegadoActividad) {
-        this.delegadoActividad = delegadoActividad;
+    public EventAdapter(String nombreUsuario, String codigoUsuario) {
+        this.nombreUsuario = nombreUsuario;
+        this.codigoUsuario = codigoUsuario;
     }
 
     public EventAdapter() {
@@ -83,20 +86,13 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     .into(holder.imageEvento);
         }
 
-        // Aquí agregamos la condición para ocultar el botón
-        if (delegadoActividad != null && delegadoActividad.equals(event.getNombre())) {
-            holder.buttonApoyarEvento.setVisibility(View.GONE);
-        } else {
-            holder.buttonApoyarEvento.setVisibility(View.VISIBLE);
-            // Configuramos el OnClickListener solo si el botón está visible
-            holder.buttonApoyarEvento.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final EventViewHolder finalHolder = holder;
-                    showConfirmationDialog(event, finalHolder);
-                }
-            });
-        }
+        holder.buttonApoyarEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final EventViewHolder finalHolder = holder;
+                showConfirmationDialog(event, finalHolder);
+            }
+        });
 
         holder.buttonVerEvento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,9 +155,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         // Código para registrar al participante
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String asignacion = "barra";
-        String codigo = "20200839";
+        String codigo = codigoUsuario;
         String evento = nombreEvento;
-        String nombre = "Rex";
+        String nombre = nombreUsuario;
+
+        Log.d("msg-test", "El participante podra ser: " + asignacion +" "+codigo+" "+evento+" "+nombre);
 
 
         // Crea un documento para el participante
@@ -170,6 +168,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
+                        Log.d("msg-test", "El participante real es: " + nombre +" "+codigo+" "+evento+" "+asignacion);
                         Toast.makeText(context, "Participante registrado", Toast.LENGTH_SHORT).show();
                     }
                 })

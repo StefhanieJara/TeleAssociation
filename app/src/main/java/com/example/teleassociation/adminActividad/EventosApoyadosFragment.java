@@ -37,6 +37,7 @@ public class EventosApoyadosFragment extends Fragment implements MisEventAdapter
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
+    ArrayList<String> eventosParticipa = new ArrayList<>();
     private RecyclerView recyclerView;
     TextView nameUser;
     String nombreDelegado;
@@ -65,37 +66,63 @@ public class EventosApoyadosFragment extends Fragment implements MisEventAdapter
             nameUser = rootView.findViewById(R.id.nameUser);
             nameUser.setText(nombreDelegado);
 
-            db.collection("eventos")
+            Log.d("msg-test", " inicio");
+            db.collection("participantes")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             QuerySnapshot eventosCollection = task.getResult();
-
                             for (QueryDocumentSnapshot document : eventosCollection) {
-                                String nombre = (String) document.get("nombre");
-                                String nombre_actividad = (String) document.get("nombre_actividad");
-                                Date date = document.getDate("fecha");
-                                String apoyos = (String) document.get("apoyos");
-                                String url_imagen = (String) document.get("url_imagen");
-                                String fechaSt = date.toString();
-                                String[] partes = fechaSt.split(" ");
-                                String fecha = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
-                                String hora = partes[3];
-                                eventoListarUsuario eventos = new eventoListarUsuario(nombre, fecha, hora, apoyos, nombre_actividad,url_imagen);
-                                eventLista.add(eventos);
-                                Log.d("msg-test", "Tamaño de la lista: " + eventLista.size());
-                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
-                            }
+                                String asignacion = (String) document.get("asignacion");
+                                String codigo = (String) document.get("codigo");
+                                String evento = (String) document.get("evento");
+                                if (usuarioSesion.getId().equals(codigo)) {
+                                    Log.d("msg-test", " | evento: " + evento);
+                                    eventosParticipa.add(evento);}}
 
-                            if (task.isSuccessful()) {
-                                MisEventAdapterAdminActv eventAdapter = new MisEventAdapterAdminActv();
-                                eventAdapter.setEventList(eventLista);
-                                eventAdapter.setContext(getContext());
-                                eventAdapter.setListener(this);
+                            // Itera a través de eventos de la colección "eventos"
+                            db.collection("eventos")
+                                    .get()
+                                    .addOnCompleteListener(task2 -> {
+                                        if (task2.isSuccessful()) {
+                                            QuerySnapshot eventosCollection2 = task2.getResult();
+                                            if(eventLista.isEmpty()){
+                                                for (QueryDocumentSnapshot document2 : eventosCollection2) {
+                                                    String eventoId = document2.getId();
+                                                    String nombre = (String) document2.get("nombre");
+                                                    String nombre_actividad = (String) document2.get("nombre_actividad");
+                                                    Date date = document2.getDate("fecha");
+                                                    String apoyos = (String) document2.get("apoyos");
+                                                    String url_imagen = (String) document2.get("url_imagen");
+                                                    String fechaSt = date.toString();
+                                                    String[] partes = fechaSt.split(" ");
+                                                    String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                                    String hora = partes[3];
+                                                    String fecha_hora = fecha+" "+hora;
 
-                                recyclerView.setAdapter(eventAdapter);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-                            }
+                                                    //Log.d("msg-test", " | nombre de eventos: " + nombre);
+
+                                                    // Verifica si el nombre del evento está en eventosParticipa
+                                                    if (eventosParticipa.contains(nombre)) {
+                                                        eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad,url_imagen);
+                                                        eventos.setId(eventoId);
+                                                        eventLista.add(eventos);
+                                                        Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
+                                                    }
+                                                }
+                                            }
+                                            MisEventAdapter misEventAdapter = new MisEventAdapter();
+                                            misEventAdapter.setEventList(eventLista);
+                                            misEventAdapter.setContext(getContext());
+
+                                            recyclerView.setAdapter(misEventAdapter);
+                                            recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+
+                                        }
+                                    });
+
+
                         }
                     });
         });
