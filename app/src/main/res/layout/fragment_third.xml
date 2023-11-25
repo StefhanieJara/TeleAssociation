@@ -26,16 +26,30 @@
         android:id="@+id/button9"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="88dp"
+        android:backgroundTint="#191C1E"
+        android:text="DONAR"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/subirBoleta"
+        android:layout_width="171dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="160dp"
+        android:backgroundTint="#191C1E"
         android:text="SUBIR BOLETA"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView14"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
-        app:layout_constraintVertical_bias="0.0"
-        android:backgroundTint="#191C1E"/>
+        app:layout_constraintVertical_bias="0.805" />
 
     <include
         layout="@layout/toolbar"
@@ -162,7 +176,7 @@
             android:layout_height="wrap_content"
             android:digits="0123456789."
             android:hint="Ingresar el monto del donativo"
-            android:paddingStart="30dp"
+            android:paddingStart="20dp"
             android:textSize="16sp"
             tools:layout_editor_absoluteY="209dp" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -170,12 +184,15 @@
 
     <ImageView
         android:id="@+id/imageView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="148dp"
+        android:layout_height="125dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/button9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.14"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button9"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/savings_24px" />
 
 

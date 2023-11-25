@@ -1,7 +1,12 @@
 package com.example.teleassociation.Usuario;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -9,9 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.pagos;
 import com.example.teleassociation.dto.usuario;
@@ -24,15 +31,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.example.teleassociation.Usuario.ThirdFragment;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ThirdFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ThirdFragment extends Fragment {
     FirebaseFirestore db;
+    FirebaseStorage storage;
+    StorageReference reference;
+    private View rootView;  // Declarar rootView como variable de instancia
+
     FirebaseAuth mAuth;
+
+    private Uri uri;
     TextView nameUser;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -48,15 +59,7 @@ public class ThirdFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SecondFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static ThirdFragment newInstance(String param1, String param2) {
         ThirdFragment fragment = new ThirdFragment();
         Bundle args = new Bundle();
@@ -79,8 +82,11 @@ public class ThirdFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_third, container, false);
+        rootView = inflater.inflate(R.layout.fragment_third, container, false);
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+
+        reference=storage.getReference();
 
         obtenerDatosUsuario(usuario -> {
             Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
@@ -92,6 +98,15 @@ public class ThirdFragment extends Fragment {
 
         Button button9 = rootView.findViewById(R.id.button9);
         TextInputEditText donativo = rootView.findViewById(R.id.donativo);
+        ImageView imageView14 = rootView.findViewById(R.id.imageView14);
+        Button subirBoleta = rootView.findViewById(R.id.subirBoleta);
+
+        subirBoleta.setOnClickListener(view -> {
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
+        });
+
         button9.setOnClickListener(view -> {
             String donativoStr = donativo.getText().toString();
 
@@ -104,25 +119,45 @@ public class ThirdFragment extends Fragment {
                 pagos.setCodigo_usuario("20190000");
                 pagos.setMonto(String.valueOf(monto));
                 pagos.setValidado("No");
-                pagos.setUrl_imagen("sas");
 
-                Log.d("msg-test", pagos.getCodigo_usuario() + " el siguiente pago es: " + pagos.getMonto() + " xd.");
-                String cod_al = generateRandomCode();
+                // Subir la imagen a Firebase Storage
+                if (uri != null) {
+                    StorageReference imageRef = reference.child("donaciones/" + uri.getLastPathSegment());
+                    UploadTask uploadTask = imageRef.putFile(uri);
 
-                Log.d("msg-test", pagos.getCodigo_usuario() + " " + pagos.getMonto() + " " + pagos.getValidado() + " " + pagos.getUrl_imagen());
+                    uploadTask.addOnFailureListener(exception -> {
+                        exception.printStackTrace();
+                        Log.e("msg-test", "Error en la carga de la imagen", exception);
+                    }).addOnSuccessListener(taskSnapshot -> {
+                        // Obtén la URL de la imagen subida
+                        imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                            // Guarda la URL de la imagen en el objeto pagos
+                            pagos.setUrl_imagen(downloadUri.toString());
 
-                db.collection("pagos")
-                        .document(cod_al)
-                        .set(pagos)
-                        .addOnSuccessListener(unused -> {
-                            // Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getContext(), inicio_usuario.class);
-                            intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
-                            startActivity(intent);
-                        })
-                        .addOnFailureListener(e -> {
-                            Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                            // Cargar la imagen seleccionada en el ImageView
+                            Glide.with(requireContext()).load(uri).into(imageView14);
+
+                            // Guarda el objeto pagos en Firestore
+                            String cod_al = generateRandomCode();
+
+                            db.collection("pagos")
+                                    .document(cod_al)
+                                    .set(pagos)
+                                    .addOnSuccessListener(unused -> {
+                                        // Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getContext(), inicio_usuario.class);
+                                        intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
+                                        startActivity(intent);
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                    });
                         });
+                    });
+                } else {
+                    // Si no se seleccionó una imagen, puedes manejarlo aquí
+                    Toast.makeText(getContext(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
+                }
             } catch (NumberFormatException e) {
                 // Si no se puede convertir a número, muestra un mensaje de error
                 Toast.makeText(getContext(), "El valor tiene que ser numérico", Toast.LENGTH_SHORT).show();
@@ -131,6 +166,23 @@ public class ThirdFragment extends Fragment {
 
         return rootView;
     }
+
+
+
+
+    ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), result -> {
+                if (result != null) {
+                    uri = result;
+                    // Cargar la imagen seleccionada en un ImageView (opcional)
+                    ImageView imageView14 = rootView.findViewById(R.id.imageView14);
+                    Glide.with(requireContext()).load(uri).into(imageView14);
+                    Log.d("PhotoPicker", "Selected URI: " + uri);
+                } else {
+                    Log.d("PhotoPicker", "No media selected");
+                }
+            });
+
 
     private String generateRandomCode() {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -181,6 +233,8 @@ public class ThirdFragment extends Fragment {
                     });
         }
     }
+
+
 
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
