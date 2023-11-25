@@ -20,8 +20,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.usuarioSesion;
 import com.example.teleassociation.subirFotoEventAlum;
@@ -132,6 +134,8 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                 String apoyos = (String) documentSnapshot.get("apoyos");
                                 String descripcion = (String) documentSnapshot.get("descripcion");
                                 String delegado = (String) documentSnapshot.get("delegado");
+                                String urlImagenEvento = documentSnapshot.getString("url_imagen");
+
                                 Log.d("msg-test", " | nombre: " + nombreEvento + " | fecha: " + fechaEvento + " | hora: " + horaEvento + "| delegado: "+delegado);
                                 nombreEventoParticipante = nombreEvento;
 
@@ -141,6 +145,14 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                 TextView textViewHora = view.findViewById(R.id.hora);
                                 TextView textViewApoyos = view.findViewById(R.id.apoyos);
                                 TextView textViewDescripcion = view.findViewById(R.id.descripcionEvento);
+                                ImageView imageViewEvento = view.findViewById(R.id.imagen);  // Asegúrate de tener este ID en tu XML
+
+                                if (urlImagenEvento != null && !urlImagenEvento.isEmpty()) {
+                                    Glide.with(requireContext())
+                                            .load(urlImagenEvento)
+                                            .into(imageViewEvento);
+                                }
+
 
                                 textViewNombreEvento.setText(nombreEvento);
                                 textViewFecha.setText("Fecha: " + fechaEvento);
