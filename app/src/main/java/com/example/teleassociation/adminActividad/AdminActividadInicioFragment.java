@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.adapter.EventAdapter;
@@ -39,6 +40,7 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
     FirebaseFirestore db;
     FirebaseAuth mAuth;
     String delegadoAct;
+    TextView nameUser;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     private RecyclerView recyclerView;
     public static AdminActividadInicioFragment newInstance() {
@@ -60,6 +62,8 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
         obtenerDatosUsuario(usuario -> {
             delegadoAct= usuario.getNombre();
             Log.d("msg-test", "El nombre del usuario fuera del collection es deleact: " + delegadoAct);
+            nameUser = rootView.findViewById(R.id.nameUser);
+            nameUser.setText(delegadoAct);
             // Ahora puedes utilizar el nombre del usuario como lo necesites, por ejemplo:
             db.collection("eventos")
                     .get()

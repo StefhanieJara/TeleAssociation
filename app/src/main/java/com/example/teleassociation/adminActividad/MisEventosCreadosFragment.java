@@ -15,12 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.FirstFragment;
 import com.example.teleassociation.adapter.MisEventAdapterAdminActv;
 import com.example.teleassociation.dto.eventoListarUsuario;
+import com.example.teleassociation.dto.usuario;
+import com.example.teleassociation.dto.usuarioSesion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -41,6 +46,8 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
     private String nombreActividad;
     private String nombreUsuario;
     private MisEventAdapterAdminActv adapter;
+    TextView nameUser;
+    String nombreDelegado;
 
 
     @Override
@@ -51,6 +58,14 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
         View rootView = inflater.inflate(R.layout.fragment_mis_eventos_creados, container, false);
         Button btnBorrarEvento = rootView.findViewById(R.id.btnBorrar);
         Button btnVerEventosFinalizados = rootView.findViewById(R.id.verEventosFinalizados);
+
+        obtenerDatosUsuario(usuarioSesion -> {
+            nombreDelegado= usuarioSesion.getNombre();
+            Log.d("msg-test", "El nombre del usuario fuera del collection es deleact: " + nombreDelegado);
+            nameUser = rootView.findViewById(R.id.nameUser);
+            nameUser.setText(nombreDelegado);
+        });
+
         btnBorrarEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,6 +134,7 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
             public void onClick(View v) {
                 // Tu lógica para el botón VerEventosFinalizados
 
+                //EventosApoyadosFragment fragment = EventosApoyadosFragment.newInstance(nombreActividad);
                 EventosFinalizadosFragment fragment1 = EventosFinalizadosFragment.newInstance(nombreActividad);
 
                 getParentFragmentManager().beginTransaction()
@@ -253,6 +269,49 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
                         }
                 });
 
+    }
+
+    private void obtenerDatosUsuario(FirstFragment.FirestoreCallback callback) {
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        usuarioSesion usuarioSesion = new usuarioSesion();
+
+        if (user != null) {
+            String email = user.getEmail();
+            Log.d("msg-test", "el email es: " + email);
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+
+                                if (correo.equals(email)) {
+                                    Log.d("msg-test", "datos del usuario " + codigo + "  correo " + " nombre");
+                                    usuarioSesion.setId(codigo);
+                                    usuarioSesion.setNombre(nombre);
+                                    usuarioSesion.setCorreo(correo);
+                                    // Llamada al método de la interfaz con el nombre del usuario
+                                    callback.onCallback(usuarioSesion);
+                                    return;
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+    }
+
+    public interface FirestoreCallback {
+        void onCallback(usuarioSesion usuario);
     }
 
 }

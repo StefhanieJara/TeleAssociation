@@ -65,7 +65,7 @@ public class CrearEventoFragment extends Fragment {
     private View rootView; // Declarar rootView aquí
     // URI de la imagen seleccionada
     private Uri uri;
-
+    TextView nameUser;
 
 
     @Override
@@ -84,6 +84,9 @@ public class CrearEventoFragment extends Fragment {
             // Ahora puedes utilizar el nombre del usuario como lo necesites, por ejemplo:
 
             Log.d("msg-test", "El nombre del usuario fuera del collection es: " + nombreDelegado);
+
+            nameUser = rootView.findViewById(R.id.nameUser);
+            nameUser.setText(nombreDelegado);
 
             db.collection("actividad")
                     .whereEqualTo("delegado", nombreDelegado)
@@ -313,6 +316,8 @@ public class CrearEventoFragment extends Fragment {
         if (user != null) {
             String email = user.getEmail();
 
+            Log.d("msg-test", "el email es: " + email);
+
             db.collection("usuarios")
                     .get()
                     .addOnCompleteListener(task2 -> {
@@ -324,6 +329,7 @@ public class CrearEventoFragment extends Fragment {
                                 String nombre = (String) document.get("nombre");
 
                                 if (correo.equals(email)) {
+                                    Log.d("msg-test", "datos del usuario " + codigo + "  correo " + " nombre");
                                     usuarioSesion.setId(codigo);
                                     usuarioSesion.setNombre(nombre);
                                     usuarioSesion.setCorreo(correo);

@@ -13,10 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.FirstFragment;
 import com.example.teleassociation.adapter.MisEventAdapterAdminActv;
 import com.example.teleassociation.dto.eventoListarUsuario;
+import com.example.teleassociation.dto.usuarioSesion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,6 +38,8 @@ public class EventosFinalizadosFragment extends Fragment implements MisEventAdap
     private String nombreActividad;
     private String nombreUsuario;
     private MisEventAdapterAdminActv adapter;
+    TextView nameUser;
+    String nombreDelegado;
 
     public static EventosFinalizadosFragment newInstance(String nombreEvento) {
         EventosFinalizadosFragment fragment = new EventosFinalizadosFragment();
@@ -56,55 +61,64 @@ public class EventosFinalizadosFragment extends Fragment implements MisEventAdap
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_mis_eventos_creados, container, false);
 
-        recyclerView = rootView.findViewById(R.id.listMisEventos);
-        // Configurar el LayoutManager y otros ajustes necesarios para tu RecyclerView
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
+        obtenerDatosUsuario(usuarioSesion -> {
+            nombreDelegado= usuarioSesion.getNombre();
+            Log.d("msg-test", "El nombre del usuario fuera del collection es deleact: " + nombreDelegado);
+            nameUser = rootView.findViewById(R.id.nameUser);
+            nameUser.setText(nombreDelegado);
 
-        // Crear e instanciar tu adaptador
-        adapter = new MisEventAdapterAdminActv();
+            recyclerView = rootView.findViewById(R.id.listMisEventos);
+            // Configurar el LayoutManager y otros ajustes necesarios para tu RecyclerView
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
 
-        // Establecer el adaptador en el RecyclerView
-        recyclerView.setAdapter(adapter);
-        db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        Log.d("msg-test", "clash");
-        if (currentUser != null) {
-            String emailUsuario = currentUser.getEmail();
-            Log.d("msg-test", emailUsuario);
-            if (emailUsuario != null && !emailUsuario.isEmpty()) {
-                // Realizar la consulta en Firestore para obtener el nombre asociado al correo electrónico
-                db.collection("usuarios")
-                        .whereEqualTo("correo", emailUsuario)
-                        .get()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    nombreUsuario = document.getString("nombre");
-                                    Log.d("msg-test", "Nombre de usuario: " + nombreUsuario);
-                                    if (nombreUsuario != null && !nombreUsuario.isEmpty()) {
-                                        // El nombre de usuario está disponible, ahora realiza la consulta a actividades
-                                        consultarActividades();
-                                    } else {
-                                        // El nombre de usuario está ausente o vacío
-                                        Log.e("msg-test", "Nombre de usuario ausente o vacío");
+            // Crear e instanciar tu adaptador
+            adapter = new MisEventAdapterAdminActv();
+
+            // Establecer el adaptador en el RecyclerView
+            recyclerView.setAdapter(adapter);
+            db = FirebaseFirestore.getInstance();
+            mAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            Log.d("msg-test", "clash");
+            if (currentUser != null) {
+                String emailUsuario = currentUser.getEmail();
+                Log.d("msg-test", emailUsuario);
+                if (emailUsuario != null && !emailUsuario.isEmpty()) {
+                    // Realizar la consulta en Firestore para obtener el nombre asociado al correo electrónico
+                    db.collection("usuarios")
+                            .whereEqualTo("correo", emailUsuario)
+                            .get()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        nombreUsuario = document.getString("nombre");
+                                        Log.d("msg-test", "Nombre de usuario: " + nombreUsuario);
+                                        if (nombreUsuario != null && !nombreUsuario.isEmpty()) {
+                                            // El nombre de usuario está disponible, ahora realiza la consulta a actividades
+                                            consultarActividades();
+                                        } else {
+                                            // El nombre de usuario está ausente o vacío
+                                            Log.e("msg-test", "Nombre de usuario ausente o vacío");
+                                        }
                                     }
+                                } else {
+                                    // Manejar el error al realizar la consulta
+                                    Log.e("msg-test", "Error al realizar la consulta en Firestore", task.getException());
                                 }
-                            } else {
-                                // Manejar el error al realizar la consulta
-                                Log.e("msg-test", "Error al realizar la consulta en Firestore", task.getException());
-                            }
-                        });
+                            });
 
+                } else {
+                    // El correo electrónico del usuario está ausente o vacío
+                    Log.e("msg-test", "Correo electrónico del usuario ausente o vacío");
+                }
             } else {
-                // El correo electrónico del usuario está ausente o vacío
-                Log.e("msg-test", "Correo electrónico del usuario ausente o vacío");
+                // El usuario no está autenticado
+                Log.e("msg-test", "Usuario no autenticado");
             }
-        } else {
-            // El usuario no está autenticado
-            Log.e("msg-test", "Usuario no autenticado");
-        }
+        });
+
+
 
         return rootView;
     }
@@ -181,6 +195,49 @@ public class EventosFinalizadosFragment extends Fragment implements MisEventAdap
                     }
                 });
 
+    }
+
+    private void obtenerDatosUsuario(EventosFinalizadosFragment.FirestoreCallback callback) {
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        usuarioSesion usuarioSesion = new usuarioSesion();
+
+        if (user != null) {
+            String email = user.getEmail();
+            Log.d("msg-test", "el email es: " + email);
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+
+                                if (correo.equals(email)) {
+                                    Log.d("msg-test", "datos del usuario " + codigo + "  correo " + " nombre");
+                                    usuarioSesion.setId(codigo);
+                                    usuarioSesion.setNombre(nombre);
+                                    usuarioSesion.setCorreo(correo);
+                                    // Llamada al método de la interfaz con el nombre del usuario
+                                    callback.onCallback(usuarioSesion);
+                                    return;
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+    }
+
+    public interface FirestoreCallback {
+        void onCallback(usuarioSesion usuario);
     }
 
 }
