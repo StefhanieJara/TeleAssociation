@@ -29,7 +29,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class eventoDetalleAlumno extends AppCompatActivity {
     FirstFragment firstFragment = new FirstFragment();
@@ -117,6 +119,7 @@ public class eventoDetalleAlumno extends AppCompatActivity {
                 return true;
             }
             if(item.getItemId()==R.id.fourFragment){
+                FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 return true;
@@ -150,8 +153,10 @@ public class eventoDetalleAlumno extends AppCompatActivity {
         nombreTexView.setText(nombreEvento);
         String fechaSt = date.toString();
         String[] partesFechaHora = fechaSt.split(" ");
+        SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
+        String fecha = formatoFechaEsp.format(date);
         if (partesFechaHora.length >= 2) {
-            fechaTextView.setText("Fecha: " + partesFechaHora[0] + " " + partesFechaHora[1] + " " + partesFechaHora[2]);
+            fechaTextView.setText("Fecha: " + fecha);
             horaTextView.setText("Hora: " + partesFechaHora[3]);
         } else {
             fechaTextView.setText("Fecha: No disponible");

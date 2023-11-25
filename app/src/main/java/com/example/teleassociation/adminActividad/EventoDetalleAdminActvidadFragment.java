@@ -57,9 +57,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMapReadyCallback {
 
@@ -119,6 +121,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                         @Override
                         public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                             // Verifica si se encontraron documentos
+                            SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
                             if (!queryDocumentSnapshots.isEmpty()) {
                                 // Si hay documentos, obtén el primero (en este caso asumimos que solo hay uno)
                                 DocumentSnapshot documentSnapshot = queryDocumentSnapshots.getDocuments().get(0);
@@ -129,7 +132,9 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                 Date date = documentSnapshot.getDate("fecha");
                                 String fechaSt = date.toString();
                                 String[] partes = fechaSt.split(" ");
-                                String fechaEvento = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
+                                //String fechaEvento = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
+                                Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                String fechaEvento = formatoFechaEsp.format(date);
                                 String horaEvento = partes[3];
                                 String apoyos = (String) documentSnapshot.get("apoyos");
                                 String descripcion = (String) documentSnapshot.get("descripcion");
