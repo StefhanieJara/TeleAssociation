@@ -13,6 +13,15 @@
         tools:context=".DonacionDelactvActivity"
         tools:targetApi="s">
 
+        <include
+            layout="@layout/toolbar"
+            app:layout_constraintBottom_toTopOf="@+id/textView20"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/cointainerView"
             android:layout_width="0dp"

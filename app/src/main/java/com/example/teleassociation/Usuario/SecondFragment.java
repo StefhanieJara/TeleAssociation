@@ -42,6 +42,7 @@ public class SecondFragment extends Fragment {
     FirebaseAuth mAuth;
     TextView nameUser;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
+    ArrayList<String> eventosParticipa = new ArrayList<>();
     private RecyclerView recyclerView;
 
     // TODO: Rename and change types of parameters
@@ -89,73 +90,75 @@ public class SecondFragment extends Fragment {
 
         obtenerDatosUsuario(usuario -> {
             Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
+            Log.d("msg-test", "El ID del usuario fuera del collection es: " + usuario.getId());
 
             // Ahora puedes utilizar el nombre del usuario como lo necesites, por ejemplo:
             nameUser = rootView.findViewById(R.id.nameUser);
             nameUser.setText(usuario.getNombre());
+
+            Log.d("msg-test", " inicio");
+            db.collection("participantes")
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot eventosCollection = task.getResult();
+                            for (QueryDocumentSnapshot document : eventosCollection) {
+                                String asignacion = (String) document.get("asignacion");
+                                String codigo = (String) document.get("codigo");
+                                String evento = (String) document.get("evento");
+                                if (usuario.getId().equals(codigo)) {
+                                    Log.d("msg-test", " | evento: " + evento);
+                                    eventosParticipa.add(evento);}}
+
+                            // Itera a través de eventos de la colección "eventos"
+                            db.collection("eventos")
+                                    .get()
+                                    .addOnCompleteListener(task2 -> {
+                                        if (task2.isSuccessful()) {
+                                            QuerySnapshot eventosCollection2 = task2.getResult();
+                                            if(eventLista.isEmpty()){
+                                                for (QueryDocumentSnapshot document2 : eventosCollection2) {
+                                                    String eventoId = document2.getId();
+                                                    String nombre = (String) document2.get("nombre");
+                                                    String nombre_actividad = (String) document2.get("nombre_actividad");
+                                                    Date date = document2.getDate("fecha");
+                                                    String apoyos = (String) document2.get("apoyos");
+                                                    String url_imagen = (String) document2.get("url_imagen");
+                                                    String fechaSt = date.toString();
+                                                    String[] partes = fechaSt.split(" ");
+                                                    String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                                    String hora = partes[3];
+                                                    String fecha_hora = fecha+" "+hora;
+
+                                                    //Log.d("msg-test", " | nombre de eventos: " + nombre);
+
+                                                    // Verifica si el nombre del evento está en eventosParticipa
+                                                    if (eventosParticipa.contains(nombre)) {
+                                                        eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad,url_imagen);
+                                                        eventos.setId(eventoId);
+                                                        eventLista.add(eventos);
+                                                        Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
+                                                    }
+                                                }
+                                            }
+                                            MisEventAdapter misEventAdapter = new MisEventAdapter();
+                                            misEventAdapter.setEventList(eventLista);
+                                            misEventAdapter.setContext(getContext());
+
+                                            recyclerView.setAdapter(misEventAdapter);
+                                            recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+
+                                        }
+                                    });
+
+
+                        }
+                    });
         });
 
 
-        ArrayList<String> eventosParticipa = new ArrayList<>();
-        Log.d("msg-test", " inicio");
-        db.collection("participantes")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot eventosCollection = task.getResult();
-                        for (QueryDocumentSnapshot document : eventosCollection) {
-                            String asignacion = (String) document.get("asignacion");
-                            String codigo = (String) document.get("codigo");
-                            String evento = (String) document.get("evento");
-                            if (usuarioSesion.getId().equals(codigo)) {
-                                Log.d("msg-test", " | evento: " + evento);
-                                eventosParticipa.add(evento);}}
 
-                        // Itera a través de eventos de la colección "eventos"
-                        db.collection("eventos")
-                                .get()
-                                .addOnCompleteListener(task2 -> {
-                                    if (task2.isSuccessful()) {
-                                        QuerySnapshot eventosCollection2 = task2.getResult();
-                                        if(eventLista.isEmpty()){
-                                            for (QueryDocumentSnapshot document2 : eventosCollection2) {
-                                                String eventoId = document2.getId();
-                                                String nombre = (String) document2.get("nombre");
-                                                String nombre_actividad = (String) document2.get("nombre_actividad");
-                                                Date date = document2.getDate("fecha");
-                                                String apoyos = (String) document2.get("apoyos");
-                                                String url_imagen = (String) document2.get("url_imagen");
-                                                String fechaSt = date.toString();
-                                                String[] partes = fechaSt.split(" ");
-                                                String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
-                                                String hora = partes[3];
-                                                String fecha_hora = fecha+" "+hora;
-
-                                                Log.d("msg-test", " | nombre de eventos: " + nombre);
-
-                                                // Verifica si el nombre del evento está en eventosParticipa
-                                                if (eventosParticipa.contains(nombre)) {
-                                                    eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad,url_imagen);
-                                                    eventos.setId(eventoId);
-                                                    eventLista.add(eventos);
-                                                    Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
-                                                }
-                                            }
-                                        }
-
-                                        MisEventAdapter misEventAdapter = new MisEventAdapter();
-                                        misEventAdapter.setEventList(eventLista);
-                                        misEventAdapter.setContext(getContext());
-
-                                        recyclerView.setAdapter(misEventAdapter);
-                                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
-                                    }
-                                });
-
-
-                    }
-                });
 
 
         return rootView;
@@ -164,7 +167,6 @@ public class SecondFragment extends Fragment {
     private void obtenerDatosUsuario(SecondFragment.FirestoreCallback callback) {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
-        usuario usuario = new usuario();
         usuarioSesion usuarioSesion = new usuarioSesion();
 
         if (user != null) {
