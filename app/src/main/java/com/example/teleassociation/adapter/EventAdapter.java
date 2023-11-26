@@ -22,7 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.participante;
-import com.example.teleassociation.eventoDetalleAlumno;
+import com.example.teleassociation.Usuario.eventoDetalleAlumno;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

@@ -1,8 +1,9 @@
-package com.example.teleassociation;
+package com.example.teleassociation.Usuario;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -15,12 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.teleassociation.Usuario.FirstFragment;
-import com.example.teleassociation.Usuario.SecondFragment;
-import com.example.teleassociation.Usuario.ThirdFragment;
+import com.example.teleassociation.MainActivity;
+import com.example.teleassociation.R;
 import com.example.teleassociation.databinding.ActivityEventoDetalleAlumnoBinding;
 import com.example.teleassociation.dto.usuario;
 import com.example.teleassociation.dto.usuarioSesion;
+import com.example.teleassociation.subirFotoEventAlum;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,12 +50,16 @@ public class eventoDetalleAlumno extends AppCompatActivity {
     ActivityEventoDetalleAlumnoBinding binding;
     FirebaseAuth mAuth;
     TextView nameUser;
+    CardView cardView2;
+    CardView cardView4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding= ActivityEventoDetalleAlumnoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
 
         Intent intent = getIntent();
         String eventoId = intent.getStringExtra("eventoId");
@@ -108,14 +113,26 @@ public class eventoDetalleAlumno extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             if(item.getItemId()==R.id.firstFragment){
                 loadFragment(firstFragment);
+                cardView2 = findViewById(R.id.cardView2);
+                cardView2.setVisibility(View.GONE);
+                cardView4 = findViewById(R.id.cardView4);
+                cardView4.setVisibility(View.GONE);
                 return true;
             }
             if(item.getItemId()==R.id.secondFragment){
                 loadFragment(secondFragment);
+                cardView2 = findViewById(R.id.cardView2);
+                cardView2.setVisibility(View.GONE);
+                cardView4 = findViewById(R.id.cardView4);
+                cardView4.setVisibility(View.GONE);
                 return true;
             }
             if(item.getItemId()==R.id.thirdFragment){
                 loadFragment(thirdFragment);
+                cardView2 = findViewById(R.id.cardView2);
+                cardView2.setVisibility(View.GONE);
+                cardView4 = findViewById(R.id.cardView4);
+                cardView4.setVisibility(View.GONE);
                 return true;
             }
             if(item.getItemId()==R.id.fourFragment){

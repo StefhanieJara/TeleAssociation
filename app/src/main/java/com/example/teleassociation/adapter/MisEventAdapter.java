@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.eventoListarUsuario;
-import com.example.teleassociation.eventoDetalleAlumno;
+import com.example.teleassociation.Usuario.eventoDetalleAlumno;
 
 import java.util.List;
 
