@@ -27,9 +27,11 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class EventosApoyadosFragment extends Fragment implements MisEventAdapterAdminActv.OnVerEventoClickListener{
@@ -86,6 +88,7 @@ public class EventosApoyadosFragment extends Fragment implements MisEventAdapter
                                     .addOnCompleteListener(task2 -> {
                                         if (task2.isSuccessful()) {
                                             QuerySnapshot eventosCollection2 = task2.getResult();
+                                            SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
                                             if(eventLista.isEmpty()){
                                                 for (QueryDocumentSnapshot document2 : eventosCollection2) {
                                                     String eventoId = document2.getId();
@@ -96,7 +99,10 @@ public class EventosApoyadosFragment extends Fragment implements MisEventAdapter
                                                     String url_imagen = (String) document2.get("url_imagen");
                                                     String fechaSt = date.toString();
                                                     String[] partes = fechaSt.split(" ");
-                                                    String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                                    //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                                    Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                                    Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                                    String fecha = formatoFechaEsp.format(date);
                                                     String hora = partes[3];
                                                     String fecha_hora = fecha+" "+hora;
 

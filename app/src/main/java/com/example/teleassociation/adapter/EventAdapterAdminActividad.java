@@ -3,6 +3,7 @@ package com.example.teleassociation.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,12 +24,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapterAdminActividad.EventViewHolder> {
 
     private List<eventoListarUsuario> eventList;
     private Context context;
+    private Set<String> hiddenButtonEventIds = new HashSet<>();
+    private SharedPreferences sharedPreferences;
     private EventAdapterAdminActividad.OnVerEventoClickListener listener;
 
     // Interfaz para manejar clics en el botón "verEvento"
@@ -61,6 +66,7 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
 
     public void setContext(Context context) {
         this.context = context;
+        sharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
     }
 
     @NonNull
@@ -101,6 +107,11 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
                     showConfirmationDialog(event, finalHolder);
                 }
             });
+            if (context != null) {
+                // Utiliza la clave correcta para verificar la visibilidad
+                boolean isButtonVisible = sharedPreferences.getBoolean("apoyarListaEventoVisibility_" + event.getId(), true);
+                holder.apoyarListaEvento.setVisibility(isButtonVisible ? View.VISIBLE : View.GONE);
+            }
         }
 
 
@@ -201,6 +212,15 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
                 actualizarCampoApoyos(event.getId(), nuevoValorApoyos);
                 registrarParticipantes(event.getNombre());
                 holder.cantApoyos.setText("Apoyos: " + nuevoValorApoyos);
+
+                holder.apoyarListaEvento.setVisibility(View.GONE);
+
+                // Actualiza la preferencia compartida para este evento
+                if (context != null) {
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putBoolean("apoyarListaEventoVisibility_" + event.getId(), false);
+                    editor.apply();
+                }
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
