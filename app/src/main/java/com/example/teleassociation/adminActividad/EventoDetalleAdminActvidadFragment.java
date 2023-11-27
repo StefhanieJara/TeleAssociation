@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.eventoDetalleAlumno;
 import com.example.teleassociation.dto.usuarioSesion;
 import com.example.teleassociation.subirFotoEventAlum;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -164,12 +165,13 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                 textViewHora.setText("Hora: " + horaEvento);
                                 textViewApoyos.setText("Apoyos: " + apoyos);
                                 textViewDescripcion.setText(descripcion);
-
+                                Button subirFoto = view.findViewById(R.id.subirFoto);
                                 Button editarEvento = view.findViewById(R.id.editarEvento);
                                 if(delegadoSesion.equals(delegado)){
                                     editarEvento.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
+                                            subirFoto.setVisibility(View.VISIBLE);
                                             // Crear un Intent o Fragment y pasar el nombre del evento como argumento
                                             String nombreEvento = nombreEventoParticipante;
 
@@ -187,6 +189,56 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                     editarEvento.setVisibility(View.GONE);
                                 }
 
+                                Button btnVerParticipantes = view.findViewById(R.id.verParticipantes);
+                                btnVerParticipantes.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        // Crear un Intent o Fragment y pasar el nombre del evento como argumento
+                                        String nombreEvento = nombreEventoParticipante;
+
+                                        // O si estás iniciando un nuevo Fragment:
+
+                                        ListaParticipantesFragment fragment = ListaParticipantesFragment.newInstance(nombreEvento);
+                                        getParentFragmentManager().beginTransaction()
+                                                .replace(R.id.frame_container, fragment)
+                                                .addToBackStack(null)
+                                                .commit();
+
+                                    }
+                                });
+
+                                db.collection("participantes")
+                                        .whereEqualTo("evento", nombreEvento)
+                                        .whereEqualTo("nombre", delegadoSesion)
+                                        .get()
+                                        .addOnCompleteListener(task -> {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    String nombreParticipante = document.getString("nombre");
+                                                    String eventoParticipante = document.getString("evento");
+
+                                                    Log.d("msg-test", "Nombre del participante: " + nombreParticipante);
+                                                    Log.d("msg-test", "Evento del participante: " + eventoParticipante);
+
+                                                    // Aquí puedes realizar otras acciones con la información obtenida
+                                                }
+                                                if (!task.getResult().isEmpty() || delegadoSesion.equals(delegado)) {
+                                                    subirFoto.setVisibility(View.VISIBLE);
+                                                    subirFoto.setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+
+                                                        }
+                                                    });
+                                                } else {
+                                                    subirFoto.setVisibility(View.GONE);
+                                                }
+                                            } else {
+                                                Log.e("msg-test", "Error al obtener documentos: " + task.getException());
+                                            }
+                                        });
+
+
 
                             } else {
                                 Log.d("msg-test", "El documento no existe");
@@ -199,23 +251,9 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                             Log.e("msg-test", "Error al obtener documento: " + e.getMessage());
                         }
                     });
-            Button btnVerParticipantes = view.findViewById(R.id.verParticipantes);
-            btnVerParticipantes.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Crear un Intent o Fragment y pasar el nombre del evento como argumento
-                    String nombreEvento = nombreEventoParticipante;
 
-                    // O si estás iniciando un nuevo Fragment:
 
-                    ListaParticipantesFragment fragment = ListaParticipantesFragment.newInstance(nombreEvento);
-                    getParentFragmentManager().beginTransaction()
-                            .replace(R.id.frame_container, fragment)
-                            .addToBackStack(null)
-                            .commit();
 
-                }
-            });
             /*Button editarEvento = view.findViewById(R.id.editarEvento);
             editarEvento.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -233,20 +271,6 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
                 }
             });*/
-            Button subirFoto = view.findViewById(R.id.subirFoto);
-
-            subirFoto.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Aquí se ejecuta cuando se hace clic en el botón
-
-                    // Crear el Intent para abrir SubirFoto
-                    Intent intent = new Intent(getActivity(), subirFotoEventAlum.class);
-
-                    // Lanzar la nueva actividad
-                    startActivity(intent);
-                }
-            });
 
         });
 

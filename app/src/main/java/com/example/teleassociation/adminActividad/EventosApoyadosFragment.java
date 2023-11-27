@@ -117,11 +117,12 @@ public class EventosApoyadosFragment extends Fragment implements MisEventAdapter
                                                     }
                                                 }
                                             }
-                                            MisEventAdapter misEventAdapter = new MisEventAdapter();
-                                            misEventAdapter.setEventList(eventLista);
-                                            misEventAdapter.setContext(getContext());
+                                            MisEventAdapterAdminActv eventAdapter = new MisEventAdapterAdminActv();
+                                            eventAdapter.setEventList(eventLista);
+                                            eventAdapter.setContext(getContext());
+                                            eventAdapter.setListener(this);
 
-                                            recyclerView.setAdapter(misEventAdapter);
+                                            recyclerView.setAdapter(eventAdapter);
                                             recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
 

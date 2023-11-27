@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,6 +53,8 @@ public class eventoDetalleAlumno extends AppCompatActivity {
     TextView nameUser;
     CardView cardView2;
     CardView cardView4;
+    Button nuevaFoto;
+    String nombreUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +79,13 @@ public class eventoDetalleAlumno extends AppCompatActivity {
             Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
             nameUser = findViewById(R.id.nameUser);
             nameUser.setText(usuario.getNombre());
+            nombreUsuario = usuario.getNombre();
             db.collection("eventos")
                     .document(eventoId)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         if (documentSnapshot.exists()) {
+
                             // Obtén los datos del documento
                             nombreEvento = documentSnapshot.getString("nombre");
                             date = documentSnapshot.getDate("fecha");
@@ -89,6 +94,38 @@ public class eventoDetalleAlumno extends AppCompatActivity {
                             // Actualiza la vista con la información obtenida
                             updateUIWithEventData(documentSnapshot);
 
+                            db.collection("participantes")
+                                    .whereEqualTo("evento", nombreEvento)
+                                    .whereEqualTo("nombre", nombreUsuario)
+                                    .get()
+                                    .addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                String nombreParticipante = document.getString("nombre");
+                                                String eventoParticipante = document.getString("evento");
+
+                                                Log.d("msg-test", "Nombre del participante: " + nombreParticipante);
+                                                Log.d("msg-test", "Evento del participante: " + eventoParticipante);
+
+                                                // Aquí puedes realizar otras acciones con la información obtenida
+                                            }
+                                            nuevaFoto = findViewById(R.id.nuevaFoto);
+                                            if (!task.getResult().isEmpty()) {
+                                                nuevaFoto.setVisibility(View.VISIBLE);
+                                                nuevaFoto.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Intent intent=new Intent(eventoDetalleAlumno.this, subirFotoEventAlum.class);
+                                                        startActivity(intent);
+                                                    }
+                                                });
+                                            } else {
+                                                nuevaFoto.setVisibility(View.GONE);
+                                            }
+                                        } else {
+                                            Log.e("msg-test", "Error al obtener documentos: " + task.getException());
+                                        }
+                                    });
                         }
                     })
                     .addOnFailureListener(e -> {
@@ -99,12 +136,6 @@ public class eventoDetalleAlumno extends AppCompatActivity {
         });
 
 
-    }
-
-
-    public void nuevaFoto(View view){
-        Intent intent=new Intent(this, subirFotoEventAlum.class);
-        startActivity(intent);
     }
 
 
@@ -144,7 +175,6 @@ public class eventoDetalleAlumno extends AppCompatActivity {
             return false;
         }
     };
-
 
 
 

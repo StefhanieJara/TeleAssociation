@@ -90,7 +90,7 @@
             android:name=".subirFotoEventAlum"
             android:exported="false" />
         <activity
-            android:name=".eventoDetalleAlumno"
+            android:name=".Usuario.eventoDetalleAlumno"
             android:exported="false" />
         <activity
             android:name=".listaActividades"
