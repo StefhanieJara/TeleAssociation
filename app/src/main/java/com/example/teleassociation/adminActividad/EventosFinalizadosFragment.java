@@ -27,9 +27,11 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class EventosFinalizadosFragment extends Fragment implements MisEventAdapterAdminActv.OnVerEventoClickListener{
@@ -40,6 +42,9 @@ public class EventosFinalizadosFragment extends Fragment implements MisEventAdap
     private MisEventAdapterAdminActv adapter;
     TextView nameUser;
     String nombreDelegado;
+    TextView textView20;
+    Button btnBorrarEvento;
+    Button btnVerEventosFinalizados;
 
     public static EventosFinalizadosFragment newInstance(String nombreEvento) {
         EventosFinalizadosFragment fragment = new EventosFinalizadosFragment();
@@ -60,7 +65,12 @@ public class EventosFinalizadosFragment extends Fragment implements MisEventAdap
         eventLista.clear(); // Limpiar la lista antes de agregar nuevos elementos
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_mis_eventos_creados, container, false);
-
+        btnBorrarEvento = rootView.findViewById(R.id.btnBorrar);
+        btnVerEventosFinalizados = rootView.findViewById(R.id.verEventosFinalizados);
+        textView20 = rootView.findViewById(R.id.textView20);
+        btnBorrarEvento.setVisibility(View.GONE);
+        btnVerEventosFinalizados.setVisibility(View.GONE);
+        textView20.setText("Eventos finalizados");
         obtenerDatosUsuario(usuarioSesion -> {
             nombreDelegado= usuarioSesion.getNombre();
             Log.d("msg-test", "El nombre del usuario fuera del collection es deleact: " + nombreDelegado);
@@ -139,7 +149,6 @@ public class EventosFinalizadosFragment extends Fragment implements MisEventAdap
         // Realizar la consulta en Firestore para actividades
         db.collection("actividad")
                 .whereEqualTo("delegado", nombreUsuario)
-                .whereEqualTo("activo", 0)  // Reemplaza con tu otra condición
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -161,11 +170,13 @@ public class EventosFinalizadosFragment extends Fragment implements MisEventAdap
     private void listar(String nombreActividad){
 
         db.collection("eventos")
-                .whereEqualTo("nombre_actividad", nombreActividad)  // Filtra por documentos con el campo "nombre" igual a nombreEvento
+                .whereEqualTo("nombre_actividad", nombreActividad)
+                .whereEqualTo("estado", "finalizado")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         QuerySnapshot eventosCollection = task.getResult();
+                        SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
                         if(eventLista.isEmpty()){
                             for (QueryDocumentSnapshot document : eventosCollection) {
                                 String nombre = (String) document.get("nombre");
@@ -175,7 +186,10 @@ public class EventosFinalizadosFragment extends Fragment implements MisEventAdap
                                 String url_imagen = (String) document.get("url_imagen");
                                 String fechaSt = date.toString();
                                 String[] partes = fechaSt.split(" ");
-                                String fecha = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
+                                //String fecha = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
+                                //String fechaEvento = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
+                                Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                String fecha = formatoFechaEsp.format(date);
                                 String hora = partes[3];
                                 eventoListarUsuario eventos = new eventoListarUsuario(nombre, fecha, hora, apoyos, nombre_actividad,url_imagen);
                                 eventLista.add(eventos);

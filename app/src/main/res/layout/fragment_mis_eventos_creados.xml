@@ -61,7 +61,7 @@
             android:gravity="center|start|right|center_horizontal"
             android:text="Mis eventos a cargo"
             android:textColor="#191C1E"
-            android:textSize="34sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.515"

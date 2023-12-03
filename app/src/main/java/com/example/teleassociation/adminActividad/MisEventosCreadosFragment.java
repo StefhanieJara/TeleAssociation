@@ -50,6 +50,9 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
     private MisEventAdapterAdminActv adapter;
     TextView nameUser;
     String nombreDelegado;
+    TextView textView20;
+    Button btnBorrarEvento;
+    Button btnVerEventosFinalizados;
 
 
     @Override
@@ -58,12 +61,14 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
         eventLista.clear(); // Limpiar la lista antes de agregar nuevos elementos
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_mis_eventos_creados, container, false);
-        Button btnBorrarEvento = rootView.findViewById(R.id.btnBorrar);
-        Button btnVerEventosFinalizados = rootView.findViewById(R.id.verEventosFinalizados);
+        btnBorrarEvento = rootView.findViewById(R.id.btnBorrar);
+        btnVerEventosFinalizados = rootView.findViewById(R.id.verEventosFinalizados);
+        textView20 = rootView.findViewById(R.id.textView20);
 
         obtenerDatosUsuario(usuarioSesion -> {
             nombreDelegado= usuarioSesion.getNombre();
             Log.d("msg-test", "El nombre del usuario fuera del collection es deleact: " + nombreDelegado);
+            nameUser = rootView.findViewById(R.id.nameUser);
             nameUser = rootView.findViewById(R.id.nameUser);
             nameUser.setText(nombreDelegado);
         });
@@ -74,13 +79,13 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
                 // Tu lógica para el botón BorrarEvento
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Confirmar");
-                builder.setMessage("¿Estás seguro de que quieres borrar este evento?");
+                builder.setMessage("¿Estás seguro de que quieres borrar esta Actividad? No hay vuelta atrás.");
 
                 builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Realiza la acción de borrado aquí (puedes llamar al método que ya tienes para borrar el evento)
-// Verifica que el nombre de la actividad no sea nulo o vacío antes de intentar modificar
+                        // Verifica que el nombre de la actividad no sea nulo o vacío antes de intentar modificar
                         if (nombreActividad != null && !nombreActividad.isEmpty()) {
                             // Buscar el documento en la colección "actividad" con el mismo nombre de actividad
                             db.collection("actividad")
@@ -92,12 +97,36 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
                                                 // Actualiza el campo "activo" a 0 en lugar de borrar el documento
                                                 document.getReference().update("activo", 0)
                                                         .addOnSuccessListener(aVoid -> {
-                                                            // Éxito al actualizar el campo
+                                                            // Éxito al actualizar el campo "activo"
                                                             Log.d("msg-test", "Campo 'activo' actualizado a 0 con éxito");
-                                                            // Puedes realizar alguna acción adicional después de la actualización, si es necesario
+
+                                                            // Ahora, actualiza el campo "estado" a "finalizado" en la colección "eventos"
+                                                            db.collection("eventos")
+                                                                    .whereEqualTo("nombre_actividad", nombreActividad)
+                                                                    .get()
+                                                                    .addOnCompleteListener(eventosTask -> {
+                                                                        if (eventosTask.isSuccessful()) {
+                                                                            for (QueryDocumentSnapshot eventoDocument : eventosTask.getResult()) {
+                                                                                // Actualiza el campo "estado" a "finalizado"
+                                                                                eventoDocument.getReference().update("estado", "finalizado")
+                                                                                        .addOnSuccessListener(aVoid1 -> {
+                                                                                            // Éxito al actualizar el campo "estado"
+                                                                                            Log.d("msg-test", "Campo 'estado' actualizado a 'finalizado' con éxito");
+                                                                                            // Puedes realizar alguna acción adicional después de la actualización, si es necesario
+                                                                                        })
+                                                                                        .addOnFailureListener(e -> {
+                                                                                            // Error al actualizar el campo "estado"
+                                                                                            Log.e("msg-test", "Error al actualizar el campo 'estado'", e);
+                                                                                        });
+                                                                            }
+                                                                        } else {
+                                                                            Log.e("msg-test", "Error al buscar documentos en la colección 'eventos'", eventosTask.getException());
+                                                                        }
+                                                                    });
+
                                                         })
                                                         .addOnFailureListener(e -> {
-                                                            // Error al actualizar el campo
+                                                            // Error al actualizar el campo "activo"
                                                             Log.e("msg-test", "Error al actualizar el campo 'activo'", e);
                                                         });
                                             }
@@ -138,7 +167,9 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
 
                 //EventosApoyadosFragment fragment = EventosApoyadosFragment.newInstance(nombreActividad);
                 EventosFinalizadosFragment fragment1 = EventosFinalizadosFragment.newInstance(nombreActividad);
-
+                /*btnBorrarEvento.setVisibility(View.GONE);
+                btnVerEventosFinalizados.setVisibility(View.GONE);
+                textView20.setVisibility(View.GONE);*/
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.frame_container, fragment1)
                         .addToBackStack(null)
@@ -175,7 +206,7 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
                                         Log.d("msg-test", "Nombre de usuario: " + nombreUsuario);
                                         if (nombreUsuario != null && !nombreUsuario.isEmpty()) {
                                             // El nombre de usuario está disponible, ahora realiza la consulta a actividades
-                                            consultarActividades();
+                                            consultarActividades(btnBorrarEvento);
                                         } else {
                                             // El nombre de usuario está ausente o vacío
                                             Log.e("msg-test", "Nombre de usuario ausente o vacío");
@@ -211,21 +242,31 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
                 .commit();
     }
 
-    private void consultarActividades() {
+    private void consultarActividades(Button btnBorrarEvento) {
         // Realizar la consulta en Firestore para actividades
         db.collection("actividad")
                 .whereEqualTo("delegado", nombreUsuario)
-                .whereEqualTo("activo", 1)  // Reemplaza con tu otra condición
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            // Manejar cada documento que cumple con la condición
-                            // Aquí puedes acceder a los datos del documento según tus necesidades
-                            nombreActividad = document.getString("nombre");
-                            listar(nombreActividad);
-                            // ...
-                            Log.d("msg-test", "Nombre de actividad: " + nombreActividad);
+                            // Obtener el campo "activo"
+                            long activo = document.getLong("activo");
+
+                            // Verificar si el campo "activo" es igual a 0 y ocultar el botón en consecuencia
+                            if (activo == 0) {
+                                textView20.setText("No hay eventos asignados ");
+                                btnBorrarEvento.setVisibility(View.GONE);
+                            } else {
+                                // Continuar con la lógica anterior
+                                // Manejar cada documento que cumple con la condición
+                                // Aquí puedes acceder a los datos del documento según tus necesidades
+                                nombreActividad = document.getString("nombre");
+                                textView20.setText("Mis eventos actividad: " + nombreActividad);
+                                listar(nombreActividad);
+                                // ...
+                                Log.d("msg-test", "Nombre de actividad: " + nombreActividad);
+                            }
                         }
                     } else {
                         // Manejar el error
@@ -237,7 +278,8 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
     private void listar(String nombreActividad){
 
         db.collection("eventos")
-                .whereEqualTo("nombre_actividad", nombreActividad)  // Filtra por documentos con el campo "nombre" igual a nombreEvento
+                .whereEqualTo("nombre_actividad", nombreActividad)
+                .whereEqualTo("estado", "proceso")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

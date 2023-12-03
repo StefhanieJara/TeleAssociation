@@ -72,6 +72,7 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
             nameUser.setText(delegadoAct);
             // Ahora puedes utilizar el nombre del usuario como lo necesites, por ejemplo:
             db.collection("eventos")
+                    .whereEqualTo("estado", "proceso")
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {

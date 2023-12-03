@@ -100,6 +100,7 @@ public class CrearEventoFragment extends Fragment {
                             QuerySnapshot querySnapshot = task.getResult();
                             DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
                             String nombreActividad = documentSnapshot.getString("nombre");
+                            int activo = Math.toIntExact(documentSnapshot.getLong("activo"));
 
                             TextInputEditText fechaEditText = rootView.findViewById(R.id.fecha);
                             TextInputEditText eventoNombre = rootView.findViewById(R.id.evento);
@@ -107,148 +108,168 @@ public class CrearEventoFragment extends Fragment {
                             Button button80 = rootView.findViewById(R.id.button80);
                             Button botonimage = rootView.findViewById(R.id.imagen);
 
+                            /*fechaEditText.setEnabled(false);
+                            eventoNombre.setEnabled(false);
+                            descripcion.setEnabled(false);
+                            button80.setEnabled(false);
+                            botonimage.setEnabled(false);*/
 
-                            String[] items = {"Minas", "Bati", "Digimundo", "Estacionamiento de Letras", "Polideportivo"};
+                            if(activo==0){
+                                Log.e("msg-test", "El estado de la actividad es "+ activo);
+                                fechaEditText.setEnabled(false);
+                                eventoNombre.setEnabled(false);
+                                descripcion.setEnabled(false);
+                                button80.setEnabled(false);
+                                botonimage.setEnabled(false);
+                                Toast.makeText(getContext(), "No se pueden crear mas eventos.", Toast.LENGTH_SHORT).show();
+                            }else{
+                                Log.e("msg-test", "El estado de la actividad es "+ activo);
+                                String[] items = {"Minas", "Bati", "Digimundo", "Estacionamiento de Letras", "Polideportivo"};
 
-                            lugar = rootView.findViewById(R.id.lugar);
-                            adapterItems = new ArrayAdapter<>(requireContext(), R.layout.list_item, items);
-                            lugar.setAdapter(adapterItems);
+                                lugar = rootView.findViewById(R.id.lugar);
+                                adapterItems = new ArrayAdapter<>(requireContext(), R.layout.list_item, items);
+                                lugar.setAdapter(adapterItems);
 
-                            lugar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                    String selectedName = adapterView.getItemAtPosition(i).toString();
-                                    // Puedes realizar acciones con el nombre seleccionado aquí
-                                    Toast.makeText(requireContext(), "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                lugar.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                        String selectedName = adapterView.getItemAtPosition(i).toString();
+                                        // Puedes realizar acciones con el nombre seleccionado aquí
+                                        Toast.makeText(requireContext(), "Seleccionado: " + selectedName, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
-                            // Configura el campo de texto para que sea de solo lectura
-                            fechaEditText.setInputType(InputType.TYPE_NULL);
+                                // Configura el campo de texto para que sea de solo lectura
+                                fechaEditText.setInputType(InputType.TYPE_NULL);
 
 // Desactiva la interacción táctil directa con el campo de texto
-                            fechaEditText.setOnTouchListener((v, event) -> {
-                                int inType = fechaEditText.getInputType(); // Conserva la configuración original del inputType
-                                fechaEditText.setInputType(InputType.TYPE_NULL); // Desactiva la edición
-                                fechaEditText.onTouchEvent(event); // Procesa el evento táctil
+                                fechaEditText.setOnTouchListener((v, event) -> {
+                                    int inType = fechaEditText.getInputType(); // Conserva la configuración original del inputType
+                                    fechaEditText.setInputType(InputType.TYPE_NULL); // Desactiva la edición
+                                    fechaEditText.onTouchEvent(event); // Procesa el evento táctil
 
-                                // Restaura el inputType original después de procesar el evento táctil
-                                fechaEditText.setInputType(inType);
-                                return true; // Evita que se consuma el evento táctil
-                            });
+                                    // Restaura el inputType original después de procesar el evento táctil
+                                    fechaEditText.setInputType(inType);
+                                    return true; // Evita que se consuma el evento táctil
+                                });
 
 // Configura el clic para mostrar el selector de fecha
-                            fechaEditText.setOnClickListener(v -> showDateTimePickerDialog());
+                                fechaEditText.setOnClickListener(v -> showDateTimePickerDialog());
 
-                            button80.setOnClickListener(view -> {
-                                String nombreEvento = eventoNombre.getText().toString().trim();
-                                String descripcionEvento = descripcion.getText().toString().trim();
-                                String lugarName = lugar.getText().toString().trim();
-                                String fecha = fechaEditText.getText().toString().trim();
+                                button80.setOnClickListener(view -> {
+                                    String nombreEvento = eventoNombre.getText().toString().trim();
+                                    String descripcionEvento = descripcion.getText().toString().trim();
+                                    String lugarName = lugar.getText().toString().trim();
+                                    String fecha = fechaEditText.getText().toString().trim();
 
-                                if (nombreEvento.isEmpty() || descripcionEvento.isEmpty() || lugarName.isEmpty()) {
-                                    Toast.makeText(getContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    String cod_al = generateRandomCode();
+                                    if (nombreEvento.isEmpty() || descripcionEvento.isEmpty() || lugarName.isEmpty()) {
+                                        Toast.makeText(getContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        String cod_al = generateRandomCode();
 
-                                    eventoCrear evento = new eventoCrear();
-                                    evento.setApoyos("1");
-                                    evento.setDescripcion(descripcionEvento);
-                                    evento.setEstado("proceso");
-                                    evento.setNombre(nombreEvento);
-                                    evento.setNombre_lugar(lugarName);
-                                    if(lugarName.equals("Bati")){
-                                        evento.setUbicacion(-12.073198534215251,-77.08159029588224);
-                                    } else if (lugarName.equals("Digimundo")) {
-                                        evento.setUbicacion(-12.07316474474935,-77.08135327613498);
-                                    } else if (lugarName.equals("Minas")) {
-                                        evento.setUbicacion(-12.0721793337368,-77.08197205625702);
-                                    } else if (lugarName.equals("Polideportivo")) {
-                                        evento.setUbicacion(-12.0721793337368,-77.08197205625702);
-                                    } else if (lugarName.equals("Local de ensayo")) {
-                                        evento.setUbicacion(-12.075643035700846,-77.06511929051032);
-                                    } else if (lugarName.equals("Estacionamiento de Letras")) {
-                                        evento.setUbicacion(-12.0721793337368,-77.08197205625702);
+                                        eventoCrear evento = new eventoCrear();
+                                        evento.setApoyos("1");
+                                        evento.setDescripcion(descripcionEvento);
+                                        evento.setEstado("proceso");
+                                        evento.setNombre(nombreEvento);
+                                        evento.setNombre_lugar(lugarName);
+                                        if(lugarName.equals("Bati")){
+                                            evento.setUbicacion(-12.073198534215251,-77.08159029588224);
+                                        } else if (lugarName.equals("Digimundo")) {
+                                            evento.setUbicacion(-12.07316474474935,-77.08135327613498);
+                                        } else if (lugarName.equals("Minas")) {
+                                            evento.setUbicacion(-12.0721793337368,-77.08197205625702);
+                                        } else if (lugarName.equals("Polideportivo")) {
+                                            evento.setUbicacion(-12.0721793337368,-77.08197205625702);
+                                        } else if (lugarName.equals("Local de ensayo")) {
+                                            evento.setUbicacion(-12.075643035700846,-77.06511929051032);
+                                        } else if (lugarName.equals("Estacionamiento de Letras")) {
+                                            evento.setUbicacion(-12.0721793337368,-77.08197205625702);
 
-                                    }
-                                    evento.setNombre_actividad(nombreActividad);
-                                    evento.setDelegado(nombreDelegado);
+                                        }
+                                        evento.setNombre_actividad(nombreActividad);
+                                        evento.setDelegado(nombreDelegado);
 
-                                    // Subir la imagen a Firebase Storage
-                                    StorageReference imageRef = reference.child("eventos/" + uri.getLastPathSegment());
-                                    UploadTask uploadTask = imageRef.putFile(uri);
+                                        // Subir la imagen a Firebase Storage
+                                        StorageReference imageRef = reference.child("eventos/" + uri.getLastPathSegment());
+                                        UploadTask uploadTask = imageRef.putFile(uri);
 
-                                    uploadTask.addOnFailureListener(exception -> {
-                                        exception.printStackTrace();
-                                        Log.e("msg-test", "Error en la carga de la imagen", exception);
-                                    }).addOnSuccessListener(taskSnapshot -> {
-                                        // Obtén la URL de la imagen subida
-                                        imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
-                                            // Guarda la URL de la imagen en el evento
-                                            evento.setUrl_imagen(downloadUri.toString());
+                                        uploadTask.addOnFailureListener(exception -> {
+                                            exception.printStackTrace();
+                                            Log.e("msg-test", "Error en la carga de la imagen", exception);
+                                        }).addOnSuccessListener(taskSnapshot -> {
+                                            // Obtén la URL de la imagen subida
+                                            imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                                                // Guarda la URL de la imagen en el evento
+                                                evento.setUrl_imagen(downloadUri.toString());
 
-                                            // Manejo del formato de fecha
-                                            //String fechaHoraString = "2023-11-01 15:30:00";
-                                            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                // Manejo del formato de fecha
+                                                //String fechaHoraString = "2023-11-01 15:30:00";
+                                                SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                                            try {
-                                                // Parsea la cadena en un objeto Date
-                                                //Date fechaHoraDate = formato.parse(fechaHoraString);
-                                                Date fechaHoraDate = formato.parse(fecha);
+                                                try {
+                                                    // Parsea la cadena en un objeto Date
+                                                    //Date fechaHoraDate = formato.parse(fechaHoraString);
+                                                    Date fechaHoraDate = formato.parse(fecha);
 
-                                                // Crea un Timestamp a partir del objeto Date
-                                                Timestamp timestamp = new Timestamp(fechaHoraDate);
-                                                evento.setFecha(timestamp);
+                                                    // Crea un Timestamp a partir del objeto Date
+                                                    Timestamp timestamp = new Timestamp(fechaHoraDate);
+                                                    evento.setFecha(timestamp);
 
-                                                Log.d("msg-test", evento.getNombre() + " " + evento.getNombre_lugar() + " .");
+                                                    Log.d("msg-test", evento.getNombre() + " " + evento.getNombre_lugar() + " .");
 
-                                                db.collection("eventos")
-                                                        .document(cod_al)
-                                                        .set(evento)
-                                                        .addOnSuccessListener(unused -> {
-                                                            // Luego, agrega un documento a la colección "participantes"
-                                                            Map<String, Object> participanteData = new HashMap<>();
-                                                            participanteData.put("asignacion", "Delegado");
-                                                            participanteData.put("codigo", codigoDelegado);
-                                                            participanteData.put("evento", evento.getNombre());
-                                                            participanteData.put("nombre", nombreDelegado);
+                                                    db.collection("eventos")
+                                                            .document(cod_al)
+                                                            .set(evento)
+                                                            .addOnSuccessListener(unused -> {
+                                                                // Luego, agrega un documento a la colección "participantes"
+                                                                Map<String, Object> participanteData = new HashMap<>();
+                                                                participanteData.put("asignacion", "Delegado");
+                                                                participanteData.put("codigo", codigoDelegado);
+                                                                participanteData.put("evento", evento.getNombre());
+                                                                participanteData.put("nombre", nombreDelegado);
 
-                                                            db.collection("participantes")
-                                                                    .add(participanteData)
-                                                                    .addOnSuccessListener(documentReference -> {
-                                                                        // Después de agregar el participante, inicia la nueva actividad
-                                                                        Intent intent = new Intent(getContext(), ListaActividadesDelactvActivity.class);
-                                                                        intent.putExtra("Evento creado.", true);
-                                                                        startActivity(intent);
-                                                                    })
-                                                                    .addOnFailureListener(e -> {
-                                                                        Toast.makeText(getContext(), "Algo pasó al guardar el participante", Toast.LENGTH_SHORT).show();
-                                                                    });
-                                                        })
-                                                        .addOnFailureListener(e -> {
-                                                            Toast.makeText(getContext(), "Algo pasó al guardar el evento", Toast.LENGTH_SHORT).show();
-                                                        });
+                                                                db.collection("participantes")
+                                                                        .add(participanteData)
+                                                                        .addOnSuccessListener(documentReference -> {
+                                                                            // Después de agregar el participante, inicia la nueva actividad
+                                                                            Intent intent = new Intent(getContext(), ListaActividadesDelactvActivity.class);
+                                                                            intent.putExtra("Evento creado.", true);
+                                                                            startActivity(intent);
+                                                                        })
+                                                                        .addOnFailureListener(e -> {
+                                                                            Toast.makeText(getContext(), "Algo pasó al guardar el participante", Toast.LENGTH_SHORT).show();
+                                                                        });
+                                                            })
+                                                            .addOnFailureListener(e -> {
+                                                                Toast.makeText(getContext(), "Algo pasó al guardar el evento", Toast.LENGTH_SHORT).show();
+                                                            });
 
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                                Log.e("msg-test", "Error en el bloque try-catch", e);
-                                            }
+                                                } catch (ParseException e) {
+                                                    e.printStackTrace();
+                                                    Log.e("msg-test", "Error en el bloque try-catch", e);
+                                                }
+                                            });
+                                        }).addOnProgressListener(snapshot -> {
+                                            long bytesTransferred = snapshot.getBytesTransferred();
+                                            long totalByteCount = snapshot.getTotalByteCount();
+                                            double porcentajeSubida = Math.round(bytesTransferred * 1.0f / totalByteCount * 100);
+                                            TextView textoSubida = rootView.findViewById(R.id.subiendo);
+                                            textoSubida.setText(porcentajeSubida + "%");
                                         });
-                                    }).addOnProgressListener(snapshot -> {
-                                        long bytesTransferred = snapshot.getBytesTransferred();
-                                        long totalByteCount = snapshot.getTotalByteCount();
-                                        double porcentajeSubida = Math.round(bytesTransferred * 1.0f / totalByteCount * 100);
-                                        TextView textoSubida = rootView.findViewById(R.id.subiendo);
-                                        textoSubida.setText(porcentajeSubida + "%");
-                                    });
-                                }
-                            });
+                                    }
+                                });
 
-                            botonimage.setOnClickListener(view -> {
-                                pickMedia.launch(new PickVisualMediaRequest.Builder()
-                                        .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
-                                        .build());
-                            });
+                                botonimage.setOnClickListener(view -> {
+                                    pickMedia.launch(new PickVisualMediaRequest.Builder()
+                                            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                                            .build());
+                                });
+                            }
+
+
+
+
 
 
                         } else {
