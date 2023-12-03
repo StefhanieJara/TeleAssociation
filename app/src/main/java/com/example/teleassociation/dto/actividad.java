@@ -6,7 +6,6 @@ public class actividad {
     private String descripcion;
     private String nombre;
     private String url_imagen;
-    private String id;
     private int activo = 1;
 
     public int getActivo() {
@@ -15,14 +14,6 @@ public class actividad {
 
     public void setActivo(int activo) {
         this.activo = activo;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getDelegado() {

@@ -75,7 +75,6 @@ public class AdminGeneralInicioAdapter extends RecyclerView.Adapter<AdminGeneral
                 intent.putExtra("actividadDescripcion", actividad.getDescripcion());
                 intent.putExtra("actividadDelegado", actividad.getDelegado());
                 intent.putExtra("actividadImagen", actividad.getUrl_imagen());
-                intent.putExtra("actividadID", actividad.getId());
 
                 // Iniciar la nueva actividad
                 context.startActivity(intent);

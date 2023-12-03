@@ -150,7 +150,6 @@ public class AdminGeneralInicioFragment extends Fragment {
                                 String descripcion = (String) document.get("descripcion");
                                 String url_imagen = (String) document.get("url_imagen");
                                 actividad actividad = new actividad();
-                                actividad.setId(id);
                                 actividad.setNombre(nombre);
                                 actividad.setDelegado(delegado);
                                 actividad.setDescripcion(descripcion);
