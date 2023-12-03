@@ -109,9 +109,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:backgroundTint="#558A9A"
+                android:backgroundTint="#191C1E"
                 android:text="Apoyar evento"
-                android:textColor="#03264A"
+                android:textColor="#EFEEEE"
                 android:textSize="14sp" />
 
             <Button
@@ -119,9 +119,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:backgroundTint="#558A9A"
+                android:backgroundTint="#191C1E"
                 android:text="Ver evento"
-                android:textColor="#03264A"
+                android:textColor="#EFEEEE"
                 android:textSize="14sp" />
 
         </LinearLayout>
