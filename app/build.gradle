@@ -88,6 +88,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.firebaseui:firebase-ui-auth:7.2.0'
+    implementation 'com.google.firebase:firebase-database:20.3.0'
 
     implementation "com.sun.mail:android-mail:1.6.7"
 

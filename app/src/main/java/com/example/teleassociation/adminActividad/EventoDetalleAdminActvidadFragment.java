@@ -77,7 +77,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
     FirebaseAuth mAuth;
     TextView nameUser;
     String delegadoSesion;
-
+    String id;
     public static EventoDetalleAdminActvidadFragment newInstance(String nombreEvento) {
         EventoDetalleAdminActvidadFragment fragment = new EventoDetalleAdminActvidadFragment();
         Bundle args = new Bundle();
@@ -130,6 +130,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                 // Ahora puedes obtener los datos del documento
                                 String nombreEvento = documentSnapshot.getString("nombre");
 
+                                id=documentSnapshot.getId();
                                 Date date = documentSnapshot.getDate("fecha");
                                 String fechaSt = date.toString();
                                 String[] partes = fechaSt.split(" ");
@@ -167,6 +168,8 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                 textViewDescripcion.setText(descripcion);
                                 Button subirFoto = view.findViewById(R.id.subirFoto);
                                 Button editarEvento = view.findViewById(R.id.editarEvento);
+                                Button chatear = view.findViewById(R.id.chatear);
+
                                 if(delegadoSesion.equals(delegado)){
                                     editarEvento.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -186,7 +189,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                         }
                                     });
                                 }else{
-                                    editarEvento.setVisibility(View.GONE);
+                                    editarEvento.setVisibility(View.INVISIBLE);
                                 }
 
                                 Button btnVerParticipantes = view.findViewById(R.id.verParticipantes);
@@ -199,6 +202,24 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                         // O si estás iniciando un nuevo Fragment:
 
                                         ListaParticipantesFragment fragment = ListaParticipantesFragment.newInstance(nombreEvento);
+                                        getParentFragmentManager().beginTransaction()
+                                                .replace(R.id.frame_container, fragment)
+                                                .addToBackStack(null)
+                                                .commit();
+
+                                    }
+                                });
+
+                                chatear.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        // Crear un Intent o Fragment y pasar el nombre del evento como argumento
+                                        String nombreEvento = nombreEventoParticipante;
+                                        String idEvento = id;
+
+                                        // O si estás iniciando un nuevo Fragment:
+
+                                        ChatFragment fragment = ChatFragment.newInstance(nombreEvento,idEvento);
                                         getParentFragmentManager().beginTransaction()
                                                 .replace(R.id.frame_container, fragment)
                                                 .addToBackStack(null)
