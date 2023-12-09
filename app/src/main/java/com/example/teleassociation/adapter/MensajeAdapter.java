@@ -1,6 +1,7 @@
 package com.example.teleassociation.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,11 +50,15 @@ public class MensajeAdapter extends RecyclerView.Adapter<MensajeAdapter.ViewHold
 
         // Cargar informaa2ción del usuario si el campo usuario es válido
         if (mensaje.getUsuario() != null && !mensaje.getUsuario().isEmpty()) {
-            loadUserInfo(mensaje.getUsuario(), holder);
+            //loadUserInfo(mensaje.getUsuario(), holder);
+            //Log.d("clash", mensaje.getUsuario());
+            holder.textUserName.setText(mensaje.getUsuario());
         } else {
             // Manejar el caso en que el campo usuario no es válido
             // Puedes establecer un valor predeterminado en el ViewHolder o dejar los campos en blanco
             holder.textUserName.setText("Usuario Desconocido");
+            Log.d("clashn't", "pipipi");
+
             // También puedes manejar la carga de la imagen del avatar aquí si es necesario
         }
     }
@@ -85,7 +90,6 @@ public class MensajeAdapter extends RecyclerView.Adapter<MensajeAdapter.ViewHold
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageAvatar = itemView.findViewById(R.id.imageAvatar);
             textUserName = itemView.findViewById(R.id.textUsuario);
             textMessage = itemView.findViewById(R.id.textMensaje);
         }

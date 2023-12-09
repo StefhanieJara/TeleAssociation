@@ -1,11 +1,14 @@
 package com.example.teleassociation.adminActividad;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,9 +16,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.teleassociation.R;
 import com.example.teleassociation.adapter.MensajeAdapter;
 import com.example.teleassociation.dto.Mensaje;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -23,9 +32,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 public class ChatFragment extends Fragment {
 
@@ -37,7 +52,7 @@ public class ChatFragment extends Fragment {
 
     private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
-
+    private String userName;
 
     public static ChatFragment newInstance(String nombreEvento, String id) {
         ChatFragment fragment = new ChatFragment();
@@ -52,10 +67,30 @@ public class ChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_chat, container, false);
     }
+    /*private void loadBlurredImage(ImageView imageView) {
+        // URL o recurso de la imagen que quieres usar como fondo
+        int drawableResourceId = R.drawable.go; // Reemplaza "nombre_de_tu_imagen" con el nombre real de tu archivo de imagen
 
+        // Aplicar el efecto de desenfoque usando Glide Transformations
+        MultiTransformation<Bitmap> multiTransformation = new MultiTransformation<>(
+                new BlurTransformation(25, 3)
+                // Puedes ajustar los parámetros del desenfoque según tus preferencias
+        );
+
+        RequestOptions requestOptions = RequestOptions.bitmapTransform(multiTransformation)
+                .placeholder(R.drawable.hiro)  // Puedes agregar un placeholder mientras se carga la imagen
+                .error(R.drawable.telito);  // Puedes agregar una imagen de error en caso de que la carga falle
+
+        Glide.with(this)
+                .load(drawableResourceId)
+                .apply(requestOptions)
+                .into(imageView);
+    }*/
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //ImageView imageView = view.findViewById(R.id.imageViewBackground);
+        //loadBlurredImage(imageView);
 
         editTextMensaje = view.findViewById(R.id.editTextMensaje);
         btnEnviar = view.findViewById(R.id.btnEnviar);
@@ -90,7 +125,44 @@ public class ChatFragment extends Fragment {
     private void enviarMensaje() {
         String mensajeTexto = editTextMensaje.getText().toString().trim();
         String userId = firebaseUser.getUid();
-        String userName = firebaseUser.getDisplayName();
+        // Obtén el email del usuario autenticado
+        String userEmail = firebaseUser.getEmail();
+        Log.d("sudo", "Email del usuario: " + userEmail);
+
+
+// Referencia a la colección de usuarios en Firestore
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference usuariosCollection = db.collection("usuarios");
+
+// Realiza la consulta para encontrar el documento con el email correspondiente
+        usuariosCollection.whereEqualTo("correo", userEmail)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            // Verifica si hay algún documento que coincida con el email
+                            if (!task.getResult().isEmpty()) {
+                                // Obtén el primer documento (puedes ajustar esto según tus necesidades)
+                                DocumentSnapshot document = task.getResult().getDocuments().get(0);
+
+                                // Obtén el campo "nombre" del documento
+                                userName = document.getString("nombre");
+
+                                // Haz algo con el nombre del usuario
+                                Log.d("sudo", "Nombre del usuario: " + userName);
+                            } else {
+                                // El email no coincide con ningún usuario en la colección
+                                Log.d("sudo", "No se encontró ningún usuario con el email proporcionado.");
+                            }
+                        } else {
+                            // Error al realizar la consulta
+                            Log.e("sudo", "Error al obtener el documento de usuario:", task.getException());
+                        }
+                    }
+                });
+
+
         if (!mensajeTexto.isEmpty()) {
             Mensaje nuevoMensaje = new Mensaje(userName, userId,mensajeTexto);
             databaseReference.push().setValue(nuevoMensaje);
