@@ -85,16 +85,7 @@ public class ThirdFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_third, container, false);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
-
-        reference=storage.getReference();
-
-        obtenerDatosUsuario(usuario -> {
-            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
-
-            // Ahora puedes utilizar el nombre del usuario como lo necesites, por ejemplo:
-            nameUser = rootView.findViewById(R.id.nameUser);
-            nameUser.setText(usuario.getNombre());
-        });
+        reference = storage.getReference();
 
         Button button9 = rootView.findViewById(R.id.button9);
         TextInputEditText donativo = rootView.findViewById(R.id.donativo);
@@ -107,61 +98,73 @@ public class ThirdFragment extends Fragment {
                     .build());
         });
 
-        button9.setOnClickListener(view -> {
-            String donativoStr = donativo.getText().toString();
+        // Obtener datos de usuario y realizar acciones después de obtenerlos
+        obtenerDatosUsuario(usuario -> {
+            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
 
-            try {
-                // Intenta convertir donativoStr a un número
-                double monto = Double.parseDouble(donativoStr);
+            // Ahora puedes utilizar el nombre y el código del usuario como lo necesites
+            nameUser = rootView.findViewById(R.id.nameUser);
+            nameUser.setText(usuario.getNombre());
 
-                // Si la conversión tiene éxito, procede a crear y guardar el objeto 'pagos'
-                pagos pagos = new pagos();
-                pagos.setCodigo_usuario("20190000");
-                pagos.setMonto(String.valueOf(monto));
-                pagos.setValidado("No");
+            // Obtén el código del usuario
+            String codigoUsuario = usuario.getId();
 
-                // Subir la imagen a Firebase Storage
-                if (uri != null) {
-                    StorageReference imageRef = reference.child("donaciones/" + uri.getLastPathSegment());
-                    UploadTask uploadTask = imageRef.putFile(uri);
+            button9.setOnClickListener(view -> {
+                String donativoStr = donativo.getText().toString();
 
-                    uploadTask.addOnFailureListener(exception -> {
-                        exception.printStackTrace();
-                        Log.e("msg-test", "Error en la carga de la imagen", exception);
-                    }).addOnSuccessListener(taskSnapshot -> {
-                        // Obtén la URL de la imagen subida
-                        imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
-                            // Guarda la URL de la imagen en el objeto pagos
-                            pagos.setUrl_imagen(downloadUri.toString());
+                try {
+                    // Intenta convertir donativoStr a un número
+                    double monto = Double.parseDouble(donativoStr);
 
-                            // Cargar la imagen seleccionada en el ImageView
-                            Glide.with(requireContext()).load(uri).into(imageView14);
+                    // Si la conversión tiene éxito, procede a crear y guardar el objeto 'pagos'
+                    pagos pagos = new pagos();
+                    pagos.setCodigo_usuario(codigoUsuario);
+                    pagos.setMonto(String.valueOf(monto));
+                    pagos.setValidado("Pendiente");
 
-                            // Guarda el objeto pagos en Firestore
-                            String cod_al = generateRandomCode();
+                    // Subir la imagen a Firebase Storage
+                    if (uri != null) {
+                        StorageReference imageRef = reference.child("donaciones/" + uri.getLastPathSegment());
+                        UploadTask uploadTask = imageRef.putFile(uri);
 
-                            db.collection("pagos")
-                                    .document(cod_al)
-                                    .set(pagos)
-                                    .addOnSuccessListener(unused -> {
-                                        // Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getContext(), inicio_usuario.class);
-                                        intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
-                                        startActivity(intent);
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
-                                    });
+                        uploadTask.addOnFailureListener(exception -> {
+                            exception.printStackTrace();
+                            Log.e("msg-test", "Error en la carga de la imagen", exception);
+                        }).addOnSuccessListener(taskSnapshot -> {
+                            // Obtén la URL de la imagen subida
+                            imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                                // Guarda la URL de la imagen en el objeto pagos
+                                pagos.setUrl_imagen(downloadUri.toString());
+
+                                // Cargar la imagen seleccionada en el ImageView
+                                Glide.with(requireContext()).load(uri).into(imageView14);
+
+                                // Guarda el objeto pagos en Firestore
+                                String cod_al = generateRandomCode();
+
+                                db.collection("pagos")
+                                        .document(cod_al)
+                                        .set(pagos)
+                                        .addOnSuccessListener(unused -> {
+                                            // Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getContext(), inicio_usuario.class);
+                                            intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
+                                            startActivity(intent);
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                        });
+                            });
                         });
-                    });
-                } else {
-                    // Si no se seleccionó una imagen, puedes manejarlo aquí
-                    Toast.makeText(getContext(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Si no se seleccionó una imagen, puedes manejarlo aquí
+                        Toast.makeText(getContext(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (NumberFormatException e) {
+                    // Si no se puede convertir a número, muestra un mensaje de error
+                    Toast.makeText(getContext(), "El valor tiene que ser numérico", Toast.LENGTH_SHORT).show();
                 }
-            } catch (NumberFormatException e) {
-                // Si no se puede convertir a número, muestra un mensaje de error
-                Toast.makeText(getContext(), "El valor tiene que ser numérico", Toast.LENGTH_SHORT).show();
-            }
+            });
         });
 
         return rootView;

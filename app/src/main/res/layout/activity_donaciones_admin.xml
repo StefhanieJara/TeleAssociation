@@ -17,138 +17,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
-
-    <LinearLayout
-        android:layout_width="375dp"
-        android:layout_height="535dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.664">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="376dp"
-            android:layout_height="230dp"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
-                android:text="Nombre: Hiroshi Gotoku" />
-
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="165dp"
-                android:layout_height="110dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/telito" />
-
-            <TextView
-                android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
-                android:layout_marginLeft="250dp"
-                android:layout_marginTop="25dp"
-                android:text="Rol: Egresado" />
-
-            <Button
-                android:id="@+id/outlinedButton"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="240dp"
-                android:layout_marginTop="170dp"
-                android:text="Rechazar" />
-
-            <Button
-                android:id="@+id/outlinedButton1"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="170dp"
-                android:text="Confirmar" />
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="376dp"
-            android:layout_height="230dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5">
-
-            <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="25dp"
-                android:text="Nombre: Hiroshi Gotoku" />
-
-
-            <ImageView
-                android:id="@+id/imageView3"
-                android:layout_width="165dp"
-                android:layout_height="110dp"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/telito" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="250dp"
-                android:layout_marginLeft="250dp"
-                android:layout_marginTop="25dp"
-                android:text="Rol: Egresado" />
-
-            <Button
-                android:id="@+id/outlinedButton2"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="240dp"
-                android:layout_marginTop="170dp"
-                android:text="Rechazar" />
-
-            <Button
-                android:id="@+id/outlinedButton3"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="170dp"
-                android:text="Confirmar" />
-
-
-        </com.google.android.material.card.MaterialCardView>
-
-    </LinearLayout>
-
     <TextView
         android:id="@+id/textView19"
         android:layout_width="140dp"
@@ -168,7 +36,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </FrameLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listaDonaciones"
+        android:layout_width="match_parent"
+        android:layout_height="560dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        app:boxBackgroundMode="outline"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView19"
+        tools:ignore="NotSibling"></androidx.recyclerview.widget.RecyclerView>
+
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
