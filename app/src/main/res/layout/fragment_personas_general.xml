@@ -18,6 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
 
+
     <TextView
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
@@ -28,59 +29,52 @@
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarAdmin"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.041" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listRecyclerListaGeneralUsuario"
+        android:layout_width="352dp"
+        android:layout_height="420dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="1dp"
+        app:boxBackgroundMode="outline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView23"
+        tools:ignore="NotSibling"></androidx.recyclerview.widget.RecyclerView>
+
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputLayout5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textView23">
+        android:id="@+id/Condicion"
+        android:layout_width="120dp"
+        android:layout_height="27dp"
+        android:layout_gravity="center"
+        android:layout_margin="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/diseno1"
+        android:hint="Orden"
+        android:textColorHint="#A59E9E"
+        app:layout_constraintBottom_toTopOf="@+id/listRecyclerListaGeneralUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textView23"
+        tools:ignore="MissingConstraints">
 
-        <com.google.android.material.tabs.TabLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView18">
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre"
-                tools:layout_editor_absoluteX="0dp"
-                tools:layout_editor_absoluteY="100dp" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Estado"
-                tools:layout_editor_absoluteX="125dp"
-                tools:layout_editor_absoluteY="84dp" />
-
-            <com.google.android.material.tabs.TabItem
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Validado"
-                tools:layout_editor_absoluteX="148dp"
-                tools:layout_editor_absoluteY="83dp" />
-        </com.google.android.material.tabs.TabLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/listRecyclerListaGeneralUsuario"
-            android:layout_width="match_parent"
-            android:layout_height="401dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginEnd="1dp"
-            app:boxBackgroundMode="outline"
-            app:layout_constraintBottom_toTopOf="@+id/btnVerUsuarios"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView20"
-            tools:ignore="NotSibling" />
+        <Spinner
+            android:id="@+id/spinnerCondicion"
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:layout_gravity="center"
+            android:layout_margin="4dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textColor="@color/black"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -163,6 +163,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                             .into(imageViewEvento);
                                 }
 
+                                Button btnVerParticipantes = view.findViewById(R.id.verParticipantes);
 
                                 textViewNombreEvento.setText(nombreEvento);
                                 textViewFecha.setText("Fecha: " + fechaEvento);
@@ -198,9 +199,9 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                     });
                                 }else{
                                     editarEvento.setVisibility(View.INVISIBLE);
+                                    btnVerParticipantes.setVisibility(View.INVISIBLE);
                                 }
 
-                                Button btnVerParticipantes = view.findViewById(R.id.verParticipantes);
                                 btnVerParticipantes.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {

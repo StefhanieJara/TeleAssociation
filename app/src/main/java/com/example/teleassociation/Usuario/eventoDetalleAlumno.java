@@ -145,25 +145,31 @@ public class eventoDetalleAlumno extends AppCompatActivity {
             if(item.getItemId()==R.id.firstFragment){
                 loadFragment(firstFragment);
                 cardView2 = findViewById(R.id.cardView2);
+                cardView2.setVisibility(View.INVISIBLE);
                 cardView2.setVisibility(View.GONE);
                 cardView4 = findViewById(R.id.cardView4);
-                cardView4.setVisibility(View.GONE);
+                cardView4.setVisibility(View.INVISIBLE);
+                cardView2.setVisibility(View.GONE);
                 return true;
             }
             if(item.getItemId()==R.id.secondFragment){
                 loadFragment(secondFragment);
                 cardView2 = findViewById(R.id.cardView2);
+                cardView2.setVisibility(View.INVISIBLE);
                 cardView2.setVisibility(View.GONE);
                 cardView4 = findViewById(R.id.cardView4);
-                cardView4.setVisibility(View.GONE);
+                cardView4.setVisibility(View.INVISIBLE);
+                cardView2.setVisibility(View.GONE);
                 return true;
             }
             if(item.getItemId()==R.id.thirdFragment){
                 loadFragment(thirdFragment);
                 cardView2 = findViewById(R.id.cardView2);
+                cardView2.setVisibility(View.INVISIBLE);
                 cardView2.setVisibility(View.GONE);
                 cardView4 = findViewById(R.id.cardView4);
-                cardView4.setVisibility(View.GONE);
+                cardView4.setVisibility(View.INVISIBLE);
+                cardView2.setVisibility(View.GONE);
                 return true;
             }
             if(item.getItemId()==R.id.fourFragment){

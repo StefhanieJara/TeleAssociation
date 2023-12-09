@@ -12,19 +12,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
 import com.example.teleassociation.adapter.AdminGeneralInicioAdapter;
+import com.example.teleassociation.adapter.PersonasGeneralAdapter;
 import com.example.teleassociation.adapter.donacionesAdminAdapter;
 import com.example.teleassociation.dto.actividad;
 import com.example.teleassociation.dto.pagos;
 import com.example.teleassociation.dto.usuario;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -40,7 +47,7 @@ public class donacionesAdmin extends AppCompatActivity {
 
     FirebaseFirestore db;
     RecyclerView recyclerView;
-
+    TextInputLayout CondicionDonacion;
 
     List<pagos> donacionesLista = new ArrayList<>();
 
@@ -49,10 +56,11 @@ public class donacionesAdmin extends AppCompatActivity {
     TextView nameUser;
     usuario usuario = new usuario();
 
-
+    private Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        donacionesLista.clear();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donaciones_admin);
 
@@ -148,12 +156,38 @@ public class donacionesAdmin extends AppCompatActivity {
                     }
                 });
 
+        String[] opciones = {"Total","Validado" ,"Invalidado", "Pendiente"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        CondicionDonacion = findViewById(R.id.CondicionDonacion);
+        spinner = findViewById(R.id.spinnerCondicionDonacion);
+        spinner.setAdapter(adapter);
 
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedOption = opciones[position];
+
+                if ("Total".equals(selectedOption)) {
+                    Total();
+                } else if("Validado".equals(selectedOption)) {
+                    Validado();
+                } else if("Invalidado".equals(selectedOption)) {
+                    Invalidado();
+                } else {
+                    Pendiente();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Método necesario pero no utilizado en este caso
+            }
+        });
 
 
 
     }
-
 
 
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -161,18 +195,42 @@ public class donacionesAdmin extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             if(item.getItemId()==R.id.firstFragment){
                 loadFragment(adminGeneralInicioFragment);
+                recyclerView.setVisibility(View.INVISIBLE);
+                spinner.setVisibility(View.INVISIBLE);
+                CondicionDonacion.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                spinner.setVisibility(View.GONE);
+                CondicionDonacion.setVisibility(View.GONE);
                 return true;
             }
             if(item.getItemId()==R.id.secondFragment){
                 loadFragment(listaActividadesGeneralFragment);
+                recyclerView.setVisibility(View.INVISIBLE);
+                spinner.setVisibility(View.INVISIBLE);
+                CondicionDonacion.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                spinner.setVisibility(View.GONE);
+                CondicionDonacion.setVisibility(View.GONE);
                 return true;
             }
             if(item.getItemId()==R.id.thirdFragment){
                 loadFragment(crearActividadFragment);
+                recyclerView.setVisibility(View.INVISIBLE);
+                spinner.setVisibility(View.INVISIBLE);
+                CondicionDonacion.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                spinner.setVisibility(View.GONE);
+                CondicionDonacion.setVisibility(View.GONE);
                 return true;
             }
             if(item.getItemId()==R.id.fourFragment){
                 loadFragment(personasGeneralFragment);
+                recyclerView.setVisibility(View.INVISIBLE);
+                spinner.setVisibility(View.INVISIBLE);
+                CondicionDonacion.setVisibility(View.INVISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                spinner.setVisibility(View.GONE);
+                CondicionDonacion.setVisibility(View.GONE);
                 return true;
             }
             if(item.getItemId()==R.id.sixtFragment){
@@ -185,9 +243,6 @@ public class donacionesAdmin extends AppCompatActivity {
         }
     };
 
-
-
-
     public void loadFragment(Fragment fragment){
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container,fragment);
@@ -195,7 +250,152 @@ public class donacionesAdmin extends AppCompatActivity {
 
     }
 
+    private void Total() {
+        donacionesLista.clear();
+        db.collection("pagos")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot actividadCollection = task.getResult();
 
+                        if(donacionesLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : actividadCollection) {
+                                String codigo_usuario = (String) document.get("codigo_usuario");
+                                String monto = (String) document.get("monto");
+                                String validado = (String) document.get("validado");
+                                String url_imagen = (String) document.get("url_imagen");
+                                pagos pagos = new pagos();
+                                pagos.setId(document.getId());  // Establecer el ID del documento
+                                pagos.setCodigo_usuario(codigo_usuario);
+                                pagos.setMonto(monto);
+                                pagos.setUrl_imagen(url_imagen);
+                                donacionesLista.add(pagos);
+
+                            }
+                        }
+
+                        donacionesAdminAdapter donacionesAdminAdapter = new donacionesAdminAdapter();
+                        donacionesAdminAdapter.setActividadDonaciones(donacionesLista);
+                        donacionesAdminAdapter.setContext(this);
+
+
+                        recyclerView.setAdapter(donacionesAdminAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                    }
+                });
+    }
+
+    private void Validado() {
+        donacionesLista.clear();
+        db.collection("pagos")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot actividadCollection = task.getResult();
+
+                        if(donacionesLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : actividadCollection) {
+                                String codigo_usuario = (String) document.get("codigo_usuario");
+                                String monto = (String) document.get("monto");
+                                String validado = (String) document.get("validado");
+                                String url_imagen = (String) document.get("url_imagen");
+                                pagos pagos = new pagos();
+                                pagos.setId(document.getId());  // Establecer el ID del documento
+                                pagos.setCodigo_usuario(codigo_usuario);
+                                pagos.setMonto(monto);
+                                pagos.setUrl_imagen(url_imagen);
+                                if(validado.equals("Sí")){
+                                    donacionesLista.add(pagos);
+                                }
+                            }
+                        }
+
+                        donacionesAdminAdapter donacionesAdminAdapter = new donacionesAdminAdapter();
+                        donacionesAdminAdapter.setActividadDonaciones(donacionesLista);
+                        donacionesAdminAdapter.setContext(this);
+
+
+                        recyclerView.setAdapter(donacionesAdminAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                    }
+                });
+    }
+
+    private void Invalidado() {
+        donacionesLista.clear();
+        db.collection("pagos")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot actividadCollection = task.getResult();
+
+                        if(donacionesLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : actividadCollection) {
+                                String codigo_usuario = (String) document.get("codigo_usuario");
+                                String monto = (String) document.get("monto");
+                                String validado = (String) document.get("validado");
+                                String url_imagen = (String) document.get("url_imagen");
+                                pagos pagos = new pagos();
+                                pagos.setId(document.getId());  // Establecer el ID del documento
+                                pagos.setCodigo_usuario(codigo_usuario);
+                                pagos.setMonto(monto);
+                                pagos.setUrl_imagen(url_imagen);
+                                if(validado.equals("No")){
+                                    donacionesLista.add(pagos);
+                                }
+                            }
+                        }
+
+                        donacionesAdminAdapter donacionesAdminAdapter = new donacionesAdminAdapter();
+                        donacionesAdminAdapter.setActividadDonaciones(donacionesLista);
+                        donacionesAdminAdapter.setContext(this);
+
+
+                        recyclerView.setAdapter(donacionesAdminAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                    }
+                });
+    }
+
+    private void Pendiente() {
+        donacionesLista.clear();
+        db.collection("pagos")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot actividadCollection = task.getResult();
+
+                        if(donacionesLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : actividadCollection) {
+                                String codigo_usuario = (String) document.get("codigo_usuario");
+                                String monto = (String) document.get("monto");
+                                String validado = (String) document.get("validado");
+                                String url_imagen = (String) document.get("url_imagen");
+                                pagos pagos = new pagos();
+                                pagos.setId(document.getId());  // Establecer el ID del documento
+                                pagos.setCodigo_usuario(codigo_usuario);
+                                pagos.setMonto(monto);
+                                pagos.setUrl_imagen(url_imagen);
+                                if(validado.equals("Pendiente")){
+                                    donacionesLista.add(pagos);
+                                }
+                            }
+                        }
+
+                        donacionesAdminAdapter donacionesAdminAdapter = new donacionesAdminAdapter();
+                        donacionesAdminAdapter.setActividadDonaciones(donacionesLista);
+                        donacionesAdminAdapter.setContext(this);
+
+
+                        recyclerView.setAdapter(donacionesAdminAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                    }
+                });
+    }
 
 
 }
