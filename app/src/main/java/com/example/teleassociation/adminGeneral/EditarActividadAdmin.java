@@ -200,10 +200,10 @@ public class EditarActividadAdmin extends AppCompatActivity {
                             // Se encontraron documentos que cumplen con la condición de la consulta
                             for (QueryDocumentSnapshot document : querySnapshot) {
                                 // Obtiene el ID del documento para realizar la actualización
-                                String documentId = document.getId();
+                                String codigoDelegadoAntiguo = document.getId();
 
                                 // Actualiza el documento con el nuevo valor para el campo "rol"
-                                usuariosCollection.document(documentId)
+                                usuariosCollection.document(codigoDelegadoAntiguo)
                                         .update("rol", "Usuario")
                                         .addOnSuccessListener(aVoid -> {
                                             // La actualización fue exitosa
@@ -220,13 +220,10 @@ public class EditarActividadAdmin extends AppCompatActivity {
                                                     QuerySnapshot querySnapshot2 = task3.getResult();
 
                                                     if (querySnapshot2 != null && !querySnapshot2.isEmpty()) {
-                                                        // Se encontraron documentos que cumplen con la condición de la consulta
                                                         for (QueryDocumentSnapshot document2 : querySnapshot2) {
-                                                            // Obtiene el ID del documento para realizar la actualización
-                                                            String documentId2 = document2.getId();
+                                                            String codigoDelegadoNuevo = document2.getId();
 
-                                                            // Actualiza el documento con el nuevo valor para el campo "rol"
-                                                            usuariosCollection2.document(documentId2)
+                                                            usuariosCollection2.document(codigoDelegadoNuevo)
                                                                     .update("rol", "DelegadoActividad")
                                                                     .addOnSuccessListener(aVoid2 -> {
                                                                         // La actualización fue exitosa
@@ -234,10 +231,56 @@ public class EditarActividadAdmin extends AppCompatActivity {
                                                                         actividadRef
                                                                                 .update("delegado", delegadoStr)
                                                                                 .addOnSuccessListener(unused -> {
-                                                                                    Intent intent = new Intent(this, inicioAdmin.class);
-                                                                                    intent.putExtra("Nuevo delegado.", true);
-                                                                                    startActivity(intent);
-                                                                                    Log.d("msg-test", "Usuario actualizado con éxito.");
+
+                                                                                    // Obtener la referencia a la colección "eventos"
+                                                                                    CollectionReference eventosRef = FirebaseFirestore.getInstance().collection("eventos");
+                                                                                    eventosRef.whereEqualTo("delegado", actividadDelegadoAntiguo)
+                                                                                            .get()
+                                                                                            .addOnCompleteListener(task10 -> {
+                                                                                                if (task10.isSuccessful()) {
+                                                                                                    for (QueryDocumentSnapshot document10 : task10.getResult()) {
+
+                                                                                                        DocumentReference eventoRef = document10.getReference();
+                                                                                                        eventoRef.update("delegado", delegadoStr)
+                                                                                                                .addOnSuccessListener(aVoid10 -> {
+                                                                                                                    // Referencia a la colección "participantes"
+                                                                                                                    CollectionReference participantesRef = FirebaseFirestore.getInstance().collection("participantes");
+                                                                                                                    participantesRef.whereEqualTo("asignacion", "Delegado")
+                                                                                                                            .whereEqualTo("codigo", codigoDelegadoAntiguo)
+                                                                                                                            .get()
+                                                                                                                            .addOnCompleteListener(task20 -> {
+                                                                                                                                if (task20.isSuccessful()) {
+                                                                                                                                    for (QueryDocumentSnapshot document20 : task20.getResult()) {
+                                                                                                                                        // Obtener la referencia del documento
+                                                                                                                                        DocumentReference participanteRef = document20.getReference();
+
+                                                                                                                                        participanteRef.update("codigo", codigoDelegadoNuevo, "nombre", delegadoStr)
+                                                                                                                                                .addOnSuccessListener(aVoid20 -> {
+                                                                                                                                                    Intent intent = new Intent(this, inicioAdmin.class);
+                                                                                                                                                    intent.putExtra("Nuevo delegado.", true);
+                                                                                                                                                    startActivity(intent);
+                                                                                                                                                    Log.d("msg-test", "Usuario actualizado con éxito.");
+                                                                                                                                                })
+                                                                                                                                                .addOnFailureListener(e -> {
+                                                                                                                                                    // Error al actualizar
+                                                                                                                                                    Log.e("msg-test", "Error al actualizar documento en participantes", e);
+                                                                                                                                                });
+                                                                                                                                    }
+                                                                                                                                } else {
+                                                                                                                                    // Error al obtener documentos
+                                                                                                                                    Log.e("msg-test", "Error al obtener documentos en participantes", task.getException());
+                                                                                                                                }
+                                                                                                                            });
+                                                                                                                })
+                                                                                                                .addOnFailureListener(e -> {
+                                                                                                                    Log.w("msg-test", "Error al actualizar documento", e);
+                                                                                                                });
+                                                                                                    }
+                                                                                                } else {
+                                                                                                    // Manejar la excepción si la consulta falla
+                                                                                                    Log.w("msg-test", "Error obteniendo documentos", task.getException());
+                                                                                                }
+                                                                                            });
                                                                                 })
                                                                                 .addOnFailureListener(e -> {
                                                                                     Toast.makeText(this, "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
@@ -257,14 +300,6 @@ public class EditarActividadAdmin extends AppCompatActivity {
                                                     Log.e("msg-test", "Error al obtener documentos: " + task.getException());
                                                 }
                                             });
-
-
-
-
-
-
-
-
                                         })
                                         .addOnFailureListener(e -> {
                                             // Maneja la excepción en caso de error en la actualización

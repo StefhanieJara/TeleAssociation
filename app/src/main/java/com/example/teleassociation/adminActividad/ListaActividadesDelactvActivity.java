@@ -55,6 +55,9 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
         if (getIntent().getBooleanExtra("Pago con éxito.", false)) {
             Toast.makeText(this, "Pago enviado. Esperar su confirmación.", Toast.LENGTH_SHORT).show();
         }
+        if (getIntent().getBooleanExtra("Evento actualizado.", false)) {
+            Toast.makeText(this, "Evento actualizado con éxito.", Toast.LENGTH_SHORT).show();
+        }
         db = FirebaseFirestore.getInstance();
         obtenerDatosUsuario(usuario -> {
             Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());

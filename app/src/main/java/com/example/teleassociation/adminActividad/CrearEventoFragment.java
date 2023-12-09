@@ -162,7 +162,7 @@ public class CrearEventoFragment extends Fragment {
                                     String lugarName = lugar.getText().toString().trim();
                                     String fecha = fechaEditText.getText().toString().trim();
 
-                                    if (nombreEvento.isEmpty() || descripcionEvento.isEmpty() || lugarName.isEmpty()) {
+                                    if (nombreEvento.isEmpty() || descripcionEvento.isEmpty() || lugarName.isEmpty() || fecha.isEmpty()) {
                                         Toast.makeText(getContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show();
                                     } else {
                                         String cod_al = generateRandomCode();

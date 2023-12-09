@@ -285,6 +285,7 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
                     if (task.isSuccessful()) {
                         QuerySnapshot eventosCollection = task.getResult();
                         SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
+                        SimpleDateFormat formatoFechaNuevo = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
                         if(eventLista.isEmpty()){
                             for (QueryDocumentSnapshot document : eventosCollection) {
                                 String nombre = (String) document.get("nombre");
@@ -296,8 +297,8 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
                                 String[] partes = fechaSt.split(" ");
                                 //String fecha = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
                                 //String fechaEvento = partes[0] + " " + partes[1] + " " + partes[2] + " " + partes[3]; // "Mon Oct 30"
-                                Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
-                                String fecha = formatoFechaEsp.format(date);
+                                Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaNuevo.format(date));
+                                String fecha = formatoFechaNuevo.format(date);
                                 String hora = partes[3];
                                 eventoListarUsuario eventos = new eventoListarUsuario(nombre, fecha, hora, apoyos, nombre_actividad,url_imagen);
                                 eventLista.add(eventos);

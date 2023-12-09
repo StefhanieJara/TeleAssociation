@@ -6,6 +6,17 @@ public class pagos {
     private String url_imagen;
     private String validado;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
+
+
     public String getCodigo_usuario() {
         return codigo_usuario;
     }
@@ -23,6 +34,7 @@ public class pagos {
     }
 
     public String getUrl_imagen() {
+
         return url_imagen;
     }
 

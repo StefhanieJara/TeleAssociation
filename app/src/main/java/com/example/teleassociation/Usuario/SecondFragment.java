@@ -120,6 +120,7 @@ public class SecondFragment extends Fragment {
                                         if (task2.isSuccessful()) {
                                             QuerySnapshot eventosCollection2 = task2.getResult();
                                             SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
+                                            SimpleDateFormat formatoFechaNuevo = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
                                             if(eventLista.isEmpty()){
                                                 for (QueryDocumentSnapshot document2 : eventosCollection2) {
                                                     String eventoId = document2.getId();
@@ -131,9 +132,9 @@ public class SecondFragment extends Fragment {
                                                     String fechaSt = date.toString();
                                                     String[] partes = fechaSt.split(" ");
                                                     //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
-                                                    Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
-                                                    Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
-                                                    String fecha = formatoFechaEsp.format(date);
+                                                    Log.d("msg-test1","el antiguo formato de fecha es :"+date);
+                                                    Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaNuevo.format(date));
+                                                    String fecha = formatoFechaNuevo.format(date);
                                                     String hora = partes[3];
                                                     String fecha_hora = fecha+" "+hora;
 

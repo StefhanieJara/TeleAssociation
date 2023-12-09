@@ -5,6 +5,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,10 @@ import android.widget.TextView;
 
 import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
+import com.example.teleassociation.adapter.AdminGeneralInicioAdapter;
+import com.example.teleassociation.adapter.donacionesAdminAdapter;
+import com.example.teleassociation.dto.actividad;
+import com.example.teleassociation.dto.pagos;
 import com.example.teleassociation.dto.usuario;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +27,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class donacionesAdmin extends AppCompatActivity {
     AdminGeneralInicioFragment adminGeneralInicioFragment = new AdminGeneralInicioFragment();
@@ -30,6 +39,12 @@ public class donacionesAdmin extends AppCompatActivity {
     PersonasGeneralFragment personasGeneralFragment = new PersonasGeneralFragment();
 
     FirebaseFirestore db;
+    RecyclerView recyclerView;
+
+
+    List<pagos> donacionesLista = new ArrayList<>();
+
+
     FirebaseAuth mAuth;
     TextView nameUser;
     usuario usuario = new usuario();
@@ -97,6 +112,46 @@ public class donacionesAdmin extends AppCompatActivity {
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        recyclerView = findViewById(R.id.listaDonaciones);
+
+        db.collection("pagos")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot actividadCollection = task.getResult();
+
+                        if(donacionesLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : actividadCollection) {
+                                String codigo_usuario = (String) document.get("codigo_usuario");
+                                String monto = (String) document.get("monto");
+                                String validado = (String) document.get("validado");
+                                String url_imagen = (String) document.get("url_imagen");
+                                pagos pagos = new pagos();
+                                pagos.setId(document.getId());  // Establecer el ID del documento
+                                pagos.setCodigo_usuario(codigo_usuario);
+                                pagos.setMonto(monto);
+                                pagos.setUrl_imagen(url_imagen);
+                                donacionesLista.add(pagos);
+
+                            }
+                        }
+
+                        donacionesAdminAdapter donacionesAdminAdapter = new donacionesAdminAdapter();
+                        donacionesAdminAdapter.setActividadDonaciones(donacionesLista);
+                        donacionesAdminAdapter.setContext(this);
+
+
+                        recyclerView.setAdapter(donacionesAdminAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                    }
+                });
+
+
+
+
+
     }
 
 

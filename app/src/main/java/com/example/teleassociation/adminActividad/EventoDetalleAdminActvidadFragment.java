@@ -142,6 +142,9 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                 String descripcion = (String) documentSnapshot.get("descripcion");
                                 String delegado = (String) documentSnapshot.get("delegado");
                                 String urlImagenEvento = documentSnapshot.getString("url_imagen");
+                                String lugar = documentSnapshot.getString("nombre_lugar");
+                                String estado = documentSnapshot.getString("estado");
+                                String id = documentSnapshot.getId();
 
                                 Log.d("msg-test", " | nombre: " + nombreEvento + " | fecha: " + fechaEvento + " | hora: " + horaEvento + "| delegado: "+delegado);
                                 nombreEventoParticipante = nombreEvento;
@@ -177,10 +180,15 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                             subirFoto.setVisibility(View.VISIBLE);
                                             // Crear un Intent o Fragment y pasar el nombre del evento como argumento
                                             String nombreEvento = nombreEventoParticipante;
+                                            String descripcionEvento = descripcion;
+                                            Date fechaEvento = date;
+                                            String lugarEvento = lugar;
+                                            String estadoEvento = estado;
+                                            String idEvento = id;
 
                                             // O si estás iniciando un nuevo Fragment:
 
-                                            EditarEventoFragment fragment = EditarEventoFragment.newInstance(nombreEvento);
+                                            EditarEventoFragment fragment = EditarEventoFragment.newInstance(nombreEvento,descripcionEvento,fechaEvento,lugarEvento,estadoEvento,idEvento);
                                             getParentFragmentManager().beginTransaction()
                                                     .replace(R.id.frame_container, fragment)
                                                     .addToBackStack(null)
