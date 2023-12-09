@@ -1,0 +1,40 @@
+<!-- item_chat.xml -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <!-- Avatar del remitente -->
+
+    <!-- Contenedor de la burbuja del mensaje -->
+    <RelativeLayout
+        android:id="@+id/messageContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/chat_bubble">
+
+        <!-- Texto del nombre del usuario -->
+        <TextView
+            android:id="@+id/textUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:padding="4dp"
+            android:text="Leonardo"
+            android:textColor="@color/ic_teletoxic_foreground_background"
+            android:textSize="12sp" />
+
+        <!-- Texto del mensaje -->
+        <TextView
+            android:id="@+id/textMensaje"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textUsuario"
+            android:padding="8dp"
+            android:text="Hola,wenaas"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
