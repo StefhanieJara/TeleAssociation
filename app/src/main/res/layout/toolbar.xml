@@ -31,8 +31,9 @@
             android:layout_height="match_parent"
             android:layout_weight="0.3"
             android:title="campanita"
+            android:visibility="invisible"
             app:showAsAction="ifRoom"
-            app:srcCompat="@drawable/chat_icon"/>
+            app:srcCompat="@drawable/chat_icon" />
 
         <ImageView
             android:id="@+id/imageView2"
