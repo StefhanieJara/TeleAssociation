@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#191C1E"
+    android:background="#A2C6DD"
     tools:context=".subirFotoEventAlum">
 
     <ImageView
@@ -18,7 +18,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="#558A9A" />
+        app:tint="#2B464E" />
 
     <Button
         android:id="@+id/fechaDelActv"
@@ -27,7 +27,7 @@
         android:layout_gravity="center"
         android:layout_marginStart="139dp"
         android:layout_marginEnd="139dp"
-        android:backgroundTint="#558A9A"
+        android:backgroundTint="#000000"
         android:text="Subir Imagen"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -67,7 +67,7 @@
                 android:layout_gravity="start"
                 android:layout_marginTop="2dp"
                 android:scaleType="fitCenter"
-                android:src="@drawable/bati" />
+                android:src="@drawable/fotografo" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -80,7 +80,7 @@
         android:layout_marginStart="118dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="119dp"
-        android:backgroundTint="#558A9A"
+        android:backgroundTint="#000000"
         android:text="Seleccionar Imagen"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

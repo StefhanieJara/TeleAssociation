@@ -17,9 +17,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.appcheck.AppCheckProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class resetPassword extends AppCompatActivity {
     FirebaseAuth mAuth;
+    FirebaseFirestore db;
     Button butonRecuperar;
     TextInputEditText email;
 
@@ -44,29 +46,53 @@ public class resetPassword extends AppCompatActivity {
 
             Log.d("msg-test", "El correo enviado es: "+emailStr);
 
-            mAuth.sendPasswordResetEmail(emailStr)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Log.d("msg-test", "Email sent.");
+            db = FirebaseFirestore.getInstance();
+            db.collection("usuarios")
+                    .whereEqualTo("correo", emailStr)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                Log.d("msg-test", "Correo electrónico encontrado en la colección de usuarios");
+
+                                mAuth.sendPasswordResetEmail(emailStr)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.d("msg-test", "Email sent.");
                                 /*Toast.makeText(resetPassword.this, "Correcto",
                                         Toast.LENGTH_SHORT).show();*/
-                                Intent intent = new Intent(resetPassword.this, MainActivity.class);
-                                intent.putExtra("resetPassword", true);
-                                startActivity(intent);
+                                                    Intent intent = new Intent(resetPassword.this, MainActivity.class);
+                                                    intent.putExtra("resetPassword", true);
+                                                    startActivity(intent);
+                                                }
+                                            }
+                                        })
+                                        .addOnFailureListener(this, new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Manejar la excepción
+                                                Log.e("msg-test", "Exception en reset password: " + e.getMessage());
+                                                Toast.makeText(resetPassword.this, "Ha ocurrido un error al reestablecer la contraseña. Ingrese un correo correcto.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+
+
+                            } else {
+                                Toast.makeText(resetPassword.this, "Correo electrónico no encontrado.",
+                                        Toast.LENGTH_SHORT).show();
+                                Log.d("msg-test", "Correo electrónico no encontrado en la colección de usuarios");
                             }
-                        }
-                    })
-                    .addOnFailureListener(this, new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Manejar la excepción
-                            Log.e("msg-test", "Exception en reset password: " + e.getMessage());
-                            Toast.makeText(resetPassword.this, "Ha ocurrido un error al reestablecer la contraseña. Ingrese un correo correcto.",
+                        } else {
+                            Toast.makeText(resetPassword.this, "Ha ocurrido un error al reestablecer la contraseña.",
                                     Toast.LENGTH_SHORT).show();
+                            Log.e("msg-test", "Error al consultar la base de datos", task.getException());
                         }
-                    });;
+                    });
+
+
         });
     }
 

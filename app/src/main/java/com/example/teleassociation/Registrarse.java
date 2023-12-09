@@ -1,6 +1,7 @@
 package com.example.teleassociation;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -35,6 +36,12 @@ public class Registrarse extends AppCompatActivity {
         binding= ActivityRegistrarseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Ocultar barra de título
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
+
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
@@ -65,15 +72,14 @@ public class Registrarse extends AppCompatActivity {
                 binding.Nombre.setError("El campo 'Nombre' no puede estar vacío.");
             } else if (!isValidCodigo(codigo)) {
                 binding.Codigo.setError("Código no válido");
-            } else if (!isValidEmail(correo)) {
+            } else if (!isValidEmail(correo) || !correo.contains("pucp.edu.pe") && !correo.contains("pucp.edu")) {
                 binding.Correo.setError("Correo electrónico no válido");
-            } else if (!isValidPassword(contrasena)) {
-                binding.Contrasenha.setError("Contraseña no válida. Debe tener al menos 8 caracteres y al menos un carácter especial.");
+            }else if (!isValidPassword(contrasena)) {
+                binding.Contrasenha.setError("Contraseña no válida. Debe tener al menos 6 caracteres y al menos un carácter especial.");
             } else if (!contrasena.equals(confirmaContra)) {
                 binding.ConfirmaContra.setError("Las contraseñas no coinciden");
             } else {
-                // Agregar  lógica de registro
-                // ...
+
                 usuario usuario = new usuario();
                 usuario.setCondicion(condicion);
                 usuario.setContrasenha(contrasena);
@@ -86,51 +92,43 @@ public class Registrarse extends AppCompatActivity {
 
                 Log.d("msg-test", " | nombre: " + nombre + " | rol: " + rol + " | condicion: " + condicion);
 
+                //registrarUsuario(usuario, correo, contrasena,codigo);
+
                 db.collection("usuarios")
-                        .document(codigo)
-                        .set(usuario)
-                        .addOnSuccessListener(unused -> {
-
-                            Log.d("msg-test", " Entre a la coleccion" );
-
-                            mAuth.createUserWithEmailAndPassword(correo, contrasena)
-                                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            Log.d("msg-test", " OnComplete" );
-                                            if (task.isSuccessful()) {
-                                                Log.d("msg-test", " isSuccessful" );
-                                                FirebaseUser user = mAuth.getCurrentUser();
-                                                updateUI(user);
-                                                Intent intent = new Intent(Registrarse.this, MainActivity.class);
-                                                intent.putExtra("registroExitoso", true); // Agregar una marca de registro exitoso al intent
-                                                startActivity(intent);
-                                                finish(); // Finalizar la actividad actual
-                                            } else {
-                                                // If sign in fails, display a message to the user.
-                                                Log.d("msg-test", " Fail" );
-                                                updateUI(null);
-                                                Toast.makeText(Registrarse.this, "Algo pasó al guardar ", Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    }).addOnFailureListener(e -> {
-                                        // Maneja la excepción que ocurra al intentar obtener los documentos
-                                        Log.e("msg-test", "Excepción al ingresar datos al documento de la colección usuarios: ", e);
-                                        Toast.makeText(Registrarse.this, "Error al ingresar datos del usuario.", Toast.LENGTH_SHORT).show();
-                                    });
-
-
-
-
-                            /*Intent intent = new Intent(this, MainActivity.class);
-                            intent.putExtra("registroExitoso", true); // Agregar una marca de registro exitoso al intent
-                            startActivity(intent);
-                            finish(); // Finalizar la actividad actual*/
-                        })
-                        .addOnFailureListener(e -> {
-                            Log.e("msg-test", "Excepción al ingresar datos al documento de la colección usuarios: ", e);
-                            Toast.makeText(this, "Algo pasó al guardar ", Toast.LENGTH_SHORT).show();
+                        .whereEqualTo("id", codigo)
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                if (!task.getResult().isEmpty()) {
+                                    // Ya existe un usuario con el mismo código, manejar el error o mostrar un mensaje
+                                    Log.d("msg-test", "Ya existe un usuario con el mismo código.");
+                                    Toast.makeText(Registrarse.this, "Ya existe un usuario con el mismo código.", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // Verificar si ya existe un usuario con el mismo correo
+                                    db.collection("usuarios")
+                                            .whereEqualTo("correo", correo)
+                                            .get()
+                                            .addOnCompleteListener(task10 -> {
+                                                if (task10.isSuccessful()) {
+                                                    if (!task10.getResult().isEmpty()) {
+                                                        Log.d("msg-test", "Ya existe un usuario con el mismo correo.");
+                                                        Toast.makeText(Registrarse.this, "Ya existe un usuario con el mismo correo.", Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        // Ambas verificaciones pasaron, proceder con el registro
+                                                        registrarUsuario(usuario, correo, contrasena,codigo);
+                                                    }
+                                                } else {
+                                                    // Manejar el error al realizar la consulta de correo
+                                                    Log.e("msg-test", "Error al consultar la base de datos", task10.getException());
+                                                }
+                                            });
+                                }
+                            } else {
+                                // Manejar el error al realizar la consulta de código
+                                Log.e("msg-test", "Error al consultar la base de datos", task.getException());
+                            }
                         });
+
             }
         });
     }
@@ -151,10 +149,49 @@ public class Registrarse extends AppCompatActivity {
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
     private boolean isValidPassword(String password) {
-        return password.length() >= 8 && Pattern.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*", password);
+        return password.length() >= 6 && Pattern.matches(".*[!@#$%^&()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*", password);
     }
+
     private void resetErrorAndDisable(TextInputLayout textInputLayout) {
         textInputLayout.setError(null);
         textInputLayout.setErrorEnabled(false);
+    }
+
+
+    private void registrarUsuario(usuario usuario, String correo, String contrasena, String codigo) {
+        db.collection("usuarios")
+                .document(codigo)
+                .set(usuario)
+                .addOnSuccessListener(unused -> {
+                    Log.d("msg-test", "Entre a la colección");
+
+                    mAuth.createUserWithEmailAndPassword(correo, contrasena)
+                            .addOnCompleteListener(this, task -> {
+                                if (task.isSuccessful()) {
+                                    Log.d("msg-test", "Registro exitoso");
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    updateUI(user);
+                                    Intent intent = new Intent(Registrarse.this, MainActivity.class);
+                                    intent.putExtra("registroExitoso", true);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.e("msg-test", "Error al registrar el usuario", task.getException());
+                                    updateUI(null);
+                                    Toast.makeText(Registrarse.this, "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .addOnFailureListener(e -> {
+                                // Manejar la excepción al intentar autenticar en Firebase
+                                Log.e("msg-test", "Excepción al autenticar en Firebase: ", e);
+                                Toast.makeText(Registrarse.this, "Error al autenticar el usuario.", Toast.LENGTH_SHORT).show();
+                            });
+                })
+                .addOnFailureListener(e -> {
+                    // Manejar la excepción al intentar guardar en la base de datos
+                    Log.e("msg-test", "Excepción al ingresar datos al documento de la colección usuarios: ", e);
+                    Toast.makeText(Registrarse.this, "Error al ingresar datos del usuario.", Toast.LENGTH_SHORT).show();
+                });
     }
 }
