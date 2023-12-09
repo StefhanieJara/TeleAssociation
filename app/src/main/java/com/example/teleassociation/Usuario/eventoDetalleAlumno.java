@@ -4,10 +4,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -19,23 +28,44 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
+import com.example.teleassociation.adminActividad.EventoDetalleAdminActvidadFragment;
 import com.example.teleassociation.databinding.ActivityEventoDetalleAlumnoBinding;
 import com.example.teleassociation.dto.usuario;
 import com.example.teleassociation.dto.usuarioSesion;
 import com.example.teleassociation.subirFotoEventAlum;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.maps.android.PolyUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
-public class eventoDetalleAlumno extends AppCompatActivity {
+public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReadyCallback {
     FirstFragment firstFragment = new FirstFragment();
     SecondFragment secondFragment = new SecondFragment();
     ThirdFragment thirdFragment = new ThirdFragment();
@@ -43,6 +73,13 @@ public class eventoDetalleAlumno extends AppCompatActivity {
 
     private String fechaEvento;
     private String nombreEvento;
+    private String nombreEventoParticipante;
+    private MapView mapView;
+    private GoogleMap mMap;
+    private double latitud;
+    private double longitud;
+    LatLng destinoLatLng;
+    private String idEvento;
 
     private String urlImagenEvento;  // Declarar la variable
     private Date date;
@@ -59,18 +96,26 @@ public class eventoDetalleAlumno extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding= ActivityEventoDetalleAlumnoBinding.inflate(getLayoutInflater());
+        binding = ActivityEventoDetalleAlumnoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
 
+        // Obtén la referencia al MapView desde el layout
+        mapView = findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+
+        // Asegúrate de llamar a getMapAsync para establecer el callback
+        mapView.getMapAsync(this);
+
         Intent intent = getIntent();
         String eventoId = intent.getStringExtra("eventoId");
-        Log.d("msg-test", "Llegó el codigo: "+eventoId);
+        idEvento = eventoId;
+        Log.d("msg-test", "Llegó el codigo: " + eventoId);
 
         // Ocultar barra de título
         ActionBar actionBar = getSupportActionBar();
-        db=FirebaseFirestore.getInstance();
+        db = FirebaseFirestore.getInstance();
         if (actionBar != null) {
             actionBar.hide();
         }
@@ -115,7 +160,7 @@ public class eventoDetalleAlumno extends AppCompatActivity {
                                                 nuevaFoto.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View view) {
-                                                        Intent intent=new Intent(eventoDetalleAlumno.this, subirFotoEventAlum.class);
+                                                        Intent intent = new Intent(eventoDetalleAlumno.this, subirFotoEventAlum.class);
                                                         startActivity(intent);
                                                     }
                                                 });
@@ -142,7 +187,7 @@ public class eventoDetalleAlumno extends AppCompatActivity {
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            if(item.getItemId()==R.id.firstFragment){
+            if (item.getItemId() == R.id.firstFragment) {
                 loadFragment(firstFragment);
                 cardView2 = findViewById(R.id.cardView2);
                 cardView2.setVisibility(View.INVISIBLE);
@@ -152,7 +197,7 @@ public class eventoDetalleAlumno extends AppCompatActivity {
                 cardView2.setVisibility(View.GONE);
                 return true;
             }
-            if(item.getItemId()==R.id.secondFragment){
+            if (item.getItemId() == R.id.secondFragment) {
                 loadFragment(secondFragment);
                 cardView2 = findViewById(R.id.cardView2);
                 cardView2.setVisibility(View.INVISIBLE);
@@ -162,7 +207,7 @@ public class eventoDetalleAlumno extends AppCompatActivity {
                 cardView2.setVisibility(View.GONE);
                 return true;
             }
-            if(item.getItemId()==R.id.thirdFragment){
+            if (item.getItemId() == R.id.thirdFragment) {
                 loadFragment(thirdFragment);
                 cardView2 = findViewById(R.id.cardView2);
                 cardView2.setVisibility(View.INVISIBLE);
@@ -172,7 +217,7 @@ public class eventoDetalleAlumno extends AppCompatActivity {
                 cardView2.setVisibility(View.GONE);
                 return true;
             }
-            if(item.getItemId()==R.id.fourFragment){
+            if (item.getItemId() == R.id.fourFragment) {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
@@ -183,13 +228,13 @@ public class eventoDetalleAlumno extends AppCompatActivity {
     };
 
 
-
-    public void loadFragment(Fragment fragment){
+    public void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container,fragment);
+        transaction.replace(R.id.frame_container, fragment);
         transaction.commit();
 
     }
+
     private void updateUIWithEventData(DocumentSnapshot documentSnapshot) {
         // Actualiza los elementos de la vista con los valores de fechaEvento y apoyosEvento
         TextView nombreTexView = findViewById(R.id.nombreEvento);
@@ -199,8 +244,6 @@ public class eventoDetalleAlumno extends AppCompatActivity {
         TextView descripcionTextView = findViewById(R.id.decripcionEvento);
         ImageView imageViewEvento = findViewById(R.id.imagenView);  // Asegúrate de tener este ID en tu XML
         urlImagenEvento = documentSnapshot.getString("url_imagen");
-
-
 
 
         nombreTexView.setText(nombreEvento);
@@ -264,6 +307,272 @@ public class eventoDetalleAlumno extends AppCompatActivity {
         }
     }
 
+    private void solicitarPermisosDeUbicacion() {
+        if (mMap != null) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ContextCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // Si no tienes permisos, solicítalos
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                        1);
+            } else {
+                // Si ya tienes permisos, puedes habilitar la capa de "mi ubicación" y obtener la ubicación actual
+                mMap.setMyLocationEnabled(true);
+                obtenerUbicacionActual(idEvento);
+            }
+        } else {
+            Log.e("Mapa", "El mapa es nulo");
+        }
+    }
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permiso concedido, habilita la capa de "mi ubicación" y obtén la ubicación actual
+                mMap.setMyLocationEnabled(true);
+                obtenerUbicacionActual(idEvento);
+            } else {
+                // Permiso denegado, maneja la situación según tus requerimientos
+            }
+        }
+    }
+
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        solicitarPermisosDeUbicacion();
+        // Llama a la función para solicitar permisos y obtener la ubicación actual
+    }
+
+
+    private void obtenerUbicacionActual(String eventoId) {
+        // Realizar la consulta para encontrar el evento por su ID
+        db.collection("eventos")
+                .document(eventoId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot documentSnapshot = task.getResult();
+                        if (documentSnapshot.exists()) {
+                            // Documento encontrado, obtén el GeoPoint de ubicación
+                            GeoPoint ubicacion = documentSnapshot.getGeoPoint("ubicacion");
+
+                            if (ubicacion != null) {
+                                // Resto del código para procesar la ubicación
+                                latitud = ubicacion.getLatitude();
+                                longitud = ubicacion.getLongitude();
+                                destinoLatLng = new LatLng(latitud, longitud);
+
+                                // Ahora puedes usar latitud y longitud según sea necesario
+                                Log.d("Coordenadas", "Latitud: " + latitud + ", Longitud: " + longitud);
+
+                                // Verificar permisos de ubicación
+                                if (ActivityCompat.checkSelfPermission(this,
+                                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                                        && ActivityCompat.checkSelfPermission(this,
+                                        Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                                    // Si no tienes permisos, solicítalos
+                                    ActivityCompat.requestPermissions(this,
+                                            new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                                            1);
+                                } else {
+                                    LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+                                    if (locationManager != null) {
+                                        Location lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                        if (lastKnownLocation != null) {
+                                            LatLng miUbicacion = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+                                            Log.d("msg-test", String.valueOf(miUbicacion));
+
+                                            // Agregar un marcador en la ubicación actual del usuario
+                                            mMap.addMarker(new MarkerOptions().position(miUbicacion).title("Mi Ubicación"));
+
+                                            // Mover la cámara al marcador de la ubicación actual
+                                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(miUbicacion, 15f));
+
+                                            obtenerYMostrarRuta(miUbicacion, destinoLatLng);
+                                        }
+                                    }
+                                }
+                            } else {
+                                // Manejar el caso en que la ubicación sea nula
+                                Log.d("Coordenadas", "La ubicación es nula para el evento con ID: " + eventoId);
+                            }
+                        } else {
+                            // Manejar el caso en que el documento no existe
+                            Log.d("Evento", "No se encontró el evento con ID: " + eventoId);
+                        }
+                    } else {
+                        // Manejar errores en la tarea
+                        Log.e("Error", "Error al realizar la consulta: " + task.getException().getMessage());
+                    }
+                });
+    }
+
+
+    private void obtenerYMostrarRuta(LatLng origen, LatLng destino) {
+        String url = obtenerURLDirecciones(origen, destino);
+        new eventoDetalleAlumno.ObtenerRuta().execute(url);
+    }
+
+    private String obtenerURLDirecciones(LatLng origen, LatLng destino) {
+        String apiKey = "AIzaSyAUQXpnbBf2qrLbTViHWD3rcXsRMSod-KQ";  // Reemplaza con tu clave de API
+        String str_origen = "origin=" + origen.latitude + "," + origen.longitude;
+        String str_destino = "destination=" + destino.latitude + "," + destino.longitude;
+        String sensor = "sensor=false";
+        String mode = "mode=driving";
+        String params = str_origen + "&" + str_destino + "&" + sensor + "&" + mode + "&key=" + apiKey;
+        String output = "json";
+        return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + params;
+    }
+
+    private class ObtenerRuta extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... url) {
+            String data = "";
+            try {
+                data = descargarUrl(url[0]);
+            } catch (Exception e) {
+                // Manejar la excepción
+            }
+            return data;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            eventoDetalleAlumno.ParserRuta parserTask = new eventoDetalleAlumno.ParserRuta();
+            parserTask.execute(result);
+        }
+    }
+
+    private String descargarUrl(String strUrl) throws IOException {
+        String data = "";
+        HttpURLConnection urlConnection;
+        URL url = new URL(strUrl);
+
+        urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.connect();
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+            data = sb.toString();
+        } finally {
+            urlConnection.disconnect();
+        }
+
+        return data;
+    }
+
+    private class ParserRuta extends AsyncTask<String, Integer, List<LatLng>> {
+        @Override
+        protected List<LatLng> doInBackground(String... jsonData) {
+            JSONObject jObject;
+            List<LatLng> path = new ArrayList<>();
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                eventoDetalleAlumno.DirectionsJSONParser parser = new eventoDetalleAlumno.DirectionsJSONParser();
+
+                // Se empieza a parsear la dirección y se obtiene la lista de puntos de la ruta
+                path = parser.parse(jObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return path;
+        }
+
+        @Override
+        protected void onPostExecute(List<LatLng> result) {
+            PolylineOptions lineOptions = new PolylineOptions();
+            lineOptions.addAll(result);
+            lineOptions.width(5);
+            lineOptions.color(Color.BLUE);
+
+            mMap.addPolyline(lineOptions);
+        }
+    }
+
+    private class DirectionsJSONParser {
+        List<LatLng> parse(JSONObject jObject) {
+            List<LatLng> puntos = new ArrayList<>();
+            JSONArray jRoutes;
+            JSONArray jLegs;
+            JSONArray jSteps;
+
+            try {
+                jRoutes = jObject.getJSONArray("routes");
+
+                // Loop para todos los elementos de la ruta
+                for (int i = 0; i < jRoutes.length(); i++) {
+                    jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+
+                    // Loop para todos los elementos de las piernas
+                    for (int j = 0; j < jLegs.length(); j++) {
+                        jSteps = ((JSONObject) jLegs.get(j)).getJSONArray("steps");
+
+                        // Loop para todos los elementos de los pasos
+                        for (int k = 0; k < jSteps.length(); k++) {
+                            String polyline = "";
+                            polyline = (String) ((JSONObject) ((JSONObject) jSteps.get(k)).get("polyline")).get("points");
+                            List<LatLng> list = PolyUtil.decode(polyline);
+
+                            // Loop para todos los puntos de la ruta
+                            for (int l = 0; l < list.size(); l++) {
+                                double lat = list.get(l).latitude;
+                                double lng = list.get(l).longitude;
+                                LatLng position = new LatLng(lat, lng);
+
+                                puntos.add(position);
+                            }
+                        }
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return puntos;
+        }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
     }

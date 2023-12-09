@@ -148,6 +148,13 @@
                     android:textStyle="bold" />
 
                 <!-- ImageView debajo del TextView -->
+                <FrameLayout
+                    android:id="@+id/frame_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
                 <TextView
                     android:id="@+id/decripcionEvento"
                     android:layout_width="wrap_content"
@@ -158,18 +165,17 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="360dp"
-        android:layout_height="257dp"
-        android:layout_marginTop="-55dp"
-        android:layout_marginBottom="32dp"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:layout_marginBottom="68dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView4"
-        app:srcCompat="@drawable/map_pucp" />
+        app:layout_constraintVertical_bias="0.618" />
 
     <Button
         android:id="@+id/nuevaFoto"
@@ -184,13 +190,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.373" />
-
-    <FrameLayout
-        android:id="@+id/frame_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation2"
