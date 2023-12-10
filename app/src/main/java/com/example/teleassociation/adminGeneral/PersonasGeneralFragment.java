@@ -140,7 +140,7 @@ public class PersonasGeneralFragment extends Fragment {
                 });
 
 
-        String[] opciones = {"General","Validado" ,"Invalidado"};
+        String[] opciones = {"General","Validado" ,"Invalidado","Baneado"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, opciones);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner = rootView.findViewById(R.id.spinnerCondicion);
@@ -155,8 +155,10 @@ public class PersonasGeneralFragment extends Fragment {
                     cargarGeneral();
                 } else if("Validado".equals(selectedOption)) {
                     cargarValidado();
-                } else {
+                } else if("Invalidado".equals(selectedOption)) {
                     cargarInvalidado();
+                } else {
+                    cargarBaneado();
                 }
             }
 
@@ -328,6 +330,44 @@ public class PersonasGeneralFragment extends Fragment {
                                 usuario.setValidado(validacion);
                                 usuario.setCorreo(correo);
                                 if(validacion.equals("No")){
+                                    usuarioLista.add(usuario);
+                                    Log.d("msg-test", "| codigo: " + codigo + " | nombre: " + nombre + " | condicion: " + condicion + " | validacion: " + validacion);
+                                }
+                            }
+                        }
+                        PersonasGeneralAdapter personasGeneralAdapter = new PersonasGeneralAdapter();
+                        personasGeneralAdapter.setUsuarioLista(usuarioLista);
+                        personasGeneralAdapter.setContext(getContext());
+
+                        recyclerView.setAdapter(personasGeneralAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                    }
+                });
+    }
+
+    private void cargarBaneado() {
+        usuarioLista.clear();
+        db.collection("usuarios")
+                .orderBy("id", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot usuariosCollection = task.getResult();
+                        if(usuarioLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String nombre = (String) document.get("nombre");
+                                String condicion = (String) document.get("condicion");
+                                String validacion = (String) document.get("validado");
+                                String correo = (String) document.get("correo");
+                                usuario usuario = new usuario();
+                                usuario.setId(codigo);
+                                usuario.setNombre(nombre);
+                                usuario.setCondicion(condicion);
+                                usuario.setValidado(validacion);
+                                usuario.setCorreo(correo);
+                                if(validacion.equals("Baneado")){
                                     usuarioLista.add(usuario);
                                     Log.d("msg-test", "| codigo: " + codigo + " | nombre: " + nombre + " | condicion: " + condicion + " | validacion: " + validacion);
                                 }
