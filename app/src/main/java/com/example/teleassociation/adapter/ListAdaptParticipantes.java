@@ -13,12 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.teleassociation.EmailSender;
 import com.example.teleassociation.ListaParticipantes;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.participante;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.List;
 
@@ -138,9 +140,44 @@ public class ListAdaptParticipantes extends RecyclerView.Adapter<ListAdaptPartic
                                 .addOnSuccessListener(aVoid -> {
                                     // Éxito al actualizar Firebase
                                     Log.d("msg-test", "Asignación actualizada con éxito a: " + nuevaAsignacion);
-
-                                    // Actualiza el TextView con la nueva asignación
                                     asignacionTextView.setText(nuevaAsignacion);
+                                    Log.d("msg-test", "Se asigno ga");
+
+                                    db.collection("usuarios")
+                                            .whereEqualTo("id", codigo)
+                                            .limit(1)  // Limita la consulta a un solo documento
+                                            .get()
+                                            .addOnCompleteListener(task10 -> {
+                                                if (task10.isSuccessful()) {
+                                                    Log.d("msg-test", "Se asigno ga");
+                                                    if (!task10.getResult().isEmpty()) {
+                                                        Log.d("msg-test", "Se asigno ga");
+                                                        // Se encontró al menos un documento
+                                                        QueryDocumentSnapshot document = (QueryDocumentSnapshot) task10.getResult().getDocuments().get(0);
+
+                                                        // Accede a los campos del documento
+                                                        String correo = document.getString("correo");
+                                                        if (correo != null) {
+                                                            // Haz algo con el correo encontrado
+                                                            Log.d("msg-test", correo);
+                                                            if(asignacion.equals("barra")){
+                                                                EmailSender.sendEmail(correo,"Seleccion en el evento: "+evento,"Su usuario ha sido seleccionado como barra.");
+                                                            }else{
+                                                                EmailSender.sendEmail(correo,"Seleccion en el evento: "+evento,"Su usuario ha sido seleccionado como jugador.");
+                                                            }
+                                                        } else {
+                                                            // Maneja el caso en el que el campo "correo" no existe o es nulo
+                                                            Log.d("msg-test", "Correo no encontrado");
+                                                        }
+                                                    } else {
+                                                        // No se encontraron documentos que coincidan con la consulta
+                                                        Log.d("msg-test", "No hay documentos con el código: " + codigo);
+                                                    }
+                                                } else {
+                                                    // Maneja la falla en la consulta
+                                                    Log.e("msg-test", "Error obteniendo documentos", task.getException());
+                                                }
+                                            });
                                 })
                                 .addOnFailureListener(e -> {
                                     // Error al actualizar Firebase
