@@ -42,6 +42,8 @@
             android:layout_weight="0.3"
             android:title="chat"
             app:showAsAction="ifRoom"
+            android:clickable="true"
+            android:focusable="true"
             app:srcCompat="@drawable/notifications_icon" />
     </LinearLayout>
 </androidx.appcompat.widget.Toolbar>
