@@ -29,6 +29,7 @@ import com.example.teleassociation.databinding.ActivityMainBinding;
 import com.example.teleassociation.dto.usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
@@ -37,6 +38,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,22 +131,59 @@ public class MainActivity extends AppCompatActivity {
                                                         }
                                                     }
                                                     if(usuario.getValidado().equals("Si")){
-                                                        if(usuario.getRol().equals("Usuario")){
-                                                            Log.d("msg-test", "Entra rol usuario");
-                                                            Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
-                                                            //intent.putExtra("usuario", usuario);
-                                                            startActivity(intent);
-                                                        }else if(usuario.getRol().equals("DelegadoActividad")){
-                                                            Intent intent = new Intent(MainActivity.this, ListaActividadesDelactvActivity.class);
-                                                            Log.d("msg-test", "Entra rol delegado actividad");
-                                                            //intent.putExtra("usuario", usuario);
-                                                            startActivity(intent);
-                                                        }else if(usuario.getRol().equals("DelegadoGeneral")){
-                                                            Log.d("msg-test", "Entra rol delegado general");
-                                                            Intent intent = new Intent(MainActivity.this, inicioAdmin.class);
-                                                            //intent.putExtra("usuario", usuario);
-                                                            startActivity(intent);
-                                                        }
+                                                        // Obtener el token del usuario y guardarlo
+                                                        FirebaseMessaging.getInstance().getToken()
+                                                                .addOnCompleteListener(new OnCompleteListener<String>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<String> task) {
+                                                                        if (task.isSuccessful()) {
+                                                                            String token = task.getResult();
+                                                                            // Guardar el token del usuario en tu base de datos o utilizarlo según sea necesario.
+                                                                            usuario.setToken(token);
+                                                                            Log.d("msg-test", "TOKEN: " + token);
+
+                                                                            // Actualizar el campo 'token' en Firestore
+                                                                            db.collection("usuarios")
+                                                                                    .document(usuario.getId()) // Supongo que 'getId()' devuelve el ID único del usuario en Firestore
+                                                                                    .update("token", token)
+                                                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                        @Override
+                                                                                        public void onSuccess(Void unused) {
+                                                                                            Log.d("msg-test", "Token actualizado en Firestore");
+                                                                                        }
+                                                                                    })
+                                                                                    .addOnFailureListener(new OnFailureListener() {
+                                                                                        @Override
+                                                                                        public void onFailure(@NonNull Exception e) {
+                                                                                            Log.e("msg-test", "Error al actualizar el token en Firestore", e);
+                                                                                            showError("Error al actualizar el token en Firestore");
+                                                                                        }
+                                                                                    });
+
+                                                                            // Resto del código
+                                                                            if(usuario.getRol().equals("Usuario")){
+                                                                                Log.d("msg-test", "Entra rol usuario");
+                                                                                Intent intent = new Intent(MainActivity.this, inicio_usuario.class);
+                                                                                //intent.putExtra("usuario", usuario);
+                                                                                startActivity(intent);
+                                                                            } else if(usuario.getRol().equals("DelegadoActividad")){
+                                                                                Intent intent = new Intent(MainActivity.this, ListaActividadesDelactvActivity.class);
+                                                                                Log.d("msg-test", "Entra rol delegado actividad");
+                                                                                //intent.putExtra("usuario", usuario);
+                                                                                startActivity(intent);
+                                                                            } else if(usuario.getRol().equals("DelegadoGeneral")){
+                                                                                Log.d("msg-test", "Entra rol delegado general");
+                                                                                Intent intent = new Intent(MainActivity.this, inicioAdmin.class);
+                                                                                //intent.putExtra("usuario", usuario);
+                                                                                startActivity(intent);
+                                                                            }
+                                                                        } else {
+                                                                            // Si no se pudo obtener el token, manejar el error
+                                                                            Log.w("msg-test", "No se pudo obtener el token del usuario");
+                                                                            showError("No se pudo obtener el token del usuario");
+                                                                        }
+                                                                    }
+                                                                });
                                                     }else{
                                                         Toast.makeText(MainActivity.this, "El usuario no ha sido validado.",
                                                                 Toast.LENGTH_SHORT).show();
@@ -234,6 +273,9 @@ public class MainActivity extends AppCompatActivity {
     private void resetErrorAndDisable(TextInputLayout textInputLayout) {
         textInputLayout.setError(null);
         textInputLayout.setErrorEnabled(false);
+    }
+    private void showError(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void updateUI(FirebaseUser user) {}
