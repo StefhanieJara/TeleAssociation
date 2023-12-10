@@ -11,12 +11,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.Usuario.FirstFragment;
 import com.example.teleassociation.adapter.EventAdapter;
+import com.example.teleassociation.adapter.ListaActividadesGeneralAdapter;
 import com.example.teleassociation.adapter.PersonasGeneralAdapter;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.usuario;
@@ -24,12 +28,15 @@ import com.example.teleassociation.dto.usuarioSesion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +50,7 @@ public class PersonasGeneralFragment extends Fragment {
     private List<usuario> usuarioLista = new ArrayList<>();
     FirebaseAuth mAuth;
     TextView nameUser;
+    private Spinner spinner;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,7 +95,7 @@ public class PersonasGeneralFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        usuarioLista.clear();
         View rootView = inflater.inflate(R.layout.fragment_personas_general, container, false);
         db = FirebaseFirestore.getInstance();
         recyclerView = rootView.findViewById(R.id.listRecyclerListaGeneralUsuario);
@@ -99,6 +107,7 @@ public class PersonasGeneralFragment extends Fragment {
         });
 
         db.collection("usuarios")
+                .orderBy("id", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -129,6 +138,34 @@ public class PersonasGeneralFragment extends Fragment {
 
                     }
                 });
+
+
+        String[] opciones = {"General","Validado" ,"Invalidado"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, opciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner = rootView.findViewById(R.id.spinnerCondicion);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedOption = opciones[position];
+
+                if ("General".equals(selectedOption)) {
+                    cargarGeneral();
+                } else if("Validado".equals(selectedOption)) {
+                    cargarValidado();
+                } else {
+                    cargarInvalidado();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Método necesario pero no utilizado en este caso
+            }
+        });
+
         ImageView btnStats = rootView.findViewById(R.id.btnStats);
         btnStats.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,4 +230,118 @@ public class PersonasGeneralFragment extends Fragment {
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
     }
+
+
+    private void cargarGeneral() {
+        usuarioLista.clear();
+        db.collection("usuarios")
+                .orderBy("id", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot usuariosCollection = task.getResult();
+                        if(usuarioLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String nombre = (String) document.get("nombre");
+                                String condicion = (String) document.get("condicion");
+                                String validacion = (String) document.get("validado");
+                                String correo = (String) document.get("correo");
+                                usuario usuario = new usuario();
+                                usuario.setId(codigo);
+                                usuario.setNombre(nombre);
+                                usuario.setCondicion(condicion);
+                                usuario.setValidado(validacion);
+                                usuario.setCorreo(correo);
+                                usuarioLista.add(usuario);
+                                Log.d("msg-test", "| codigo: " + codigo + " | nombre: " + nombre + " | condicion: " + condicion + " | validacion: " + validacion);
+                            }
+                        }
+                        PersonasGeneralAdapter personasGeneralAdapter = new PersonasGeneralAdapter();
+                        personasGeneralAdapter.setUsuarioLista(usuarioLista);
+                        personasGeneralAdapter.setContext(getContext());
+
+                        recyclerView.setAdapter(personasGeneralAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                    }
+                });
+    }
+
+    private void cargarValidado() {
+        usuarioLista.clear();
+        db.collection("usuarios")
+                .orderBy("id", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot usuariosCollection = task.getResult();
+                        if(usuarioLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String nombre = (String) document.get("nombre");
+                                String condicion = (String) document.get("condicion");
+                                String validacion = (String) document.get("validado");
+                                String correo = (String) document.get("correo");
+                                usuario usuario = new usuario();
+                                usuario.setId(codigo);
+                                usuario.setNombre(nombre);
+                                usuario.setCondicion(condicion);
+                                usuario.setValidado(validacion);
+                                usuario.setCorreo(correo);
+                                if(validacion.equals("Si")){
+                                    usuarioLista.add(usuario);
+                                    Log.d("msg-test", "| codigo: " + codigo + " | nombre: " + nombre + " | condicion: " + condicion + " | validacion: " + validacion);
+                                }
+                            }
+                        }
+                        PersonasGeneralAdapter personasGeneralAdapter = new PersonasGeneralAdapter();
+                        personasGeneralAdapter.setUsuarioLista(usuarioLista);
+                        personasGeneralAdapter.setContext(getContext());
+
+                        recyclerView.setAdapter(personasGeneralAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                    }
+                });
+    }
+
+    private void cargarInvalidado() {
+        usuarioLista.clear();
+        db.collection("usuarios")
+                .orderBy("id", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot usuariosCollection = task.getResult();
+                        if(usuarioLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String nombre = (String) document.get("nombre");
+                                String condicion = (String) document.get("condicion");
+                                String validacion = (String) document.get("validado");
+                                String correo = (String) document.get("correo");
+                                usuario usuario = new usuario();
+                                usuario.setId(codigo);
+                                usuario.setNombre(nombre);
+                                usuario.setCondicion(condicion);
+                                usuario.setValidado(validacion);
+                                usuario.setCorreo(correo);
+                                if(validacion.equals("No")){
+                                    usuarioLista.add(usuario);
+                                    Log.d("msg-test", "| codigo: " + codigo + " | nombre: " + nombre + " | condicion: " + condicion + " | validacion: " + validacion);
+                                }
+                            }
+                        }
+                        PersonasGeneralAdapter personasGeneralAdapter = new PersonasGeneralAdapter();
+                        personasGeneralAdapter.setUsuarioLista(usuarioLista);
+                        personasGeneralAdapter.setContext(getContext());
+
+                        recyclerView.setAdapter(personasGeneralAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                    }
+                });
+    }
+
 }

@@ -24,6 +24,7 @@ import com.example.teleassociation.dto.usuario;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -128,6 +129,7 @@ public class AdminGeneralInicioFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.listRecyclerActividadAdmin);
 
         db.collection("actividad")
+                .orderBy("nombre", Query.Direction.DESCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,18 +12,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.Usuario.FirstFragment;
+import com.example.teleassociation.adapter.EventAdapterAdminActividad;
 import com.example.teleassociation.adapter.ListaActividadesGeneralAdapter;
+import com.example.teleassociation.adminActividad.EventosApoyadosFragment;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.usuario;
 import com.example.teleassociation.dto.usuarioSesion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -53,6 +61,7 @@ public class ListaActividadesGeneralFragment extends Fragment {
     usuario usuario = new usuario();
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     private RecyclerView recyclerView;
+    private Spinner spinner;
 
     public ListaActividadesGeneralFragment() {
         // Required empty public constructor
@@ -102,6 +111,7 @@ public class ListaActividadesGeneralFragment extends Fragment {
         recyclerView = rootView.findViewById(R.id.listRecyclerEventoAdmin);
 
         db.collection("eventos")
+                .orderBy("fecha", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -136,6 +146,31 @@ public class ListaActividadesGeneralFragment extends Fragment {
 
                     }
                 });
+
+
+        String[] opciones = {"Reciente", "Después"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, opciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner = rootView.findViewById(R.id.spinnerCondicion);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selectedOption = opciones[position];
+
+                if ("Después".equals(selectedOption)) {
+                    cargarEventosDespues();
+                } else {
+                    cargarEventosRecientes();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Método necesario pero no utilizado en este caso
+            }
+        });
 
         ImageView btnStats = rootView.findViewById(R.id.btnStats);
         btnStats.setOnClickListener(new View.OnClickListener() {
@@ -201,4 +236,87 @@ public class ListaActividadesGeneralFragment extends Fragment {
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
     }
+
+
+    private void cargarEventosDespues() {
+        eventLista.clear();
+        db.collection("eventos")
+                .orderBy("fecha", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot eventosCollection = task.getResult();
+                        SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
+                        if(eventLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : eventosCollection) {
+                                String nombre = (String) document.get("nombre");
+                                String nombre_actividad = (String) document.get("nombre_actividad");
+                                Date date = document.getDate("fecha");
+                                String apoyos = (String) document.get("apoyos");
+                                String fechaSt = date.toString();
+                                String url_imagen = (String) document.get("url_imagen");
+                                String[] partes = fechaSt.split(" ");
+                                //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                String fecha = formatoFechaEsp.format(date);
+                                String hora = partes[3];
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                eventLista.add(eventos);
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
+                            }
+                        }
+
+                        ListaActividadesGeneralAdapter listaActividadesGeneralAdapter = new ListaActividadesGeneralAdapter();
+                        listaActividadesGeneralAdapter.setEventList(eventLista);
+                        listaActividadesGeneralAdapter.setContext(getContext());
+
+                        // Inicializa el RecyclerView y el adaptador
+                        recyclerView.setAdapter(listaActividadesGeneralAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                    }
+                });
+    }
+
+    private void cargarEventosRecientes(){
+        eventLista.clear();
+        db.collection("eventos")
+                .orderBy("fecha", Query.Direction.ASCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot eventosCollection = task.getResult();
+                        SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
+                        if(eventLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : eventosCollection) {
+                                String nombre = (String) document.get("nombre");
+                                String nombre_actividad = (String) document.get("nombre_actividad");
+                                Date date = document.getDate("fecha");
+                                String apoyos = (String) document.get("apoyos");
+                                String fechaSt = date.toString();
+                                String url_imagen = (String) document.get("url_imagen");
+                                String[] partes = fechaSt.split(" ");
+                                //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                String fecha = formatoFechaEsp.format(date);
+                                String hora = partes[3];
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                eventLista.add(eventos);
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
+                            }
+                        }
+
+                        ListaActividadesGeneralAdapter listaActividadesGeneralAdapter = new ListaActividadesGeneralAdapter();
+                        listaActividadesGeneralAdapter.setEventList(eventLista);
+                        listaActividadesGeneralAdapter.setContext(getContext());
+
+                        // Inicializa el RecyclerView y el adaptador
+                        recyclerView.setAdapter(listaActividadesGeneralAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+                    }
+                });
+    }
+
+
 }

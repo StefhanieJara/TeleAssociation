@@ -10,6 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
@@ -20,6 +23,7 @@ import com.example.teleassociation.dto.usuarioSesion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -46,6 +50,9 @@ public class FirstFragment extends Fragment {
     TextView nameUser;
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     private RecyclerView recyclerView;
+    private Spinner spinner;
+    String nombreUsuario;
+    String codigoUsuario;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -91,6 +98,7 @@ public class FirstFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
         recyclerView = rootView.findViewById(R.id.listRecyclerActividad);
 
+
         obtenerDatosUsuario(usuario -> {
             Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
 
@@ -98,13 +106,15 @@ public class FirstFragment extends Fragment {
             nameUser = rootView.findViewById(R.id.nameUser);
             nameUser.setText(usuario.getNombre());
 
-            String nombreUsuario = usuario.getNombre();
+            nombreUsuario = usuario.getNombre();
             //String codigoUsuario = usuario.getNombre();
 
             Log.d("msg-test", "El id del usuario fuera del collection es: " + usuarioSesion.getId());
-            String codigoUsuario = usuarioSesion.getId();
+            codigoUsuario = usuarioSesion.getId();
 
+            //Aca salen los eventos mas recientes por defecto
             db.collection("eventos")
+                    .orderBy("fecha", Query.Direction.ASCENDING)
                     .get()
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
@@ -113,6 +123,8 @@ public class FirstFragment extends Fragment {
                             if(eventLista.isEmpty()){
                                 for (QueryDocumentSnapshot document : eventosCollection) {
                                     String eventoId = document.getId();
+                                    String estado = (String) document.get("estado");
+                                    Log.d("msg-test","el estado de este evento es ");
                                     String nombre = (String) document.get("nombre");
                                     String nombre_actividad = (String) document.get("nombre_actividad");
                                     Date date = document.getDate("fecha");
@@ -121,14 +133,16 @@ public class FirstFragment extends Fragment {
                                     String fechaSt = date.toString();
                                     String[] partes = fechaSt.split(" ");
                                     //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
-                                    Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
-                                    Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                    //Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
                                     String fecha = formatoFechaEsp.format(date);
                                     String hora = partes[3];
                                     eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
                                     eventos.setId(eventoId);
-                                    eventLista.add(eventos);
-                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
+                                    if(estado.equals("proceso")){
+                                        eventLista.add(eventos);
+                                        Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                                    }
+                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
                                 }
                             }
 
@@ -144,6 +158,30 @@ public class FirstFragment extends Fragment {
 
                         }
                     });
+
+
+            String[] opciones = {"Reciente", "Después"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, opciones);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner = rootView.findViewById(R.id.spinnerCondicion);
+            spinner.setAdapter(adapter);
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    String selectedOption = opciones[position];
+
+                    if ("Después".equals(selectedOption)) {
+                        cargarEventosDespues();
+                    } else {
+                        cargarEventosRecientes();
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parentView) {
+                    // Método necesario pero no utilizado en este caso
+                }
+            });
 
         });
 
@@ -192,6 +230,105 @@ public class FirstFragment extends Fragment {
 
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
+    }
+
+
+    private void cargarEventosDespues() {
+        eventLista.clear();
+        db.collection("eventos")
+                .orderBy("fecha", Query.Direction.DESCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot eventosCollection = task.getResult();
+                        SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
+                        if(eventLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : eventosCollection) {
+                                String eventoId = document.getId();
+                                String estado = (String) document.get("estado");
+                                Log.d("msg-test","el estado de este evento es ");
+                                String nombre = (String) document.get("nombre");
+                                String nombre_actividad = (String) document.get("nombre_actividad");
+                                Date date = document.getDate("fecha");
+                                String apoyos = (String) document.get("apoyos");
+                                String url_imagen = (String) document.get("url_imagen");
+                                String fechaSt = date.toString();
+                                String[] partes = fechaSt.split(" ");
+                                //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                //Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                String fecha = formatoFechaEsp.format(date);
+                                String hora = partes[3];
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                eventos.setId(eventoId);
+                                if(estado.equals("proceso")){
+                                    eventLista.add(eventos);
+                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                                }
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                            }
+                        }
+
+                        EventAdapter eventAdapter = new EventAdapter(nombreUsuario,codigoUsuario);
+                        eventAdapter.setEventList(eventLista);
+                        eventAdapter.setContext(getContext());
+
+
+                        // Inicializa el RecyclerView y el adaptador
+                        recyclerView.setAdapter(eventAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+
+                    }
+                });
+    }
+
+    private void cargarEventosRecientes() {
+        eventLista.clear();
+        db.collection("eventos")
+                .orderBy("fecha", Query.Direction.ASCENDING)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot eventosCollection = task.getResult();
+                        SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
+                        if(eventLista.isEmpty()){
+                            for (QueryDocumentSnapshot document : eventosCollection) {
+                                String eventoId = document.getId();
+                                String estado = (String) document.get("estado");
+                                Log.d("msg-test","el estado de este evento es ");
+                                String nombre = (String) document.get("nombre");
+                                String nombre_actividad = (String) document.get("nombre_actividad");
+                                Date date = document.getDate("fecha");
+                                String apoyos = (String) document.get("apoyos");
+                                String url_imagen = (String) document.get("url_imagen");
+                                String fechaSt = date.toString();
+                                String[] partes = fechaSt.split(" ");
+                                //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                //Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
+                                String fecha = formatoFechaEsp.format(date);
+                                String hora = partes[3];
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                eventos.setId(eventoId);
+                                if(estado.equals("proceso")){
+                                    eventLista.add(eventos);
+                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                                }
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                            }
+                        }
+
+                        EventAdapter eventAdapter = new EventAdapter(nombreUsuario,codigoUsuario);
+                        eventAdapter.setEventList(eventLista);
+                        eventAdapter.setContext(getContext());
+
+
+                        // Inicializa el RecyclerView y el adaptador
+                        recyclerView.setAdapter(eventAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+
+                    }
+                });
     }
 
 }

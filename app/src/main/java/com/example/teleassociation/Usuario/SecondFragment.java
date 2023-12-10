@@ -10,9 +10,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.adapter.EventAdapter;
 import com.example.teleassociation.adapter.MisEventAdapter;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.usuario;
@@ -20,6 +24,7 @@ import com.example.teleassociation.dto.usuarioSesion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.example.teleassociation.Usuario.SecondFragment;
@@ -47,6 +52,7 @@ public class SecondFragment extends Fragment {
     private List<eventoListarUsuario> eventLista = new ArrayList<>();
     ArrayList<String> eventosParticipa = new ArrayList<>();
     private RecyclerView recyclerView;
+    private Spinner spinner;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -87,6 +93,7 @@ public class SecondFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         eventLista.clear();
+        eventosParticipa.clear();
         View rootView = inflater.inflate(R.layout.fragment_second, container, false);
         db = FirebaseFirestore.getInstance();
         recyclerView = rootView.findViewById(R.id.listRecyclerView);
@@ -115,6 +122,7 @@ public class SecondFragment extends Fragment {
 
                             // Itera a través de eventos de la colección "eventos"
                             db.collection("eventos")
+                                    .orderBy("fecha", Query.Direction.ASCENDING)
                                     .get()
                                     .addOnCompleteListener(task2 -> {
                                         if (task2.isSuccessful()) {
@@ -124,6 +132,7 @@ public class SecondFragment extends Fragment {
                                             if(eventLista.isEmpty()){
                                                 for (QueryDocumentSnapshot document2 : eventosCollection2) {
                                                     String eventoId = document2.getId();
+                                                    String estado = (String) document2.get("estado");
                                                     String nombre = (String) document2.get("nombre");
                                                     String nombre_actividad = (String) document2.get("nombre_actividad");
                                                     Date date = document2.getDate("fecha");
@@ -142,10 +151,12 @@ public class SecondFragment extends Fragment {
 
                                                     // Verifica si el nombre del evento está en eventosParticipa
                                                     if (eventosParticipa.contains(nombre)) {
-                                                        eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad,url_imagen);
-                                                        eventos.setId(eventoId);
-                                                        eventLista.add(eventos);
-                                                        Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
+                                                        if(estado.equals("proceso")){
+                                                            eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad,url_imagen);
+                                                            eventos.setId(eventoId);
+                                                            eventLista.add(eventos);
+                                                            Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
+                                                        }
                                                     }
                                                 }
                                             }
@@ -160,9 +171,33 @@ public class SecondFragment extends Fragment {
                                         }
                                     });
 
-
                         }
                     });
+
+            String[] opciones = {"Proceso", "Finalizado"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, opciones);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner = rootView.findViewById(R.id.spinnerCondicion);
+            spinner.setAdapter(adapter);
+
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                    String selectedOption = opciones[position];
+
+                    if ("Proceso".equals(selectedOption)) {
+                        Proceso(usuario.getId());
+                    } else {
+                        Finalizado(usuario.getId());
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parentView) {
+                    // Método necesario pero no utilizado en este caso
+                }
+            });
+
         });
 
 
@@ -211,4 +246,147 @@ public class SecondFragment extends Fragment {
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
     }
+
+    private void Proceso(String codigoUsuario) {
+        eventLista.clear();
+        eventosParticipa.clear();
+        db.collection("participantes")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot eventosCollection = task.getResult();
+                        for (QueryDocumentSnapshot document : eventosCollection) {
+                            String asignacion = (String) document.get("asignacion");
+                            String codigo = (String) document.get("codigo");
+                            String evento = (String) document.get("evento");
+                            if (codigoUsuario.equals(codigo)) {
+                                Log.d("msg-test", " | evento: " + evento);
+                                eventosParticipa.add(evento);}}
+
+                        // Itera a través de eventos de la colección "eventos"
+                        db.collection("eventos")
+                                .orderBy("fecha", Query.Direction.ASCENDING)
+                                .get()
+                                .addOnCompleteListener(task2 -> {
+                                    if (task2.isSuccessful()) {
+                                        QuerySnapshot eventosCollection2 = task2.getResult();
+                                        SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
+                                        SimpleDateFormat formatoFechaNuevo = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
+                                        if(eventLista.isEmpty()){
+                                            for (QueryDocumentSnapshot document2 : eventosCollection2) {
+                                                String eventoId = document2.getId();
+                                                String estado = (String) document2.get("estado");
+                                                String nombre = (String) document2.get("nombre");
+                                                String nombre_actividad = (String) document2.get("nombre_actividad");
+                                                Date date = document2.getDate("fecha");
+                                                String apoyos = (String) document2.get("apoyos");
+                                                String url_imagen = (String) document2.get("url_imagen");
+                                                String fechaSt = date.toString();
+                                                String[] partes = fechaSt.split(" ");
+                                                //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                                Log.d("msg-test1","el antiguo formato de fecha es :"+date);
+                                                Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaNuevo.format(date));
+                                                String fecha = formatoFechaNuevo.format(date);
+                                                String hora = partes[3];
+                                                String fecha_hora = fecha+" "+hora;
+
+                                                //Log.d("msg-test", " | nombre de eventos: " + nombre);
+
+                                                // Verifica si el nombre del evento está en eventosParticipa
+                                                if (eventosParticipa.contains(nombre)) {
+                                                    if(estado.equals("proceso")){
+                                                        eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad,url_imagen);
+                                                        eventos.setId(eventoId);
+                                                        eventLista.add(eventos);
+                                                        Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        MisEventAdapter misEventAdapter = new MisEventAdapter();
+                                        misEventAdapter.setEventList(eventLista);
+                                        misEventAdapter.setContext(getContext());
+
+                                        recyclerView.setAdapter(misEventAdapter);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+
+                                    }
+                                });
+
+                    }
+                });
+    }
+
+    private void Finalizado(String codigoUsuario) {
+        eventLista.clear();
+        eventosParticipa.clear();
+        db.collection("participantes")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot eventosCollection = task.getResult();
+                        for (QueryDocumentSnapshot document : eventosCollection) {
+                            String asignacion = (String) document.get("asignacion");
+                            String codigo = (String) document.get("codigo");
+                            String evento = (String) document.get("evento");
+                            if (codigoUsuario.equals(codigo)) {
+                                Log.d("msg-test", " | evento: " + evento);
+                                eventosParticipa.add(evento);}}
+
+                        // Itera a través de eventos de la colección "eventos"
+                        db.collection("eventos")
+                                .orderBy("fecha", Query.Direction.ASCENDING)
+                                .get()
+                                .addOnCompleteListener(task2 -> {
+                                    if (task2.isSuccessful()) {
+                                        QuerySnapshot eventosCollection2 = task2.getResult();
+                                        SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
+                                        SimpleDateFormat formatoFechaNuevo = new SimpleDateFormat("dd/MM/yyyy", new Locale("es", "ES"));
+                                        if(eventLista.isEmpty()){
+                                            for (QueryDocumentSnapshot document2 : eventosCollection2) {
+                                                String eventoId = document2.getId();
+                                                String estado = (String) document2.get("estado");
+                                                String nombre = (String) document2.get("nombre");
+                                                String nombre_actividad = (String) document2.get("nombre_actividad");
+                                                Date date = document2.getDate("fecha");
+                                                String apoyos = (String) document2.get("apoyos");
+                                                String url_imagen = (String) document2.get("url_imagen");
+                                                String fechaSt = date.toString();
+                                                String[] partes = fechaSt.split(" ");
+                                                //String fecha = partes[0] + " " + partes[1] + " " + partes[2]; // "Mon Oct 30"
+                                                Log.d("msg-test1","el antiguo formato de fecha es :"+date);
+                                                Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaNuevo.format(date));
+                                                String fecha = formatoFechaNuevo.format(date);
+                                                String hora = partes[3];
+                                                String fecha_hora = fecha+" "+hora;
+
+                                                //Log.d("msg-test", " | nombre de eventos: " + nombre);
+
+                                                // Verifica si el nombre del evento está en eventosParticipa
+                                                if (eventosParticipa.contains(nombre)) {
+                                                    if(estado.equals("finalizado")){
+                                                        eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos, nombre_actividad,url_imagen);
+                                                        eventos.setId(eventoId);
+                                                        eventLista.add(eventos);
+                                                        Log.d("msg-test", " | nombre: " + nombre + "| actividad: "+ nombre_actividad + " | fecha: " + fecha + " | hora: " + hora);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        MisEventAdapter misEventAdapter = new MisEventAdapter();
+                                        misEventAdapter.setEventList(eventLista);
+                                        misEventAdapter.setContext(getContext());
+
+                                        recyclerView.setAdapter(misEventAdapter);
+                                        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+
+                                    }
+                                });
+
+                    }
+                });
+    }
+
 }

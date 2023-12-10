@@ -173,7 +173,8 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
                                                 nuevaFoto.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View view) {
-                                                        Intent intent = new Intent(eventoDetalleAlumno.this, subirFotoEventAlum.class);
+                                                        Intent intent=new Intent(eventoDetalleAlumno.this, subirFotoEventAlum.class);
+                                                        intent.putExtra("eventoId", eventoId);  // Pasa el ID del evento a la nueva actividad
                                                         startActivity(intent);
                                                     }
                                                 });
@@ -202,25 +203,31 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
             if (item.getItemId() == R.id.firstFragment) {
                 loadFragment(firstFragment);
                 cardView2 = findViewById(R.id.cardView2);
+                cardView2.setVisibility(View.INVISIBLE);
                 cardView2.setVisibility(View.GONE);
                 cardView4 = findViewById(R.id.cardView4);
-                cardView4.setVisibility(View.GONE);
+                cardView4.setVisibility(View.INVISIBLE);
+                cardView2.setVisibility(View.GONE);
                 return true;
             }
             if (item.getItemId() == R.id.secondFragment) {
                 loadFragment(secondFragment);
                 cardView2 = findViewById(R.id.cardView2);
+                cardView2.setVisibility(View.INVISIBLE);
                 cardView2.setVisibility(View.GONE);
                 cardView4 = findViewById(R.id.cardView4);
-                cardView4.setVisibility(View.GONE);
+                cardView4.setVisibility(View.INVISIBLE);
+                cardView2.setVisibility(View.GONE);
                 return true;
             }
             if (item.getItemId() == R.id.thirdFragment) {
                 loadFragment(thirdFragment);
                 cardView2 = findViewById(R.id.cardView2);
+                cardView2.setVisibility(View.INVISIBLE);
                 cardView2.setVisibility(View.GONE);
                 cardView4 = findViewById(R.id.cardView4);
-                cardView4.setVisibility(View.GONE);
+                cardView4.setVisibility(View.INVISIBLE);
+                cardView2.setVisibility(View.GONE);
                 return true;
             }
             if (item.getItemId() == R.id.fourFragment) {
@@ -250,6 +257,8 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
         TextView descripcionTextView = findViewById(R.id.decripcionEvento);
         ImageView imageViewEvento = findViewById(R.id.imagenView);  // Asegúrate de tener este ID en tu XML
         urlImagenEvento = documentSnapshot.getString("url_imagen");
+
+
 
 
         nombreTexView.setText(nombreEvento);
@@ -366,7 +375,7 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         DocumentSnapshot documentSnapshot = task.getResult();
-                        if (documentSnapshot.exists()) {
+                        if (documentSnapshot != null && documentSnapshot.exists()) {
                             // Documento encontrado, obtén el GeoPoint de ubicación
                             GeoPoint ubicacion = documentSnapshot.getGeoPoint("ubicacion");
 
@@ -411,8 +420,12 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
                                 Log.d("Coordenadas", "La ubicación es nula para el evento con ID: " + eventoId);
                             }
                         } else {
-                            // Manejar el caso en que el documento no existe
-                            Log.d("Evento", "No se encontró el evento con ID: " + eventoId);
+                            // Manejar el caso en que el documento no existe o es nulo
+                            if (documentSnapshot == null) {
+                                Log.d("Evento", "El documento es nulo para el evento con ID: " + eventoId);
+                            } else {
+                                Log.d("Evento", "No se encontró el evento con ID: " + eventoId);
+                            }
                         }
                     } else {
                         // Manejar errores en la tarea
@@ -420,6 +433,7 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
                     }
                 });
     }
+
 
 
     private void obtenerYMostrarRuta(LatLng origen, LatLng destino) {

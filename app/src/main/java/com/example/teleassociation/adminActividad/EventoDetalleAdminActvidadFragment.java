@@ -163,6 +163,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                             .into(imageViewEvento);
                                 }
 
+                                Button btnVerParticipantes = view.findViewById(R.id.verParticipantes);
 
                                 textViewNombreEvento.setText(nombreEvento);
                                 textViewFecha.setText("Fecha: " + fechaEvento);
@@ -196,11 +197,30 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
                                         }
                                     });
+
+                                    chatear.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            // Crear un Intent o Fragment y pasar el nombre del evento como argumento
+                                            String nombreEvento = nombreEventoParticipante;
+                                            String idEvento = id;
+
+                                            // O si estás iniciando un nuevo Fragment:
+
+                                            ChatFragment fragment = ChatFragment.newInstance(nombreEvento,idEvento);
+                                            getParentFragmentManager().beginTransaction()
+                                                    .replace(R.id.frame_container, fragment)
+                                                    .addToBackStack(null)
+                                                    .commit();
+
+                                        }
+                                    });
+
                                 }else{
                                     editarEvento.setVisibility(View.INVISIBLE);
+                                    btnVerParticipantes.setVisibility(View.INVISIBLE);
                                 }
 
-                                Button btnVerParticipantes = view.findViewById(R.id.verParticipantes);
                                 btnVerParticipantes.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -218,23 +238,6 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                     }
                                 });
 
-                                chatear.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        // Crear un Intent o Fragment y pasar el nombre del evento como argumento
-                                        String nombreEvento = nombreEventoParticipante;
-                                        String idEvento = id;
-
-                                        // O si estás iniciando un nuevo Fragment:
-
-                                        ChatFragment fragment = ChatFragment.newInstance(idEvento);
-                                        getParentFragmentManager().beginTransaction()
-                                                .replace(R.id.frame_container, fragment)
-                                                .addToBackStack(null)
-                                                .commit();
-
-                                    }
-                                });
 
                                 db.collection("participantes")
                                         .whereEqualTo("evento", nombreEvento)
@@ -259,8 +262,27 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
                                                         }
                                                     });
+                                                    chatear.setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View v) {
+                                                            // Crear un Intent o Fragment y pasar el nombre del evento como argumento
+                                                            String nombreEvento = nombreEventoParticipante;
+                                                            String idEvento = id;
+
+                                                            // O si estás iniciando un nuevo Fragment:
+
+                                                            ChatFragment fragment = ChatFragment.newInstance(nombreEvento,idEvento);
+                                                            getParentFragmentManager().beginTransaction()
+                                                                    .replace(R.id.frame_container, fragment)
+                                                                    .addToBackStack(null)
+                                                                    .commit();
+
+                                                        }
+                                                    });
+
                                                 } else {
-                                                    subirFoto.setVisibility(View.GONE);
+                                                    subirFoto.setVisibility(View.INVISIBLE);
+                                                    chatear.setVisibility(View.INVISIBLE);
                                                 }
                                             } else {
                                                 Log.e("msg-test", "Error al obtener documentos: " + task.getException());

@@ -82,5 +82,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/listRecyclerActv"
             app:layout_constraintVertical_bias="0.155" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/Condicion"
+            android:layout_width="120dp"
+            android:layout_height="27dp"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/diseno1"
+            android:hint="Orden"
+            android:textColorHint="#A59E9E"
+            app:layout_constraintBottom_toTopOf="@+id/listRecyclerActv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView20"
+            tools:ignore="MissingConstraints">
+
+            <Spinner
+                android:id="@+id/spinnerCondicion"
+                android:layout_width="wrap_content"
+                android:layout_height="20sp"
+                android:layout_gravity="center"
+                android:layout_margin="4dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:textColor="@color/black"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </FrameLayout>
