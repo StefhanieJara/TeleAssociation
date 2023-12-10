@@ -94,10 +94,6 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
         View view = inflater.inflate(R.layout.fragment_evento_detalle_admin_actvidad, container, false);
 
 
-
-
-
-
         // Obtén la referencia al MapView desde el layout
         // Obtén la referencia al MapView desde el layout
         mapView = view.findViewById(R.id.mapView);
@@ -341,9 +337,11 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
         verFotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String name=getArguments().getString("nombreEvento");
                 Context context = getActivity();
                 Intent intent = new Intent(context, FotosEventoDelegado.class);
                 intent.putExtra("eventoId", id);
+                intent.putExtra("nombreEvento",name);
                 startActivity(intent);
             }
         });

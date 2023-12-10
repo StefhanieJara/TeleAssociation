@@ -46,9 +46,14 @@ public class FotosEventoDelegado extends AppCompatActivity {
         btnVolver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Iniciar la actividad DetalleAlumno
+                String eventoId = getIntent().getStringExtra("eventoId");
+                String name = getIntent().getStringExtra("nombreEvento");
+
+                // Crea un Intent para volver a la actividad anterior (eventoDetalleAlumno)
                 Intent intent = new Intent(FotosEventoDelegado.this, ListaActividadesDelactvActivity.class);
                 intent.putExtra("eventoId", eventoId); // Pasa el ID del evento a la actividad anterior
+                intent.putExtra("nombreEvento", name); // Pasa el ID del evento a la actividad anterior
+
                 // Inicia la actividad
                 startActivity(intent);
                 // Agrega un retraso breve antes de cerrar la actividad actual
