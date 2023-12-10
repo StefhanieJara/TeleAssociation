@@ -26,6 +26,9 @@
             android:name=".fotosEvento"
             android:exported="false" />
         <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".adminGeneral.EditarActividadAdmin"
             android:exported="false" />
         <activity
