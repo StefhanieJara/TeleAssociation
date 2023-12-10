@@ -53,10 +53,10 @@
             android:layout_marginBottom="68dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subirFoto"
-            app:layout_constraintVertical_bias="0.958" />
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/subirFoto"
@@ -216,15 +216,15 @@
 
         <Button
             android:id="@+id/verFotos"
-            android:layout_width="171dp"
-            android:layout_height="54dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="155dp"
+            android:layout_height="46dp"
+            android:layout_marginTop="4dp"
             android:backgroundTint="#191C1E"
-            android:text="VER FOTOS DEL EVENTO"
+            android:text="VER FOTOS"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mapView" />
+            app:layout_constraintTop_toBottomOf="@+id/subirFoto" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -11,6 +11,7 @@ public class usuario implements Serializable {
     private String validado;
     private String id;
     private String comentario;
+    private String token;
 
     public String getCondicion() {
         return condicion;
@@ -74,5 +75,13 @@ public class usuario implements Serializable {
 
     public void setComentario(String comentario) {
         this.comentario = comentario;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
