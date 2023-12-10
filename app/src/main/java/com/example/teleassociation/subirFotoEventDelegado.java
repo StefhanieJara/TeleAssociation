@@ -154,10 +154,12 @@ public class subirFotoEventDelegado extends AppCompatActivity {
     private void volverAEventoDetalleAlumno() {
         // Obtener el ID del evento desde el Intent actual
         String eventoId = getIntent().getStringExtra("eventoId");
+        String name = getIntent().getStringExtra("nombreEvento");
 
         // Crea un Intent para volver a la actividad anterior (eventoDetalleAlumno)
         Intent intent = new Intent(subirFotoEventDelegado.this, ListaActividadesDelactvActivity.class);
         intent.putExtra("eventoId", eventoId); // Pasa el ID del evento a la actividad anterior
+        intent.putExtra("nombreEvento", name); // Pasa el ID del evento a la actividad anterior
 
         // Inicia la actividad
         startActivity(intent);
