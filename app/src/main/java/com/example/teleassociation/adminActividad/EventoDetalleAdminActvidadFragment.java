@@ -265,9 +265,12 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                                     subirFoto.setOnClickListener(new View.OnClickListener() {
                                                         @Override
                                                         public void onClick(View view) {
+                                                            String name=getArguments().getString("nombreEvento");
                                                             Context context = getActivity();
                                                             Intent intent = new Intent(context, subirFotoEventDelegado.class);
                                                             intent.putExtra("eventoId", id);
+                                                            intent.putExtra("nombreEvento", name); // Asegúrate de que sea "nombreEvento" y no "nombre_evento"
+
                                                             startActivity(intent);
                                                         }
                                                     });

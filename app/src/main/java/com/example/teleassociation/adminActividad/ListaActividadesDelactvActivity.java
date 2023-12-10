@@ -42,6 +42,7 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
     CrearEventoFragment crearEventoFragment = new CrearEventoFragment();
     DonacionesAdminActividadFragment donacionesAdminActividadFragment = new DonacionesAdminActividadFragment();
     MisEventosCreadosFragment misEventosCreadosFragment = new MisEventosCreadosFragment();
+    EventoDetalleAdminActvidadFragment eventoDetalleAdminActvidadFragment= new EventoDetalleAdminActvidadFragment();
     usuario usuario = new usuario();
     TextView nameUser;
 
@@ -75,7 +76,26 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
         }
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        loadFragment(adminActividadInicioFragment);
+        String eventoId = getIntent().getStringExtra("eventoId");
+        if (eventoId == null) {
+            loadFragment(adminActividadInicioFragment);
+        }
+        else{
+            String name= getIntent().getStringExtra("nombreEvento");
+            EventoDetalleAdminActvidadFragment fragment = EventoDetalleAdminActvidadFragment.newInstance(name);
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            // Reemplaza cualquier fragmento existente con el nuevo fragmento
+            transaction.replace(R.id.frame_container, fragment);
+
+            // Agrega la transacción a la pila de retroceso (opcional)
+            transaction.addToBackStack(null);
+
+            // Completa la transacción
+            transaction.commit();
+        }
+
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -106,8 +126,6 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
             return false;
         }
     };
-
-
 
 
     public void loadFragment(Fragment fragment){
