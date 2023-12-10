@@ -65,7 +65,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
             android:backgroundTint="#191C1E"
-            android:text="Subir Foto(s)"
+            android:text="Subir Foto"
             app:layout_constraintEnd_toStartOf="@+id/editarEvento"
             app:layout_constraintHorizontal_bias="0.279"
             app:layout_constraintStart_toStartOf="parent"
@@ -212,6 +212,19 @@
             android:text="Ver Participantes"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
+
+        <Button
+            android:id="@+id/verFotos"
+            android:layout_width="171dp"
+            android:layout_height="54dp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#191C1E"
+            android:text="VER FOTOS DEL EVENTO"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mapView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

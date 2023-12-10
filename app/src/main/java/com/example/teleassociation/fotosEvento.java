@@ -4,8 +4,13 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.widget.Button;
 
+import com.example.teleassociation.Usuario.eventoDetalleAlumno;
 import com.example.teleassociation.adapter.FotosEventoAdapter;
 import com.example.teleassociation.dto.EventoFoto;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -36,6 +41,20 @@ public class fotosEvento extends AppCompatActivity {
 
         // Obtener la lista de fotos del evento desde Firebase
         obtenerListaDeFotosDesdeFirebase(eventoId);
+
+        Button btnVolver = findViewById(R.id.volverAtras);
+        btnVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Iniciar la actividad DetalleAlumno
+                Intent intent = new Intent(fotosEvento.this, eventoDetalleAlumno.class);
+                intent.putExtra("eventoId", eventoId); // Pasa el ID del evento a la actividad anterior
+                // Inicia la actividad
+                startActivity(intent);
+                // Agrega un retraso breve antes de cerrar la actividad actual
+                new Handler().postDelayed(() -> finish(), 100);
+            }
+        });
 
     }
 

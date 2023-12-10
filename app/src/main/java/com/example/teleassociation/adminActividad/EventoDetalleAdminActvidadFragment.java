@@ -28,6 +28,7 @@ import com.example.teleassociation.R;
 import com.example.teleassociation.Usuario.eventoDetalleAlumno;
 import com.example.teleassociation.dto.usuarioSesion;
 import com.example.teleassociation.subirFotoEventAlum;
+import com.example.teleassociation.subirFotoEventDelegado;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -90,6 +91,10 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_evento_detalle_admin_actvidad, container, false);
+
+
+
+
 
 
         // Obtén la referencia al MapView desde el layout
@@ -259,7 +264,10 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                                     subirFoto.setOnClickListener(new View.OnClickListener() {
                                                         @Override
                                                         public void onClick(View view) {
-
+                                                            Context context = getActivity();
+                                                            Intent intent = new Intent(context, subirFotoEventDelegado.class);
+                                                            intent.putExtra("eventoId", id);
+                                                            startActivity(intent);
                                                         }
                                                     });
                                                     chatear.setOnClickListener(new View.OnClickListener() {
