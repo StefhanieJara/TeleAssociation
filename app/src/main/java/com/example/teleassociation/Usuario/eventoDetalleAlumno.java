@@ -32,6 +32,7 @@ import com.example.teleassociation.adminActividad.EventoDetalleAdminActvidadFrag
 import com.example.teleassociation.databinding.ActivityEventoDetalleAlumnoBinding;
 import com.example.teleassociation.dto.usuario;
 import com.example.teleassociation.dto.usuarioSesion;
+import com.example.teleassociation.fotosEvento;
 import com.example.teleassociation.subirFotoEventAlum;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -180,6 +181,23 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
             BottomNavigationView navigation = findViewById(R.id.bottom_navigation2);
             navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         });
+        Button btnVerFotos = findViewById(R.id.verFotos);
+        btnVerFotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // Crea un Intent para iniciar FotosEventoActivity
+                Intent intent = new Intent(eventoDetalleAlumno.this, fotosEvento.class);
+
+                // Pasa el ID del evento al Intent
+                intent.putExtra("eventoId", eventoId);
+
+                // Inicia la actividad
+                startActivity(intent);
+            }
+        });
+
+
 
 
     }
