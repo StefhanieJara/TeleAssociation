@@ -310,8 +310,8 @@ public class donacionesAdmin extends AppCompatActivity {
                                 pagos pagos = new pagos();
                                 pagos.setId(document.getId());  // Establecer el ID del documento
                                 pagos.setCodigo_usuario(codigo_usuario);
-                                pagos.setValidado(validado);
                                 pagos.setMonto(monto);
+                                pagos.setValidado(validado);
                                 pagos.setUrl_imagen(url_imagen);
                                 if(validado.equals("Sí")){
                                     donacionesLista.add(pagos);
@@ -348,8 +348,8 @@ public class donacionesAdmin extends AppCompatActivity {
                                 pagos pagos = new pagos();
                                 pagos.setId(document.getId());  // Establecer el ID del documento
                                 pagos.setCodigo_usuario(codigo_usuario);
-                                pagos.setValidado(validado);
                                 pagos.setMonto(monto);
+                                pagos.setValidado(validado);
                                 pagos.setUrl_imagen(url_imagen);
                                 if(validado.equals("No")){
                                     donacionesLista.add(pagos);
