@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.teleassociation.FotosEventoDelegado;
 import com.example.teleassociation.R;
 import com.example.teleassociation.Usuario.eventoDetalleAlumno;
 import com.example.teleassociation.dto.usuarioSesion;
@@ -332,6 +333,18 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
             });*/
 
         });
+
+        Button verFotos = view.findViewById(R.id.verFotos);
+        verFotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getActivity();
+                Intent intent = new Intent(context, FotosEventoDelegado.class);
+                intent.putExtra("eventoId", id);
+                startActivity(intent);
+            }
+        });
+
 
 
 
