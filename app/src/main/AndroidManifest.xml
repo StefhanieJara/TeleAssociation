@@ -23,7 +23,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ChatActivity"
+            android:name=".fotosEvento"
             android:exported="false" />
         <activity
             android:name=".adminGeneral.EditarActividadAdmin"
