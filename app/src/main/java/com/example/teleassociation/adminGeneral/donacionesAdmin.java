@@ -68,6 +68,7 @@ public class donacionesAdmin extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
+
         if (user != null) {
             String email = user.getEmail();
             Log.d("msg-test", "El correo que ingresó es: "+email);
@@ -123,6 +124,8 @@ public class donacionesAdmin extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.listaDonaciones);
 
+        cargarDatosDesdeFirebase();
+
         db.collection("pagos")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -139,6 +142,7 @@ public class donacionesAdmin extends AppCompatActivity {
                                 pagos.setId(document.getId());  // Establecer el ID del documento
                                 pagos.setCodigo_usuario(codigo_usuario);
                                 pagos.setMonto(monto);
+                                pagos.setValidado(validado);
                                 pagos.setUrl_imagen(url_imagen);
                                 donacionesLista.add(pagos);
 
@@ -184,6 +188,8 @@ public class donacionesAdmin extends AppCompatActivity {
                 // Método necesario pero no utilizado en este caso
             }
         });
+
+
 
 
 
@@ -267,6 +273,7 @@ public class donacionesAdmin extends AppCompatActivity {
                                 pagos pagos = new pagos();
                                 pagos.setId(document.getId());  // Establecer el ID del documento
                                 pagos.setCodigo_usuario(codigo_usuario);
+                                pagos.setValidado(validado);
                                 pagos.setMonto(monto);
                                 pagos.setUrl_imagen(url_imagen);
                                 donacionesLista.add(pagos);
@@ -303,6 +310,7 @@ public class donacionesAdmin extends AppCompatActivity {
                                 pagos pagos = new pagos();
                                 pagos.setId(document.getId());  // Establecer el ID del documento
                                 pagos.setCodigo_usuario(codigo_usuario);
+                                pagos.setValidado(validado);
                                 pagos.setMonto(monto);
                                 pagos.setUrl_imagen(url_imagen);
                                 if(validado.equals("Sí")){
@@ -340,6 +348,7 @@ public class donacionesAdmin extends AppCompatActivity {
                                 pagos pagos = new pagos();
                                 pagos.setId(document.getId());  // Establecer el ID del documento
                                 pagos.setCodigo_usuario(codigo_usuario);
+                                pagos.setValidado(validado);
                                 pagos.setMonto(monto);
                                 pagos.setUrl_imagen(url_imagen);
                                 if(validado.equals("No")){
@@ -377,6 +386,7 @@ public class donacionesAdmin extends AppCompatActivity {
                                 pagos pagos = new pagos();
                                 pagos.setId(document.getId());  // Establecer el ID del documento
                                 pagos.setCodigo_usuario(codigo_usuario);
+                                pagos.setValidado(validado);
                                 pagos.setMonto(monto);
                                 pagos.setUrl_imagen(url_imagen);
                                 if(validado.equals("Pendiente")){
@@ -396,6 +406,49 @@ public class donacionesAdmin extends AppCompatActivity {
                     }
                 });
     }
+
+    private void cargarDatosDesdeFirebase() {
+        donacionesLista.clear();
+
+        db.collection("pagos")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot actividadCollection = task.getResult();
+
+                        if (donacionesLista.isEmpty()) {
+                            for (QueryDocumentSnapshot document : actividadCollection) {
+                                String codigo_usuario = (String) document.get("codigo_usuario");
+                                String monto = (String) document.get("monto");
+                                String validado = (String) document.get("validado");
+                                String url_imagen = (String) document.get("url_imagen");
+                                pagos pagos = new pagos();
+                                pagos.setId(document.getId());
+                                pagos.setValidado(validado);
+                                pagos.setCodigo_usuario(codigo_usuario);
+                                pagos.setMonto(monto);
+                                pagos.setUrl_imagen(url_imagen);
+                                donacionesLista.add(pagos);
+                            }
+                        }
+
+                        donacionesAdminAdapter donacionesAdminAdapter = new donacionesAdminAdapter();
+                        donacionesAdminAdapter.setActividadDonaciones(donacionesLista);
+                        donacionesAdminAdapter.setContext(this);
+
+                        recyclerView.setAdapter(donacionesAdminAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+                    }
+                });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Recargar los datos al volver a la actividad
+        cargarDatosDesdeFirebase();
+    }
+
 
 
 }

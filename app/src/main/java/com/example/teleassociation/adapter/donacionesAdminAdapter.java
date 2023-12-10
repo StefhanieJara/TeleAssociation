@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teleassociation.R;
 import com.bumptech.glide.Glide;
+import com.example.teleassociation.adminGeneral.donacionesAdmin;
 import com.example.teleassociation.dto.pagos;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -27,6 +29,7 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
 
     private List<pagos> actividadDonaciones;
     private Context context;
+
 
     public donacionesAdminAdapter() {
         this.context = context;
@@ -74,14 +77,20 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
                     .load(pagos.getUrl_imagen())
                     .into(holder.imagenDonación);
         }
+        Log.d("message", "validado: "+pagos.getValidado());
 
-        if (!TextUtils.isEmpty(pagos.getValidado())) {
-            // Mostrar mensaje de validación en lugar de botones
+        if("Sí".equals(pagos.getValidado())){
             holder.confirmar.setVisibility(View.GONE);
             holder.rechazar.setVisibility(View.GONE);
             holder.validado.setVisibility(View.VISIBLE);
-            holder.validado.setText(pagos.getValidado().equals("Sí") ? "Donación confirmada" : "Donación rechazada");
-        } else {
+            holder.validado.setText("Donación confirmada");
+        } else if ("No".equals(pagos.getValidado())) {
+            holder.confirmar.setVisibility(View.GONE);
+            holder.rechazar.setVisibility(View.GONE);
+            holder.validado.setVisibility(View.VISIBLE);
+            holder.validado.setText("Donación rechazada");
+
+        }else if("Pendiente".equals(pagos.getValidado())){
             // Mostrar botones y ocultar mensaje de validación
             holder.confirmar.setVisibility(View.VISIBLE);
             holder.rechazar.setVisibility(View.VISIBLE);
@@ -101,8 +110,6 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
                 }
             });
         }
-
-
 
     }
 
