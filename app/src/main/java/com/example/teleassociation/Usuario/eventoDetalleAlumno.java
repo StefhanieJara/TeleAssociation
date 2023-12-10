@@ -126,6 +126,9 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
             actionBar.hide();
         }
 
+        BottomNavigationView navigation = findViewById(R.id.bottom_navigation2);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         obtenerDatosUsuario(usuario -> {
             Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
             nameUser = findViewById(R.id.nameUser);
@@ -144,15 +147,7 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
                             descripcion = (String) documentSnapshot.get("descripcion");
                             // Actualiza la vista con la información obtenida
                             updateUIWithEventData(documentSnapshot);
-                            btnChatear.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    Intent intent = new Intent(eventoDetalleAlumno.this, ChatActivity.class);
-                                    intent.putExtra("nombreEvento", nombreEvento);
-                                    intent.putExtra("idDocumento", idEvento);
-                                    startActivity(intent);
-                                }
-                            });
+
                             db.collection("participantes")
                                     .whereEqualTo("evento", nombreEvento)
                                     .whereEqualTo("nombre", nombreUsuario)
@@ -171,6 +166,7 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
                                             nuevaFoto = findViewById(R.id.nuevaFoto);
                                             if (!task.getResult().isEmpty()) {
                                                 nuevaFoto.setVisibility(View.VISIBLE);
+                                                btnChatear.setVisibility(View.VISIBLE);
                                                 nuevaFoto.setOnClickListener(new View.OnClickListener() {
                                                     @Override
                                                     public void onClick(View view) {
@@ -179,8 +175,20 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
                                                         startActivity(intent);
                                                     }
                                                 });
+                                                btnChatear.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View view) {
+                                                        Intent intent = new Intent(eventoDetalleAlumno.this, ChatActivity.class);
+                                                        intent.putExtra("nombreEvento", nombreEvento);
+                                                        intent.putExtra("idDocumento", idEvento);
+                                                        startActivity(intent);
+                                                    }
+                                                });
                                             } else {
-                                                nuevaFoto.setVisibility(View.GONE);
+                                                //nuevaFoto.setVisibility(View.GONE);
+                                                //btnChatear.setVisibility(View.GONE);
+                                                nuevaFoto.setVisibility(View.INVISIBLE);
+                                                btnChatear.setVisibility(View.INVISIBLE);
                                             }
                                         } else {
                                             Log.e("msg-test", "Error al obtener documentos: " + task.getException());
@@ -191,8 +199,7 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
                     .addOnFailureListener(e -> {
                         // Maneja posibles errores aquí
                     });
-            BottomNavigationView navigation = findViewById(R.id.bottom_navigation2);
-            navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         });
         Button btnVerFotos = findViewById(R.id.verFotos);
         btnVerFotos.setOnClickListener(new View.OnClickListener() {
@@ -219,33 +226,63 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             if (item.getItemId() == R.id.firstFragment) {
-                loadFragment(firstFragment);
+                TextView nombreEvento = findViewById(R.id.nombreEvento);
                 cardView2 = findViewById(R.id.cardView2);
-                cardView2.setVisibility(View.INVISIBLE);
-                cardView2.setVisibility(View.GONE);
                 cardView4 = findViewById(R.id.cardView4);
+                Button chatear2 = findViewById(R.id.chatear2);
+                Button nuevaFoto = findViewById(R.id.nuevaFoto);
+                Button verFotos = findViewById(R.id.verFotos);
+                MapView MapView = findViewById(R.id.mapView);
+
+                nombreEvento.setVisibility(View.INVISIBLE);
+                cardView2.setVisibility(View.INVISIBLE);
                 cardView4.setVisibility(View.INVISIBLE);
-                cardView2.setVisibility(View.GONE);
+                chatear2.setVisibility(View.INVISIBLE);
+                nuevaFoto.setVisibility(View.INVISIBLE);
+                verFotos.setVisibility(View.INVISIBLE);
+                MapView.setVisibility(View.INVISIBLE);
+
+                loadFragment(firstFragment);
                 return true;
             }
             if (item.getItemId() == R.id.secondFragment) {
-                loadFragment(secondFragment);
+                TextView nombreEvento = findViewById(R.id.nombreEvento);
                 cardView2 = findViewById(R.id.cardView2);
-                cardView2.setVisibility(View.INVISIBLE);
-                cardView2.setVisibility(View.GONE);
                 cardView4 = findViewById(R.id.cardView4);
+                Button chatear2 = findViewById(R.id.chatear2);
+                Button nuevaFoto = findViewById(R.id.nuevaFoto);
+                Button verFotos = findViewById(R.id.verFotos);
+                MapView MapView = findViewById(R.id.mapView);
+
+                nombreEvento.setVisibility(View.INVISIBLE);
+                cardView2.setVisibility(View.INVISIBLE);
                 cardView4.setVisibility(View.INVISIBLE);
-                cardView2.setVisibility(View.GONE);
+                chatear2.setVisibility(View.INVISIBLE);
+                nuevaFoto.setVisibility(View.INVISIBLE);
+                verFotos.setVisibility(View.INVISIBLE);
+                MapView.setVisibility(View.INVISIBLE);
+
+                loadFragment(secondFragment);
                 return true;
             }
             if (item.getItemId() == R.id.thirdFragment) {
-                loadFragment(thirdFragment);
+                TextView nombreEvento = findViewById(R.id.nombreEvento);
                 cardView2 = findViewById(R.id.cardView2);
-                cardView2.setVisibility(View.INVISIBLE);
-                cardView2.setVisibility(View.GONE);
                 cardView4 = findViewById(R.id.cardView4);
+                Button chatear2 = findViewById(R.id.chatear2);
+                Button nuevaFoto = findViewById(R.id.nuevaFoto);
+                Button verFotos = findViewById(R.id.verFotos);
+                MapView MapView = findViewById(R.id.mapView);
+
+                nombreEvento.setVisibility(View.INVISIBLE);
+                cardView2.setVisibility(View.INVISIBLE);
                 cardView4.setVisibility(View.INVISIBLE);
-                cardView2.setVisibility(View.GONE);
+                chatear2.setVisibility(View.INVISIBLE);
+                nuevaFoto.setVisibility(View.INVISIBLE);
+                verFotos.setVisibility(View.INVISIBLE);
+                MapView.setVisibility(View.INVISIBLE);
+
+                loadFragment(thirdFragment);
                 return true;
             }
             if (item.getItemId() == R.id.fourFragment) {
@@ -284,9 +321,10 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
         String[] partesFechaHora = fechaSt.split(" ");
         SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
         String fecha = formatoFechaEsp.format(date);
+        String horaMinutos = partesFechaHora[3].substring(0, 5);
         if (partesFechaHora.length >= 2) {
             fechaTextView.setText("Fecha: " + fecha);
-            horaTextView.setText("Hora: " + partesFechaHora[3]);
+            horaTextView.setText("Hora: " + horaMinutos);
         } else {
             fechaTextView.setText("Fecha: No disponible");
             horaTextView.setText("Hora: No disponible");

@@ -140,6 +140,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                 Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
                                 String fechaEvento = formatoFechaEsp.format(date);
                                 String horaEvento = partes[3];
+                                String horaMinutos = horaEvento.substring(0, 5);
                                 String apoyos = (String) documentSnapshot.get("apoyos");
                                 String descripcion = (String) documentSnapshot.get("descripcion");
                                 String delegado = (String) documentSnapshot.get("delegado");
@@ -148,7 +149,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                 String estado = documentSnapshot.getString("estado");
                                 String id = documentSnapshot.getId();
 
-                                Log.d("msg-test", " | nombre: " + nombreEvento + " | fecha: " + fechaEvento + " | hora: " + horaEvento + "| delegado: "+delegado);
+                                Log.d("msg-test", " | nombre: " + nombreEvento + " | fecha: " + fechaEvento + " | hora: " + horaMinutos + "| delegado: "+delegado);
                                 nombreEventoParticipante = nombreEvento;
 
                                 // Ahora puedes actualizar tus TextViews u otros elementos de la vista
@@ -169,7 +170,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
                                 textViewNombreEvento.setText(nombreEvento);
                                 textViewFecha.setText("Fecha: " + fechaEvento);
-                                textViewHora.setText("Hora: " + horaEvento);
+                                textViewHora.setText("Hora: " + horaMinutos);
                                 textViewApoyos.setText("Apoyos: " + apoyos);
                                 textViewDescripcion.setText(descripcion);
                                 Button subirFoto = view.findViewById(R.id.subirFoto);

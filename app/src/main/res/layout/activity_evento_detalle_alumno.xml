@@ -6,6 +6,13 @@
     android:layout_height="match_parent"
     android:background="#A2C6DD">
 
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>
+
     <Button
         android:id="@+id/chatear2"
         android:layout_width="wrap_content"
@@ -160,13 +167,6 @@
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
-                <!-- ImageView debajo del TextView -->
-                <FrameLayout
-                    android:id="@+id/frame_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
                 <TextView
                     android:id="@+id/decripcionEvento"

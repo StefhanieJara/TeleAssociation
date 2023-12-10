@@ -137,7 +137,7 @@ public class EditarActividadAdmin extends AppCompatActivity {
                             String validacion = (String) document.get("validado");
                             String rol = (String) document.get("rol");
 
-                            if (rol.equals("Usuario") && validacion.equals("Si")) {
+                            if (rol.equals("Usuario") && validacion.equals("Si") && condicion.equals("Estudiante")) {
 
                                 Log.d("msg-test", "| codigo: " + codigo + " | nombre: " + nombre + "| correo: " + correo + " | condicion: " + condicion + " | validacion: " + validacion);
                                 nombreUsuario.add(nombre);

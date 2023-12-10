@@ -100,15 +100,16 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
                                     Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
                                     String fecha = formatoFechaEsp.format(date);
                                     String hora = partes[3];
+                                    String horaMinutos = hora.substring(0, 5);
                                     String delegado = (String) document.get("delegado");
-                                    eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                    eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,horaMinutos,apoyos,nombre_actividad,url_imagen);
                                     eventos.setId(eventoId);
                                     eventos.setDelegado(delegado);
                                     if(estado.equals("proceso")){
                                         eventLista.add(eventos);
-                                        Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                                        Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + horaMinutos + " | estado: "+estado);
                                     }
-                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + horaMinutos + " | estado: "+estado);
                                 }
                             }
 
@@ -246,15 +247,16 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
                                 Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
                                 String fecha = formatoFechaEsp.format(date);
                                 String hora = partes[3];
+                                String horaMinutos = hora.substring(0, 5);
                                 String delegado = (String) document.get("delegado");
-                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,horaMinutos,apoyos,nombre_actividad,url_imagen);
                                 eventos.setId(eventoId);
                                 eventos.setDelegado(delegado);
                                 if(estado.equals("proceso")){
                                     eventLista.add(eventos);
-                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + horaMinutos + " | estado: "+estado);
                                 }
-                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + horaMinutos + " | estado: "+estado);
                             }
                         }
 
@@ -311,15 +313,16 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
                                 Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
                                 String fecha = formatoFechaEsp.format(date);
                                 String hora = partes[3];
+                                String horaMinutos = hora.substring(0, 5);
                                 String delegado = (String) document.get("delegado");
-                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,horaMinutos,apoyos,nombre_actividad,url_imagen);
                                 eventos.setId(eventoId);
                                 eventos.setDelegado(delegado);
                                 if(estado.equals("proceso")){
                                     eventLista.add(eventos);
-                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                                    Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + horaMinutos + " | estado: "+estado);
                                 }
-                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora + " | estado: "+estado);
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + horaMinutos + " | estado: "+estado);
                             }
                         }
 

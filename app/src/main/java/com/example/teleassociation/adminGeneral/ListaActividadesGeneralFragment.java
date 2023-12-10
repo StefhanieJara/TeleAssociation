@@ -130,9 +130,10 @@ public class ListaActividadesGeneralFragment extends Fragment {
                                 Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
                                 String fecha = formatoFechaEsp.format(date);
                                 String hora = partes[3];
-                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                String horaMinutos = hora.substring(0, 5);
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,horaMinutos,apoyos,nombre_actividad,url_imagen);
                                 eventLista.add(eventos);
-                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + horaMinutos);
                             }
                         }
 
@@ -260,9 +261,10 @@ public class ListaActividadesGeneralFragment extends Fragment {
                                 Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
                                 String fecha = formatoFechaEsp.format(date);
                                 String hora = partes[3];
-                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                String horaMinutos = hora.substring(0, 5);
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,horaMinutos,apoyos,nombre_actividad,url_imagen);
                                 eventLista.add(eventos);
-                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + horaMinutos);
                             }
                         }
 
@@ -300,9 +302,10 @@ public class ListaActividadesGeneralFragment extends Fragment {
                                 Log.d("msg-test1","el nuevo formato de fecha es :"+formatoFechaEsp.format(date));
                                 String fecha = formatoFechaEsp.format(date);
                                 String hora = partes[3];
-                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,hora,apoyos,nombre_actividad,url_imagen);
+                                String horaMinutos = hora.substring(0, 5);
+                                eventoListarUsuario eventos = new eventoListarUsuario(nombre,fecha,horaMinutos,apoyos,nombre_actividad,url_imagen);
                                 eventLista.add(eventos);
-                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + hora);
+                                Log.d("msg-test", " | nombre: " + nombre + " | fecha: " + fecha + " | hora: " + horaMinutos);
                             }
                         }
 
