@@ -116,15 +116,7 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
         String eventoId = intent.getStringExtra("eventoId");
         idEvento = eventoId;
         Button btnChatear = findViewById(R.id.chatear2);
-        btnChatear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(eventoDetalleAlumno.this, ChatActivity.class);
-                //intent.putExtra("nombreEvento", "Nombre del Evento");
-                intent.putExtra("idDocumento", idEvento);
-                startActivity(intent);
-            }
-        });
+
         Log.d("msg-test", "Llegó el codigo: " + eventoId);
 
         // Ocultar barra de título
@@ -152,7 +144,15 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
                             descripcion = (String) documentSnapshot.get("descripcion");
                             // Actualiza la vista con la información obtenida
                             updateUIWithEventData(documentSnapshot);
-
+                            btnChatear.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(eventoDetalleAlumno.this, ChatActivity.class);
+                                    intent.putExtra("nombreEvento", nombreEvento);
+                                    intent.putExtra("idDocumento", idEvento);
+                                    startActivity(intent);
+                                }
+                            });
                             db.collection("participantes")
                                     .whereEqualTo("evento", nombreEvento)
                                     .whereEqualTo("nombre", nombreUsuario)

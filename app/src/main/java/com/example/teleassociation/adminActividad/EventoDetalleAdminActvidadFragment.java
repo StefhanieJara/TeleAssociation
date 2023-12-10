@@ -204,12 +204,12 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                         @Override
                                         public void onClick(View v) {
                                             // Crear un Intent o Fragment y pasar el nombre del evento como argumento
-                                            String nombreEvento = nombreEventoParticipante;
+                                            String name=getArguments().getString("nombreEvento");
                                             String idEvento = id;
 
                                             // O si estás iniciando un nuevo Fragment:
 
-                                            ChatFragment fragment = ChatFragment.newInstance(idEvento);
+                                            ChatFragment fragment = ChatFragment.newInstance(idEvento, name);
                                             getParentFragmentManager().beginTransaction()
                                                     .replace(R.id.frame_container, fragment)
                                                     .addToBackStack(null)
@@ -274,12 +274,12 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                                         @Override
                                                         public void onClick(View v) {
                                                             // Crear un Intent o Fragment y pasar el nombre del evento como argumento
-                                                            String nombreEvento = nombreEventoParticipante;
+                                                            String name=getArguments().getString("nombreEvento");
                                                             String idEvento = id;
 
                                                             // O si estás iniciando un nuevo Fragment:
 
-                                                            ChatFragment fragment = ChatFragment.newInstance(idEvento);
+                                                            ChatFragment fragment = ChatFragment.newInstance(idEvento, name);
                                                             getParentFragmentManager().beginTransaction()
                                                                     .replace(R.id.frame_container, fragment)
                                                                     .addToBackStack(null)

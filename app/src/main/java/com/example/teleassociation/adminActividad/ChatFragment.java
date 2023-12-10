@@ -55,10 +55,11 @@ public class ChatFragment extends Fragment {
     private String userName;
 
 
-    public static ChatFragment newInstance(String id) {
+    public static ChatFragment newInstance(String id, String nombreEvento) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
         args.putString("idDocumento", id); // Agrega el ID del documento al Bundle
+        args.putString("nombreEvento", nombreEvento);
         fragment.setArguments(args);
         return fragment;
     }

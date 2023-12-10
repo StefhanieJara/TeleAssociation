@@ -79,6 +79,7 @@ public class ListaActividadesDelactvActivity extends AppCompatActivity {
         String eventoId = getIntent().getStringExtra("eventoId");
         if (eventoId == null) {
             loadFragment(adminActividadInicioFragment);
+            Log.d("nooo","que haces aqui");
         }
         else{
             String name= getIntent().getStringExtra("nombreEvento");

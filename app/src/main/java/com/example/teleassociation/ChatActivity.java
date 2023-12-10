@@ -18,9 +18,9 @@ public class ChatActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //String nombreEvento = intent.getStringExtra("nombreEvento");
         String idDocumento = intent.getStringExtra("idDocumento");
-
+        String nombreEvento =intent.getStringExtra("nombreEvento");
         // Crear una instancia de ChatFragment y asignarle argumentos
-        ChatFragment chatFragment = ChatFragment.newInstance(idDocumento);
+        ChatFragment chatFragment = ChatFragment.newInstance(idDocumento,nombreEvento);
 
         // Reemplazar o agregar el fragmento en la actividad
         getSupportFragmentManager().beginTransaction()
