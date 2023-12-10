@@ -26,8 +26,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.teleassociation.ChatActivity;
 import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
+import com.example.teleassociation.adminActividad.ChatFragment;
 import com.example.teleassociation.adminActividad.EventoDetalleAdminActvidadFragment;
 import com.example.teleassociation.databinding.ActivityEventoDetalleAlumnoBinding;
 import com.example.teleassociation.dto.usuario;
@@ -104,13 +106,24 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
         // Obtén la referencia al MapView desde el layout
         mapView = findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
-
         // Asegúrate de llamar a getMapAsync para establecer el callback
         mapView.getMapAsync(this);
+        // Verificar si el fragmento ya está en el contenedor (por ejemplo, en caso de cambios de configuración)
+        // Manejador de clics para el botón "Chatear"
 
         Intent intent = getIntent();
         String eventoId = intent.getStringExtra("eventoId");
         idEvento = eventoId;
+        Button btnChatear = findViewById(R.id.chatear2);
+        btnChatear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(eventoDetalleAlumno.this, ChatActivity.class);
+                //intent.putExtra("nombreEvento", "Nombre del Evento");
+                intent.putExtra("idDocumento", idEvento);
+                startActivity(intent);
+            }
+        });
         Log.d("msg-test", "Llegó el codigo: " + eventoId);
 
         // Ocultar barra de título
@@ -182,7 +195,6 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
 
 
     }
-
 
     private final BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override

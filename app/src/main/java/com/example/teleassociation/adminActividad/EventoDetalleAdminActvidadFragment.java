@@ -227,7 +227,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
                                         // O si estás iniciando un nuevo Fragment:
 
-                                        ChatFragment fragment = ChatFragment.newInstance(nombreEvento,idEvento);
+                                        ChatFragment fragment = ChatFragment.newInstance(idEvento);
                                         getParentFragmentManager().beginTransaction()
                                                 .replace(R.id.frame_container, fragment)
                                                 .addToBackStack(null)

@@ -54,10 +54,10 @@ public class ChatFragment extends Fragment {
     private FirebaseUser firebaseUser;
     private String userName;
 
-    public static ChatFragment newInstance(String nombreEvento, String id) {
+
+    public static ChatFragment newInstance(String id) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
-        args.putString("nombreEvento", nombreEvento);
         args.putString("idDocumento", id); // Agrega el ID del documento al Bundle
         fragment.setArguments(args);
         return fragment;
@@ -148,6 +148,11 @@ public class ChatFragment extends Fragment {
 
                                 // Obtén el campo "nombre" del documento
                                 userName = document.getString("nombre");
+                                if (!mensajeTexto.isEmpty()) {
+                                    Mensaje nuevoMensaje = new Mensaje(userName, userId,mensajeTexto);
+                                    databaseReference.push().setValue(nuevoMensaje);
+                                    editTextMensaje.setText("");
+                                }
 
                                 // Haz algo con el nombre del usuario
                                 Log.d("sudo", "Nombre del usuario: " + userName);
@@ -162,12 +167,6 @@ public class ChatFragment extends Fragment {
                     }
                 });
 
-
-        if (!mensajeTexto.isEmpty()) {
-            Mensaje nuevoMensaje = new Mensaje(userName, userId,mensajeTexto);
-            databaseReference.push().setValue(nuevoMensaje);
-            editTextMensaje.setText("");
-        }
     }
 
     private void leerMensajes() {
@@ -176,14 +175,16 @@ public class ChatFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
                 Mensaje mensaje = dataSnapshot.getValue(Mensaje.class);
-                listaMensajes.add(mensaje);
-                mensajeAdapter.notifyDataSetChanged();
+
+                // Agrega el nuevo mensaje directamente al adaptador
+                mensajeAdapter.agregarMensaje(mensaje);
 
                 // Desplázate al último mensaje si la lista no está vacía
                 if (!listaMensajes.isEmpty()) {
                     recyclerView.smoothScrollToPosition(mensajeAdapter.getItemCount() - 1);
                 }
             }
+
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
