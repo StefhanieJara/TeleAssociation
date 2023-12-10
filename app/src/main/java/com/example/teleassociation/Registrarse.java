@@ -21,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.regex.Pattern;
 
@@ -93,6 +94,20 @@ public class Registrarse extends AppCompatActivity {
                 Log.d("msg-test", " | nombre: " + nombre + " | rol: " + rol + " | condicion: " + condicion);
 
                 //registrarUsuario(usuario, correo, contrasena,codigo);
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                String token = task.getResult();
+
+                                // Guardar el token del usuario en tu base de datos o utilizarlo según sea necesario.
+                                usuario.setToken(token);
+
+                            } else {
+                                // Si no se pudo obtener el token, manejar el error
+                                Log.w("msg-test", "No se pudo obtener el token del usuario");
+                                showError("No se pudo obtener el token del usuario");
+                            }
+                        });
 
                 db.collection("usuarios")
                         .whereEqualTo("id", codigo)
