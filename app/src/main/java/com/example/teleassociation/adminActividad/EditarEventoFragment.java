@@ -171,21 +171,66 @@ public class EditarEventoFragment extends Fragment {
                     if (tituloEvento.isEmpty() || descripcionEvento.isEmpty() || fechaEvento.isEmpty() || lugarEvento.isEmpty() ||estadoEvento.isEmpty()) {
                         Toast.makeText(getContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show();
                     }else{
-                        eventoCrear = new eventoCrear();
-                        if(lugarEvento.equals("Bati")){
-                            eventoCrear.setUbicacion(-12.073198534215251,-77.08159029588224);
-                        } else if (lugarEvento.equals("Digimundo")) {
-                            eventoCrear.setUbicacion(-12.07316474474935,-77.08135327613498);
-                        } else if (lugarEvento.equals("Minas")) {
-                            eventoCrear.setUbicacion(-12.0721793337368,-77.08197205625702);
-                        } else if (lugarEvento.equals("Polideportivo")) {
-                            eventoCrear.setUbicacion(-12.0721793337368,-77.08197205625702);
-                        } else if (lugarEvento.equals("Local de ensayo")) {
-                            eventoCrear.setUbicacion(-12.075643035700846,-77.06511929051032);
-                        } else if (lugarEvento.equals("Estacionamiento de Letras")) {
-                            eventoCrear.setUbicacion(-12.0721793337368,-77.08197205625702);
+
+                        if(eventoParticipante.equals(tituloEvento)){
+                            Log.e("msg-test", "Entrando a la igualdad eventoParticipante.equals(tituloEvento) ");
+                            Log.e("msg-test", "El eventoParticapante es igual a: "+eventoParticipante+" y el nuevo titulo es: "+tituloEvento);
+                            eventoCrear = new eventoCrear();
+                            if(lugarEvento.equals("Bati")){
+                                eventoCrear.setUbicacion(-12.073198534215251,-77.08159029588224);
+                            } else if (lugarEvento.equals("Digimundo")) {
+                                eventoCrear.setUbicacion(-12.07316474474935,-77.08135327613498);
+                            } else if (lugarEvento.equals("Minas")) {
+                                eventoCrear.setUbicacion(-12.0721793337368,-77.08197205625702);
+                            } else if (lugarEvento.equals("Polideportivo")) {
+                                eventoCrear.setUbicacion(-12.0721793337368,-77.08197205625702);
+                            } else if (lugarEvento.equals("Local de ensayo")) {
+                                eventoCrear.setUbicacion(-12.075643035700846,-77.06511929051032);
+                            } else if (lugarEvento.equals("Estacionamiento de Letras")) {
+                                eventoCrear.setUbicacion(-12.0721793337368,-77.08197205625702);
+                            }
+                            actualizarInformacionFirebase(tituloEvento, descripcionEvento, fechaEvento, eventoCrear.getUbicacion(), estadoEvento,idEvento,lugarEvento);
+                        } else{
+
+                            db.collection("eventos")
+                                    .whereEqualTo("nombre", tituloEvento)
+                                    .get()
+                                    .addOnCompleteListener(task -> {
+                                        if (task.isSuccessful()) {
+                                            // Verifica si se encontraron eventos con el nombre proporcionado
+                                            if (!task.getResult().isEmpty()) {
+                                                // Evento con el mismo nombre encontrado, muestra el mensaje de error
+                                                Toast.makeText(getContext(), "No se puede repetir el nombre del evento", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Log.e("msg-test", "Cuando no se cumple la igualdad de arriba ");
+                                                Log.e("msg-test", "El eventoParticapante es igual a: "+eventoParticipante+" y el nuevo titulo es: "+tituloEvento);
+                                                eventoCrear = new eventoCrear();
+                                                if(lugarEvento.equals("Bati")){
+                                                    eventoCrear.setUbicacion(-12.073198534215251,-77.08159029588224);
+                                                } else if (lugarEvento.equals("Digimundo")) {
+                                                    eventoCrear.setUbicacion(-12.07316474474935,-77.08135327613498);
+                                                } else if (lugarEvento.equals("Minas")) {
+                                                    eventoCrear.setUbicacion(-12.0721793337368,-77.08197205625702);
+                                                } else if (lugarEvento.equals("Polideportivo")) {
+                                                    eventoCrear.setUbicacion(-12.0721793337368,-77.08197205625702);
+                                                } else if (lugarEvento.equals("Local de ensayo")) {
+                                                    eventoCrear.setUbicacion(-12.075643035700846,-77.06511929051032);
+                                                } else if (lugarEvento.equals("Estacionamiento de Letras")) {
+                                                    eventoCrear.setUbicacion(-12.0721793337368,-77.08197205625702);
+                                                }
+                                                actualizarInformacionFirebase(tituloEvento, descripcionEvento, fechaEvento, eventoCrear.getUbicacion(), estadoEvento,idEvento,lugarEvento);
+
+                                            }
+                                        } else {
+                                            // Manejar el error al realizar la consulta en la colección "eventos"
+                                            Log.e("msg-test", "Error al consultar la colección eventos", task.getException());
+                                        }
+                                    });
+
+
                         }
-                        actualizarInformacionFirebase(tituloEvento, descripcionEvento, fechaEvento, eventoCrear.getUbicacion(), estadoEvento,idEvento,lugarEvento);
+
+
                     }
                 }
             });
