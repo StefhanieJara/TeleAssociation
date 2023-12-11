@@ -147,22 +147,33 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
                 String mensaje;
                 if ("Egresado".equals(holder.condicion)) {
                     mensaje = "¡Gracias por su donación! Puede pasar a recoger su kit teleco a la 1:00 pm del 14/12/2023.";
+                    // Obtener el token de Firebase Messaging
+                    FirebaseMessaging.getInstance().getToken()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful() && task.getResult() != null) {
+                                    String token = task.getResult();
+                                    // Luego, envías la notificación con el token obtenido
+                                    enviarNot(token, mensaje);
+                                } else {
+                                    // Manejar el error al obtener el token
+                                    Log.w(TAG, "Error al obtener el token.", task.getException());
+                                }
+                            });
                 } else if ("Estudiante".equals(holder.condicion)) {
                     mensaje = "¡Gracias por su donación! Tu donación ha sido recibida.";
+                    // Obtener el token de Firebase Messaging
+                    FirebaseMessaging.getInstance().getToken()
+                            .addOnCompleteListener(task -> {
+                                if (task.isSuccessful() && task.getResult() != null) {
+                                    String token = task.getResult();
+                                    // Luego, envías la notificación con el token obtenido
+                                    enviarNot(token, mensaje);
+                                } else {
+                                    // Manejar el error al obtener el token
+                                    Log.w(TAG, "Error al obtener el token.", task.getException());
+                                }
+                            });
                 }
-
-                // Obtener el token de Firebase Messaging
-                FirebaseMessaging.getInstance().getToken()
-                        .addOnCompleteListener(task -> {
-                            if (task.isSuccessful() && task.getResult() != null) {
-                                String token = task.getResult();
-                                // Luego, envías la notificación con el token obtenido
-                                enviarNot(token, mensaje);
-                            } else {
-                                // Manejar el error al obtener el token
-                                Log.w(TAG, "Error al obtener el token.", task.getException());
-                            }
-                        });
             }
         });
 

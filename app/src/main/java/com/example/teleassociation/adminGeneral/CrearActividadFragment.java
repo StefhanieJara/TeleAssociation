@@ -175,75 +175,99 @@ public class CrearActividadFragment extends Fragment {
             if (nombreActividad.isEmpty() || descripcionActividad.isEmpty()  || delegadoName.isEmpty()) {
                 Toast.makeText(getContext(), "Completa todos los campos", Toast.LENGTH_SHORT).show();
             } else {
-                actividad actividad1 = new actividad();
-                actividad1.setDelegado(delegadoName);
-                actividad1.setDescripcion(descripcionActividad);
-                actividad1.setNombre(nombreActividad);
-                String cod_al = generateRandomCode();
-                // Subir la imagen a Firebase Storage
-                StorageReference imageRef = reference.child("actividades/" + uri.getLastPathSegment());
-                UploadTask uploadTask = imageRef.putFile(uri);
 
-                // Observadores para manejar el éxito, el fallo y el progreso de la carga
-                uploadTask.addOnFailureListener(exception -> {
-                    exception.printStackTrace();
-                }).addOnSuccessListener(taskSnapshot -> {
-                    // Obtén la URL de la imagen subida
-                    imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
-                        // Guarda la URL de la imagen en la actividad
-                        actividad1.setUrl_imagen(downloadUri.toString());
+                db.collection("actividad")
+                        .whereEqualTo("nombre", nombreActividad)
+                        .get()
+                        .addOnCompleteListener(task100 ->{
+                            if (task100.isSuccessful()){
+                                if (!task100.getResult().isEmpty()) {
+                                    // Evento con el mismo nombre encontrado, muestra el mensaje de error
+                                    Toast.makeText(getContext(), "No se puede repetir el nombre de la actividad", Toast.LENGTH_SHORT).show();
+                                }else{
 
-                        // Guarda la actividad en la base de datos
-                        db.collection("actividad")
-                                .document(cod_al)
-                                .set(actividad1)
-                                .addOnSuccessListener(unused -> {
-                                    db.collection("usuarios")
-                                            .whereEqualTo("nombre", delegadoName)
-                                            .get()
-                                            .addOnCompleteListener(task -> {
-                                                if (task.isSuccessful()) {
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        // Obtener el ID del documento
-                                                        String usuarioId = document.getId();
 
-                                                        // Crear un mapa con los campos que deseas actualizar
-                                                        Map<String, Object> updates = new HashMap<>();
-                                                        updates.put("rol", "DelegadoActividad");
+                                    actividad actividad1 = new actividad();
+                                    actividad1.setDelegado(delegadoName);
+                                    actividad1.setDescripcion(descripcionActividad);
+                                    actividad1.setNombre(nombreActividad);
+                                    String cod_al = generateRandomCode();
+                                    // Subir la imagen a Firebase Storage
+                                    StorageReference imageRef = reference.child("actividades/" + uri.getLastPathSegment());
+                                    UploadTask uploadTask = imageRef.putFile(uri);
 
-                                                        // Actualizar el documento en la colección "usuarios"
+                                    // Observadores para manejar el éxito, el fallo y el progreso de la carga
+                                    uploadTask.addOnFailureListener(exception -> {
+                                        exception.printStackTrace();
+                                    }).addOnSuccessListener(taskSnapshot -> {
+                                        // Obtén la URL de la imagen subida
+                                        imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                                            // Guarda la URL de la imagen en la actividad
+                                            actividad1.setUrl_imagen(downloadUri.toString());
+
+                                            // Guarda la actividad en la base de datos
+                                            db.collection("actividad")
+                                                    .document(cod_al)
+                                                    .set(actividad1)
+                                                    .addOnSuccessListener(unused -> {
                                                         db.collection("usuarios")
-                                                                .document(usuarioId)
-                                                                .update(updates)
-                                                                .addOnSuccessListener(aVoid -> {
-                                                                    // La actualización fue exitosa
-                                                                    Intent intent = new Intent(getContext(), inicioAdmin.class);
-                                                                    intent.putExtra("Actividad creada.", true);
-                                                                    startActivity(intent);
-                                                                    Log.d("msg-test", "Usuario actualizado con éxito.");
-                                                                })
-                                                                .addOnFailureListener(e -> {
-                                                                    // Manejar el error en caso de falla en la actualización
-                                                                    Log.e("msg-test", "Error al actualizar usuario: " + e.getMessage());
+                                                                .whereEqualTo("nombre", delegadoName)
+                                                                .get()
+                                                                .addOnCompleteListener(task -> {
+                                                                    if (task.isSuccessful()) {
+                                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                                            // Obtener el ID del documento
+                                                                            String usuarioId = document.getId();
+
+                                                                            // Crear un mapa con los campos que deseas actualizar
+                                                                            Map<String, Object> updates = new HashMap<>();
+                                                                            updates.put("rol", "DelegadoActividad");
+
+                                                                            // Actualizar el documento en la colección "usuarios"
+                                                                            db.collection("usuarios")
+                                                                                    .document(usuarioId)
+                                                                                    .update(updates)
+                                                                                    .addOnSuccessListener(aVoid -> {
+                                                                                        // La actualización fue exitosa
+                                                                                        Intent intent = new Intent(getContext(), inicioAdmin.class);
+                                                                                        intent.putExtra("Actividad creada.", true);
+                                                                                        startActivity(intent);
+                                                                                        Log.d("msg-test", "Usuario actualizado con éxito.");
+                                                                                    })
+                                                                                    .addOnFailureListener(e -> {
+                                                                                        // Manejar el error en caso de falla en la actualización
+                                                                                        Log.e("msg-test", "Error al actualizar usuario: " + e.getMessage());
+                                                                                    });
+                                                                        }
+                                                                    } else {
+                                                                        // Manejar el error en caso de falla en la consulta
+                                                                        Log.e("msg-test", "Error al obtener documentos: " + task.getException());
+                                                                    }
                                                                 });
-                                                    }
-                                                } else {
-                                                    // Manejar el error en caso de falla en la consulta
-                                                    Log.e("msg-test", "Error al obtener documentos: " + task.getException());
-                                                }
-                                            });
-                                })
-                                .addOnFailureListener(e -> {
-                                    Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
-                                });
-                    });
-                }).addOnProgressListener(snapshot -> {
-                    long bytesTransferred = snapshot.getBytesTransferred();
-                    long totalByteCount = snapshot.getTotalByteCount();
-                    double porcentajeSubida = Math.round(bytesTransferred * 1.0f / totalByteCount * 100);
-                    TextView textoSubida = rootView.findViewById(R.id.subiendo);
-                    textoSubida.setText(porcentajeSubida + "%");
-                });
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                                    });
+                                        });
+                                    }).addOnProgressListener(snapshot -> {
+                                        long bytesTransferred = snapshot.getBytesTransferred();
+                                        long totalByteCount = snapshot.getTotalByteCount();
+                                        double porcentajeSubida = Math.round(bytesTransferred * 1.0f / totalByteCount * 100);
+                                        TextView textoSubida = rootView.findViewById(R.id.subiendo);
+                                        textoSubida.setText(porcentajeSubida + "%");
+                                    });
+
+
+                                }
+                            }else{
+                                Log.d("msg-test", "Error al consultar la colección eventos", task100.getException());
+                            }
+                        });
+
+
+
+
+
             }
         });
 
