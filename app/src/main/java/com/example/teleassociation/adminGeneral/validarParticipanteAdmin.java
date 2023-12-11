@@ -206,6 +206,7 @@ public class validarParticipanteAdmin extends AppCompatActivity {
                                             //EmailSender.sendEmail(usuarioCorreo,"Usuario valido en TeleAssociation","Su usuario ha sido valido para estar dentro de la aplicación.");
                                             Log.d("msg-test", "TOKEN: " + usuario.getToken());
                                             enviarNot(usuario.getToken(), "¡Bienvenido a TeleAssociation! Tu registro ha sido validado.");
+
                                             Intent intent = new Intent(this, inicioAdmin.class);
                                             intent.putExtra("Usuario validado.", true);
                                             startActivity(intent);

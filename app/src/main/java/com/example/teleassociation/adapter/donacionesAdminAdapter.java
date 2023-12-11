@@ -26,6 +26,8 @@ import com.example.teleassociation.dto.pagos;
 import com.example.teleassociation.dto.usuario;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -48,10 +50,12 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
 
     private List<pagos> actividadDonaciones;
     private Context context;
+    FirebaseFirestore db;
 
 
     public donacionesAdminAdapter() {
         this.context = context;
+        this.db = FirebaseFirestore.getInstance();
     }
     public void setActividadDonaciones(List<pagos> actividadLista) {
         this.actividadDonaciones = actividadLista;
@@ -143,37 +147,57 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
             public void onClick(DialogInterface dialog, int id) {
                 // Acción a realizar si el usuario hace clic en "Sí"
                 confirmarPago(pagos, holder);
+                db.collection("pagos").document(pagos.getId())
+                        .get()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot pagoDocument = task.getResult();
+                                if (pagoDocument.exists()) {
+                                    // Obtener el código de usuario del documento de pago
+                                    String codigoUsuario = (String) pagoDocument.get("codigo_usuario");
 
-                String mensaje;
-                if ("Egresado".equals(holder.condicion)) {
-                    mensaje = "¡Gracias por su donación! Puede pasar a recoger su kit teleco a la 1:00 pm del 14/12/2023.";
-                    // Obtener el token de Firebase Messaging
-                    FirebaseMessaging.getInstance().getToken()
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful() && task.getResult() != null) {
-                                    String token = task.getResult();
-                                    // Luego, envías la notificación con el token obtenido
-                                    enviarNot(token, mensaje);
+                                    // Buscar el usuario correspondiente al código en la colección de usuarios
+                                    db.collection("usuarios").document(codigoUsuario)
+                                            .get()
+                                            .addOnCompleteListener(task2 -> {
+                                                if (task2.isSuccessful()) {
+                                                    DocumentSnapshot usuarioDocument = task2.getResult();
+                                                    if (usuarioDocument.exists()) {
+                                                        // Obtener los datos del usuario
+                                                        String correo = (String) usuarioDocument.get("correo");
+                                                        String condicion =(String)  usuarioDocument.get("condicion");
+                                                        String token = (String) usuarioDocument.get("token");
+                                                        Log.d("msg-test", "El código del usuario es: " + codigoUsuario);
+                                                        Log.d("msg-test", "Correo del usuario: " + correo);
+                                                        Log.d("msg-test", "Token del usuario: " + token);
+                                                        Log.d("msg-test", "Token del usuario: " + condicion);
+
+                                                        if ("Egresado".equals(condicion)) {
+                                                            enviarNot(token, "¡Gracias por su donación! Puede pasar a recoger su kit teleco a la 1:00 pm del 14/12/2023.",codigoUsuario);
+
+                                                        } else if ("Estudiante".equals(condicion)) {
+                                                            enviarNot(token, "¡Gracias por su donación! Tu donación ha sido recibida.",codigoUsuario);
+
+                                                        }
+                                                        // Resto de tu lógica aquí
+                                                        // ...
+                                                    } else {
+                                                        Log.d("msg-test", "El usuario no existe");
+                                                    }
+                                                } else {
+                                                    // Manejar la excepción que ocurra al intentar obtener el documento del usuario
+                                                    Log.e("msg-test", "Excepción al obtener el documento del usuario: ", task2.getException());
+                                                }
+                                            });
                                 } else {
-                                    // Manejar el error al obtener el token
-                                    Log.w(TAG, "Error al obtener el token.", task.getException());
+                                    Log.d("msg-test", "El documento de pago no existe");
                                 }
-                            });
-                } else if ("Estudiante".equals(holder.condicion)) {
-                    mensaje = "¡Gracias por su donación! Tu donación ha sido recibida.";
-                    // Obtener el token de Firebase Messaging
-                    FirebaseMessaging.getInstance().getToken()
-                            .addOnCompleteListener(task -> {
-                                if (task.isSuccessful() && task.getResult() != null) {
-                                    String token = task.getResult();
-                                    // Luego, envías la notificación con el token obtenido
-                                    enviarNot(token, mensaje);
-                                } else {
-                                    // Manejar el error al obtener el token
-                                    Log.w(TAG, "Error al obtener el token.", task.getException());
-                                }
-                            });
-                }
+                            } else {
+                                // Manejar la excepción que ocurra al intentar obtener el documento de pago
+                                Log.e("msg-test", "Excepción al obtener el documento de pago: ", task.getException());
+                            }
+                        });
+
             }
         });
 
@@ -322,7 +346,7 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
             holder.validado.setText("Donación rechazada");
         }
     }
-    private void enviarNot(String token, String mensaje) {
+    private void enviarNot(String token, String mensaje, String codigo) {
         pagos pagos = new pagos();
 
         try {
@@ -348,7 +372,7 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
             CollectionReference notificacionesRef = firestore.collection("notificaciones");
 
             // Crear una nueva instancia de la clase notificacion con los datos necesarios
-            notificacion nuevaNotificacion = new notificacion("TeleAssociation", Timestamp.now(), mensaje, pagos.getCodigo_usuario());
+            notificacion nuevaNotificacion = new notificacion("TeleAssociation", Timestamp.now(), mensaje, codigo);
             notificacionesRef.add(nuevaNotificacion)
                     .addOnSuccessListener(documentReference -> {
                         Log.d("msg-test", "Notificación almacenada en Firestore con ID: " + documentReference.getId());
