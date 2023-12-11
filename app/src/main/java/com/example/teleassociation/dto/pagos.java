@@ -1,5 +1,7 @@
 package com.example.teleassociation.dto;
 
+import com.google.firebase.Timestamp;
+
 public class pagos {
     private String codigo_usuario;
     private String monto;
@@ -49,4 +51,5 @@ public class pagos {
     public void setValidado(String validado) {
         this.validado = validado;
     }
+
 }
