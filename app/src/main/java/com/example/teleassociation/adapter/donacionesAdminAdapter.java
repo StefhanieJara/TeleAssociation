@@ -1,5 +1,7 @@
 package com.example.teleassociation.adapter;
 
+import static com.android.volley.VolleyLog.TAG;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -25,6 +27,7 @@ import com.example.teleassociation.dto.usuario;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 import org.json.JSONException;
@@ -135,20 +138,33 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
         builder.setTitle("Confirmar Pago");
         builder.setMessage("¿Está seguro de confirmar el pago?");
 
+        // Declarar una variable final para el mensaje
+        final String[] mensaje = {""};
+
         // Agregar botón "Sí"
         builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Acción a realizar si el usuario hace clic en "Sí"
                 confirmarPago(pagos, holder);
 
-                String mensaje;
                 if ("Egresado".equals(holder.condicion)) {
-                    mensaje = "¡Gracias por su donación! Puede pasar a recoger su kit teleco a la 1:00 pm del 14/12/2023.";
+                    mensaje[0] = "¡Gracias por su donación! Puede pasar a recoger su kit teleco a la 1:00 pm del 14/12/2023.";
                 } else if ("Estudiante".equals(holder.condicion)) {
-                    mensaje = "¡Gracias por su donación! Tu donación ha sido recibida.";
+                    mensaje[0] = "¡Gracias por su donación! Tu donación ha sido recibida.";
                 }
-                // Luego, envías la notificación
-                enviarNot(usuario.getToken(), mensaje);
+
+                // Obtener el token de Firebase Messaging
+                FirebaseMessaging.getInstance().getToken()
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                String token = task.getResult();
+                                // Luego, envías la notificación con el token obtenido
+                                enviarNot(token, mensaje[0]);
+                            } else {
+                                // Manejar el error al obtener el token
+                                Log.w(TAG, "Error al obtener el token.", task.getException());
+                            }
+                        });
             }
         });
 
@@ -163,6 +179,7 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
         // Mostrar el diálogo
         builder.create().show();
     }
+
 
     private void confirmarPago(pagos pagos, EventViewHolder holder) {
         // Actualizar el estado "validado" del pago en Firestore
@@ -296,6 +313,8 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
         }
     }
     private void enviarNot(String token, String mensaje) {
+        pagos pagos = new pagos();
+
         try {
             JSONObject jsonObject = new JSONObject();
 
