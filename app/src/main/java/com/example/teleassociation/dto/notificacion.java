@@ -34,7 +34,7 @@ public class notificacion implements Serializable {
         this.detalle = detalle;
     }
 
-    public Timestamp getFecha() {
+    public CharSequence getFecha() {
         return fecha;
     }
 
