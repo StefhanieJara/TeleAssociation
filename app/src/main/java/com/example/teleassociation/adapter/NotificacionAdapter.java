@@ -12,8 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.notificacion;
-import java.util.List;
+import com.google.firebase.Timestamp;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapter.NotificacionViewHolder> {
 
     private List<notificacion> notificaciones;
@@ -33,11 +38,18 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
 
     @Override
     public void onBindViewHolder(@NonNull NotificacionViewHolder holder, int position) {
+        SimpleDateFormat formatoFechaEsp = new SimpleDateFormat("EEEE d 'de' MMMM", new Locale("es", "ES"));
+
         notificacion notif = notificaciones.get(position);
+
+        Timestamp fecha = notif.getFecha();
+        Date date = fecha.toDate();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd 'de' MMMM HH:mm", new Locale("es", "ES"));
+        String fechaFormateada = formatoFecha.format(date);
 
         holder.titulo.setText(notif.getTitulo());
         holder.detalle.setText(notif.getDetalle());
-        holder.fecha.setText(notif.getFecha());
+        holder.fecha.setText(fechaFormateada);
         // Puedes personalizar cómo manejas la imagen de notificación (notif.icon) según tus necesidades
         holder.icon.setImageDrawable(context.getDrawable(R.drawable.baseline_notifications_24));
     }
