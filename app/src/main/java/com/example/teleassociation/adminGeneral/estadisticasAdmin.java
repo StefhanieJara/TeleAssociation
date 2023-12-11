@@ -17,9 +17,12 @@ import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.usuario;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +32,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class estadisticasAdmin extends AppCompatActivity {
 
@@ -49,6 +57,11 @@ public class estadisticasAdmin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estadisticas_admin);
+        // Ocultar barra de título
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         db = FirebaseFirestore.getInstance();
 
@@ -98,25 +111,26 @@ public class estadisticasAdmin extends AppCompatActivity {
                     });
         }
 
-        BarChart barChart =findViewById(R.id.barchart);
-        getData();
-        BarDataSet barDataSet = new BarDataSet(barArrayList,"Barra estadisticas");
-        BarData barData = new BarData(barDataSet);
-        barChart.setData(barData);
-        //COLOR BAR DATA SET
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        //TEXT COLOR
-        barDataSet.setValueTextColor(Color.BLACK);
-        //setting text size
-        barDataSet.setValueTextSize(16f);
-        barChart.getDescription().setEnabled(true);
+        BarChart barChart = findViewById(R.id.barchart);
+
+        // Configurar gráfico
+        barChart.setDrawBarShadow(false);
+        barChart.setDrawValueAboveBar(true);
+        barChart.getDescription().setEnabled(false);
 
 
-                // Ocultar barra de título
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
+
+
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setGranularity(1f);
+
+        YAxis rightAxis = barChart.getAxisRight();
+        rightAxis.setGranularity(1f);
+
+        // Obtener datos de Firestore y actualizar el gráfico
+        getDataAndDrawChart(barChart);
+
+
 
         BottomNavigationView navigation = findViewById(R.id.bottom_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -162,14 +176,67 @@ public class estadisticasAdmin extends AppCompatActivity {
 
     }
 
-    private void getData(){
+    private void getDataAndDrawChart(BarChart barChart) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        barArrayList = new ArrayList();
-        barArrayList.add(new BarEntry(2f, 10));
-        barArrayList.add(new BarEntry(3f, 20));
-        barArrayList.add(new BarEntry(4f, 30));
-        barArrayList.add(new BarEntry(5f, 40));
-        barArrayList.add(new BarEntry(6f, 50));
+        // Realizar consulta a Firestore
+        db.collection("pagos")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Map<String, Integer> montoFrequencies = new HashMap<>(); // Mapa para almacenar la frecuencia de cada monto
+                        List<BarEntry> barEntries = new ArrayList<>();
+                        List<String> xValues = new ArrayList<>(); // Lista para almacenar los montos
 
+                        QuerySnapshot pagosCollection = task.getResult();
+
+                        int index = 0; // Variable para mantener el índice de la entrada
+
+                        for (QueryDocumentSnapshot document : pagosCollection) {
+                            // Obtener el monto de cada pago
+                            String montoStr = document.getString("monto");
+
+                            if (montoStr != null) {
+                                // Incrementar la frecuencia del monto en el mapa
+                                montoFrequencies.put(montoStr, montoFrequencies.getOrDefault(montoStr, 0) + 1);
+
+                                // Si no hemos agregado el monto al conjunto, lo agregamos al eje X
+                                if (!xValues.contains(montoStr)) {
+                                    xValues.add(montoStr);
+                                }
+                            }
+                        }
+
+                        for (String monto : xValues) {
+                            // Agregar entrada para el monto y su frecuencia
+                            barEntries.add(new BarEntry(index++, montoFrequencies.getOrDefault(monto, 0)));
+                        }
+
+                        // Configurar el eje X para mostrar los montos
+                        XAxis xAxis = barChart.getXAxis();
+                        xAxis.setValueFormatter(new IndexAxisValueFormatter(xValues));
+                        xAxis.setGranularity(1f); // Asegura que no haya entradas duplicadas en el eje X
+
+                        // Configurar los datos del gráfico
+                        BarDataSet barDataSet = new BarDataSet(barEntries, "Monto Estadísticas");
+                        BarData barData = new BarData(barDataSet);
+                        barChart.setData(barData);
+
+                        // Establecer colores y otras configuraciones del gráfico
+                        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+                        barDataSet.setValueTextColor(Color.BLACK);
+                        barDataSet.setValueTextSize(16f);
+
+                        // Actualizar el gráfico
+                        barChart.invalidate();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Manejar la excepción que ocurra al intentar obtener los documentos
+                    Log.e("msg-test", "Excepción al obtener documentos de la colección pagos: ", e);
+                });
     }
+
+
+
 }
