@@ -138,19 +138,17 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
         builder.setTitle("Confirmar Pago");
         builder.setMessage("¿Está seguro de confirmar el pago?");
 
-        // Declarar una variable final para el mensaje
-        final String[] mensaje = {""};
-
         // Agregar botón "Sí"
         builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // Acción a realizar si el usuario hace clic en "Sí"
                 confirmarPago(pagos, holder);
 
-                if ("Egresado".equals(usuario.getCondicion())) {
-                    mensaje[0] = "¡Gracias por su donación! Puede pasar a recoger su kit teleco a la 1:00 pm del 14/12/2023.";
-                } else if ("Estudiante".equals(usuario.getCondicion())) {
-                    mensaje[0] = "¡Gracias por su donación! Tu donación ha sido recibida.";
+                String mensaje;
+                if ("Egresado".equals(holder.condicion)) {
+                    mensaje = "¡Gracias por su donación! Puede pasar a recoger su kit teleco a la 1:00 pm del 14/12/2023.";
+                } else if ("Estudiante".equals(holder.condicion)) {
+                    mensaje = "¡Gracias por su donación! Tu donación ha sido recibida.";
                 }
 
                 // Obtener el token de Firebase Messaging
@@ -159,7 +157,7 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
                             if (task.isSuccessful() && task.getResult() != null) {
                                 String token = task.getResult();
                                 // Luego, envías la notificación con el token obtenido
-                                enviarNot(token, mensaje[0]);
+                                enviarNot(token, mensaje);
                             } else {
                                 // Manejar el error al obtener el token
                                 Log.w(TAG, "Error al obtener el token.", task.getException());
@@ -179,6 +177,7 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
         // Mostrar el diálogo
         builder.create().show();
     }
+
 
 
     private void confirmarPago(pagos pagos, EventViewHolder holder) {
