@@ -24,19 +24,34 @@ import com.example.teleassociation.adapter.AdminGeneralInicioAdapter;
 import com.example.teleassociation.adapter.PersonasGeneralAdapter;
 import com.example.teleassociation.adapter.donacionesAdminAdapter;
 import com.example.teleassociation.dto.actividad;
+import com.example.teleassociation.dto.notificacion;
 import com.example.teleassociation.dto.pagos;
 import com.example.teleassociation.dto.usuario;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class donacionesAdmin extends AppCompatActivity {
     AdminGeneralInicioFragment adminGeneralInicioFragment = new AdminGeneralInicioFragment();
@@ -447,6 +462,70 @@ public class donacionesAdmin extends AppCompatActivity {
         super.onResume();
         // Recargar los datos al volver a la actividad
         cargarDatosDesdeFirebase();
+    }
+    private void enviarNot(String token, String mensaje) {
+        try {
+            JSONObject jsonObject = new JSONObject();
+
+
+            JSONObject notification = new JSONObject();
+            notification.put("title", "TeleAssociation");
+            notification.put("body", mensaje);
+            notification.put("priority", "high");
+            JSONObject dataObj = new JSONObject();
+
+
+            jsonObject.put("notification", notification);
+            jsonObject.put("data",dataObj);
+            jsonObject.put("to", token);
+            callApi(jsonObject);
+
+            // Crear instancia de FirebaseFirestore
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+            // Obtener la referencia de la colección "notificaciones"
+            CollectionReference notificacionesRef = firestore.collection("notificaciones");
+
+            // Crear una nueva instancia de la clase notificacion con los datos necesarios
+            notificacion nuevaNotificacion = new notificacion("TeleAssociation", Timestamp.now(), mensaje, usuario.getId());
+            notificacionesRef.add(nuevaNotificacion)
+                    .addOnSuccessListener(documentReference -> {
+                        Log.d("msg-test", "Notificación almacenada en Firestore con ID: " + documentReference.getId());
+                        // Continuar con tu lógica aquí, como enviar la notificación FCM
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("msg-test", "Error al almacenar la notificación en Firestore", e);
+                        // Manejar el error según sea necesario
+                    });
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    private void callApi(JSONObject jsonObject){
+        okhttp3.MediaType JSON = MediaType.get("application/json");
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://fcm.googleapis.com/fcm/send";
+        RequestBody body = RequestBody.create(jsonObject.toString(),JSON);
+        okhttp3.Request request = new Request.Builder()
+                .url(url)
+                .post(body)
+                .header("Authorization", "Bearer AAAAEzmjgrY:APA91bEN69zZ8gYBGdJOEWq8RWoff5Fi9A4eHhYk9q-Q5ITiBEXq66mzC_UvFTQARX53-7dh7aQKPjVIfeC4QWV02_ZAjQzbzAshXRswNoFtxq6gRB3cmH5aekYiM-dt6tHOG1T6gfUx")
+                .build();
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+
+            }
+        });
+
+
     }
 
 

@@ -5,17 +5,17 @@ import com.google.firebase.Timestamp;
 import java.io.Serializable;
 
 public class notificacion implements Serializable {
-    private String id;
+    private String codigo;
     private String titulo;
     private String detalle;
     private Timestamp fecha;
 
-    public String getId() {
-        return id;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getTitulo() {
@@ -47,7 +47,7 @@ public class notificacion implements Serializable {
         this.titulo = titulo;
         this.fecha = fecha;
         this.detalle = detalle;
-        this.id = id;
+        this.codigo = id;
     }
     // Constructor sin argumentos requerido para Firestore
     public notificacion() {

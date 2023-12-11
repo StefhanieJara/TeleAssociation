@@ -71,7 +71,6 @@ public class NotificationActivity extends AppCompatActivity {
 
         if (user != null) {
             String email = user.getEmail();
-
             db.collection("usuarios")
                     .get()
                     .addOnCompleteListener(task2 -> {
@@ -111,8 +110,14 @@ public class NotificationActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
                             notificaciones.clear();
+                            Log.d("msg-test", "Ingresaste a obtener ");
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 notificacion notif = document.toObject(notificacion.class);
+                                Log.d("msg-test", "Ingresaste a obtener 2");
+                                Log.d("msg-test", "Información de notificación: " +
+                                        "Titulo: " + notif.getTitulo() + ", " +
+                                        "Mensaje: " + notif.getDetalle() + ", " +
+                                        "Fecha: " + notif.getFecha());
                                 notificaciones.add(notif);
                             }
                             adapter.notifyDataSetChanged();

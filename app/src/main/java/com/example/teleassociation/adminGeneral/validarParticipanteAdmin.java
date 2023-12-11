@@ -22,6 +22,7 @@ import com.example.teleassociation.EmailSender;
 import com.example.teleassociation.MyFirebaseMessagingService;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.actividad;
+import com.example.teleassociation.dto.notificacion;
 import com.example.teleassociation.dto.usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,8 +30,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -203,7 +206,6 @@ public class validarParticipanteAdmin extends AppCompatActivity {
                                             //EmailSender.sendEmail(usuarioCorreo,"Usuario valido en TeleAssociation","Su usuario ha sido valido para estar dentro de la aplicación.");
                                             Log.d("msg-test", "TOKEN: " + usuario.getToken());
                                             enviarNot(usuario.getToken(), "¡Bienvenido a TeleAssociation! Tu registro ha sido validado.");
-
                                             Intent intent = new Intent(this, inicioAdmin.class);
                                             intent.putExtra("Usuario validado.", true);
                                             startActivity(intent);
@@ -266,6 +268,25 @@ public class validarParticipanteAdmin extends AppCompatActivity {
             jsonObject.put("data",dataObj);
             jsonObject.put("to", token);
             callApi(jsonObject);
+
+            // Crear instancia de FirebaseFirestore
+            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+            // Obtener la referencia de la colección "notificaciones"
+            CollectionReference notificacionesRef = firestore.collection("notificaciones");
+
+            // Crear una nueva instancia de la clase notificacion con los datos necesarios
+            notificacion nuevaNotificacion = new notificacion("TeleAssociation", Timestamp.now(), mensaje, usuario.getId());
+            notificacionesRef.add(nuevaNotificacion)
+                    .addOnSuccessListener(documentReference -> {
+                        Log.d("msg-test", "Notificación almacenada en Firestore con ID: " + documentReference.getId());
+                        // Continuar con tu lógica aquí, como enviar la notificación FCM
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e("msg-test", "Error al almacenar la notificación en Firestore", e);
+                        // Manejar el error según sea necesario
+                    });
+
 
         } catch (JSONException e) {
             e.printStackTrace();
