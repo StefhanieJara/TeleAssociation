@@ -147,9 +147,9 @@ public class donacionesAdminAdapter extends RecyclerView.Adapter<donacionesAdmin
                 // Acción a realizar si el usuario hace clic en "Sí"
                 confirmarPago(pagos, holder);
 
-                if ("Egresado".equals(holder.condicion)) {
+                if ("Egresado".equals(usuario.getCondicion())) {
                     mensaje[0] = "¡Gracias por su donación! Puede pasar a recoger su kit teleco a la 1:00 pm del 14/12/2023.";
-                } else if ("Estudiante".equals(holder.condicion)) {
+                } else if ("Estudiante".equals(usuario.getCondicion())) {
                     mensaje[0] = "¡Gracias por su donación! Tu donación ha sido recibida.";
                 }
 
