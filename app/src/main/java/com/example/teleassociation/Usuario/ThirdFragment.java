@@ -101,6 +101,7 @@ public class ThirdFragment extends Fragment {
         // Obtener datos de usuario y realizar acciones después de obtenerlos
         obtenerDatosUsuario(usuario -> {
             Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
+            Log.d("msg-test", "La condicion del usuario es : " + usuario.getCondicion());
 
             // Ahora puedes utilizar el nombre y el código del usuario como lo necesites
             nameUser = rootView.findViewById(R.id.nameUser);
@@ -116,50 +117,57 @@ public class ThirdFragment extends Fragment {
                     // Intenta convertir donativoStr a un número
                     double monto = Double.parseDouble(donativoStr);
 
-                    // Si la conversión tiene éxito, procede a crear y guardar el objeto 'pagos'
-                    pagos pagos = new pagos();
-                    pagos.setCodigo_usuario(codigoUsuario);
-                    pagos.setMonto(String.valueOf(monto));
-                    pagos.setValidado("Pendiente");
+                    if( (usuario.getCondicion().equals("Egresado") && monto >=100) || (usuario.getCondicion().equals("Estudiante")) ){
 
-                    // Subir la imagen a Firebase Storage
-                    if (uri != null) {
-                        StorageReference imageRef = reference.child("donaciones/" + uri.getLastPathSegment());
-                        UploadTask uploadTask = imageRef.putFile(uri);
+                        // Si la conversión tiene éxito, procede a crear y guardar el objeto 'pagos'
+                        pagos pagos = new pagos();
+                        pagos.setCodigo_usuario(codigoUsuario);
+                        pagos.setMonto(String.valueOf(monto));
+                        pagos.setValidado("Pendiente");
 
-                        uploadTask.addOnFailureListener(exception -> {
-                            exception.printStackTrace();
-                            Log.e("msg-test", "Error en la carga de la imagen", exception);
-                        }).addOnSuccessListener(taskSnapshot -> {
-                            // Obtén la URL de la imagen subida
-                            imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
-                                // Guarda la URL de la imagen en el objeto pagos
-                                pagos.setUrl_imagen(downloadUri.toString());
+                        // Subir la imagen a Firebase Storage
+                        if (uri != null) {
+                            StorageReference imageRef = reference.child("donaciones/" + uri.getLastPathSegment());
+                            UploadTask uploadTask = imageRef.putFile(uri);
 
-                                // Cargar la imagen seleccionada en el ImageView
-                                Glide.with(requireContext()).load(uri).into(imageView14);
+                            uploadTask.addOnFailureListener(exception -> {
+                                exception.printStackTrace();
+                                Log.e("msg-test", "Error en la carga de la imagen", exception);
+                            }).addOnSuccessListener(taskSnapshot -> {
+                                // Obtén la URL de la imagen subida
+                                imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                                    // Guarda la URL de la imagen en el objeto pagos
+                                    pagos.setUrl_imagen(downloadUri.toString());
 
-                                // Guarda el objeto pagos en Firestore
-                                String cod_al = generateRandomCode();
+                                    // Cargar la imagen seleccionada en el ImageView
+                                    Glide.with(requireContext()).load(uri).into(imageView14);
 
-                                db.collection("pagos")
-                                        .document(cod_al)
-                                        .set(pagos)
-                                        .addOnSuccessListener(unused -> {
-                                            // Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getContext(), inicio_usuario.class);
-                                            intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
-                                            startActivity(intent);
-                                        })
-                                        .addOnFailureListener(e -> {
-                                            Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
-                                        });
+                                    // Guarda el objeto pagos en Firestore
+                                    String cod_al = generateRandomCode();
+
+                                    db.collection("pagos")
+                                            .document(cod_al)
+                                            .set(pagos)
+                                            .addOnSuccessListener(unused -> {
+                                                // Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getContext(), inicio_usuario.class);
+                                                intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
+                                                startActivity(intent);
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                            });
+                                });
                             });
-                        });
-                    } else {
-                        // Si no se seleccionó una imagen, puedes manejarlo aquí
-                        Toast.makeText(getContext(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Si no se seleccionó una imagen, puedes manejarlo aquí
+                            Toast.makeText(getContext(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if ((usuario.getCondicion().equals("Egresado") && monto < 100) ){
+                        Toast.makeText(getContext(), "Como egresado, su monto mínimo es 100 soles", Toast.LENGTH_SHORT).show();
                     }
+
+
                 } catch (NumberFormatException e) {
                     // Si no se puede convertir a número, muestra un mensaje de error
                     Toast.makeText(getContext(), "El valor tiene que ser numérico", Toast.LENGTH_SHORT).show();
@@ -218,11 +226,15 @@ public class ThirdFragment extends Fragment {
                                 String codigo = document.getId();
                                 String correo = (String) document.get("correo");
                                 String nombre = (String) document.get("nombre");
+                                String condicion = (String) document.get("condicion");
 
                                 if (correo.equals(email)) {
                                     usuarioSesion.setId(codigo);
                                     usuarioSesion.setNombre(nombre);
                                     usuarioSesion.setCorreo(correo);
+                                    usuarioSesion.setCondicion(condicion);
+                                    Log.e("msg-test", "Su es: "+ usuarioSesion.getId());
+                                    Log.e("msg-test", "Usted es: "+ usuarioSesion.getCondicion());
                                     // Llamada al método de la interfaz con el nombre del usuario
                                     callback.onCallback(usuarioSesion);
                                     return;
