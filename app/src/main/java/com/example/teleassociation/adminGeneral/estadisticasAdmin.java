@@ -17,13 +17,19 @@ import com.example.teleassociation.MainActivity;
 import com.example.teleassociation.R;
 import com.example.teleassociation.dto.usuario;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -51,6 +57,8 @@ public class estadisticasAdmin extends AppCompatActivity {
     FirebaseAuth mAuth;
     TextView nameUser;
     usuario usuario = new usuario();
+    private PieChart pieChart;
+    private TextView textViewTitulo;
 
 
     @Override
@@ -129,6 +137,42 @@ public class estadisticasAdmin extends AppCompatActivity {
 
         // Obtener datos de Firestore y actualizar el gráfico
         getDataAndDrawChart(barChart);
+
+
+
+        pieChart = findViewById(R.id.piechart);
+
+        pieChart = findViewById(R.id.piechart);
+
+
+        // Realizar la consulta a Firebase
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("usuarios")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            int estudiantes = 0;
+                            int egresados = 0;
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String condicion = document.getString("condicion");
+
+                                if ("Estudiante".equals(condicion)) {
+                                    estudiantes++;
+                                } else if ("Egresado".equals(condicion)) {
+                                    egresados++;
+                                }
+                            }
+
+                            // Configurar el gráfico circular con los datos obtenidos
+                            setupPieChart(estudiantes, egresados);
+                        } else {
+                            // Manejar errores en la consulta
+                        }
+                    }
+                });
 
 
 
@@ -235,6 +279,20 @@ public class estadisticasAdmin extends AppCompatActivity {
                     // Manejar la excepción que ocurra al intentar obtener los documentos
                     Log.e("msg-test", "Excepción al obtener documentos de la colección pagos: ", e);
                 });
+    }
+
+    private void setupPieChart(int estudiantes, int egresados) {
+        ArrayList<PieEntry> pieEntries = new ArrayList<>();
+        pieEntries.add(new PieEntry(estudiantes, "Estudiantes"));
+        pieEntries.add(new PieEntry(egresados, "Egresados"));
+
+        PieDataSet dataSet = new PieDataSet(pieEntries, "Relación Estudiantes - Egresados");
+        dataSet.setColors(new int[]{R.color.colorEstudiantes, R.color.colorEgresados}, this);
+
+        PieData data = new PieData(dataSet);
+        pieChart.setData(data);
+
+        // Actualizar el título
     }
 
 

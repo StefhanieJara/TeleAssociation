@@ -13,4 +13,7 @@
     <color name="blue_light">#E91F4FC5</color>
     <color name="blue_light_2">#E97496EA</color>
     <color name="blue_fragment">#E9091E51</color>
+
+    <color name="colorEstudiantes">#FFA500</color> <!-- Color naranja para estudiantes -->
+    <color name="colorEgresados">#008000</color> <!-- Color verde para egresados -->
 </resources>
