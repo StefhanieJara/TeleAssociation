@@ -20,8 +20,10 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.ThirdFragment;
 import com.example.teleassociation.Usuario.inicio_usuario;
 import com.example.teleassociation.dto.pagos;
+import com.example.teleassociation.dto.usuario;
 import com.example.teleassociation.dto.usuarioSesion;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,10 +47,48 @@ public class DonacionesAdminActividadFragment extends Fragment {
 
     private Uri uri;
     TextView nameUser;
+
+
+
+
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    public DonacionesAdminActividadFragment() {
+        // Required empty public constructor
+    }
+
+
+    public static ThirdFragment newInstance(String param1, String param2) {
+        ThirdFragment fragment = new ThirdFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_donaciones_admin_actividad, container, false);
+        rootView = inflater.inflate(R.layout.fragment_donaciones_admin_actividad, container, false);
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         reference = storage.getReference();
@@ -116,7 +156,7 @@ public class DonacionesAdminActividadFragment extends Fragment {
                                             .set(pagos)
                                             .addOnSuccessListener(unused -> {
                                                 // Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(getContext(), inicio_usuario.class);
+                                                Intent intent = new Intent(getContext(), ListaActividadesDelactvActivity.class);
                                                 intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
                                                 startActivity(intent);
                                             })
@@ -141,10 +181,25 @@ public class DonacionesAdminActividadFragment extends Fragment {
             });
         });
 
-
-
         return rootView;
     }
+
+
+
+
+    ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), result -> {
+                if (result != null) {
+                    uri = result;
+                    // Cargar la imagen seleccionada en un ImageView (opcional)
+                    ImageView imageView14 = rootView.findViewById(R.id.imageView14);
+                    Glide.with(requireContext()).load(uri).into(imageView14);
+                    Log.d("PhotoPicker", "Selected URI: " + uri);
+                } else {
+                    Log.d("PhotoPicker", "No media selected");
+                }
+            });
+
 
     private String generateRandomCode() {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -159,9 +214,10 @@ public class DonacionesAdminActividadFragment extends Fragment {
         return randomCode.toString();
     }
 
-    private void obtenerDatosUsuario(DonacionesAdminActividadFragment.FirestoreCallback callback) {
+    private void obtenerDatosUsuario(ThirdFragment.FirestoreCallback callback) {
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
+        usuario usuario = new usuario();
         usuarioSesion usuarioSesion = new usuarioSesion();
 
         if (user != null) {
@@ -176,11 +232,15 @@ public class DonacionesAdminActividadFragment extends Fragment {
                                 String codigo = document.getId();
                                 String correo = (String) document.get("correo");
                                 String nombre = (String) document.get("nombre");
+                                String condicion = (String) document.get("condicion");
 
                                 if (correo.equals(email)) {
                                     usuarioSesion.setId(codigo);
                                     usuarioSesion.setNombre(nombre);
                                     usuarioSesion.setCorreo(correo);
+                                    usuarioSesion.setCondicion(condicion);
+                                    Log.e("msg-test", "Su es: "+ usuarioSesion.getId());
+                                    Log.e("msg-test", "Usted es: "+ usuarioSesion.getCondicion());
                                     // Llamada al método de la interfaz con el nombre del usuario
                                     callback.onCallback(usuarioSesion);
                                     return;
@@ -196,18 +256,6 @@ public class DonacionesAdminActividadFragment extends Fragment {
     }
 
 
-    ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
-            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), result -> {
-                if (result != null) {
-                    uri = result;
-                    // Cargar la imagen seleccionada en un ImageView (opcional)
-                    ImageView imageView14 = rootView.findViewById(R.id.imageView14);
-                    Glide.with(requireContext()).load(uri).into(imageView14);
-                    Log.d("PhotoPicker", "Selected URI: " + uri);
-                } else {
-                    Log.d("PhotoPicker", "No media selected");
-                }
-            });
 
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
