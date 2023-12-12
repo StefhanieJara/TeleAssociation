@@ -135,20 +135,49 @@ public class AdminGeneralInicioFragment extends Fragment {
                     if (task.isSuccessful()) {
                         QuerySnapshot actividadCollection = task.getResult();
 
-                        if(actividadLista.isEmpty()){
+                        if (actividadLista.isEmpty()) {
                             for (QueryDocumentSnapshot document : actividadCollection) {
                                 String id = document.getId();
                                 String nombre = (String) document.get("nombre");
                                 String delegado = (String) document.get("delegado");
                                 String descripcion = (String) document.get("descripcion");
                                 String url_imagen = (String) document.get("url_imagen");
-                                actividad actividad = new actividad();
-                                actividad.setNombre(nombre);
-                                actividad.setDelegado(delegado);
-                                actividad.setDescripcion(descripcion);
-                                actividad.setUrl_imagen(url_imagen);
-                                actividadLista.add(actividad);
-                                Log.d("msg-test", " | nombre: " + actividad.getNombre() + " | delegado: " + actividad.getDelegado() + " | descripcion: " + descripcion + " | url_imagen: " + url_imagen);
+
+                                // Obtener el campo "activo" como un Object
+                                Object activoObject = document.get("activo");
+
+                                // Inicializar activo como 0 por defecto
+                                int activo = 0;
+
+                                // Verificar el tipo de datos y ajustar según sea necesario
+                                if (activoObject != null) {
+                                    if (activoObject instanceof Long) {
+                                        activo = ((Long) activoObject).intValue();
+                                    } else if (activoObject instanceof String) {
+                                        // Manejar el caso en que el campo "activo" es una cadena
+                                        try {
+                                            activo = Integer.parseInt((String) activoObject);
+                                        } catch (NumberFormatException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+
+                                if(activo==1){
+
+                                    actividad actividad = new actividad();
+                                    actividad.setNombre(nombre);
+                                    actividad.setDelegado(delegado);
+                                    actividad.setDescripcion(descripcion);
+                                    actividad.setUrl_imagen(url_imagen);
+                                    actividad.setActivo(activo); // Asegúrate de tener un método setActivo en tu clase actividad
+
+                                    actividadLista.add(actividad);
+
+                                    Log.d("msg-test", " | nombre: " + actividad.getNombre() + " | delegado: " + actividad.getDelegado() + " | descripcion: " + descripcion + " | url_imagen: " + url_imagen + " | activo: " + activo);
+
+                                }
+
                             }
                         }
 
