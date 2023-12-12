@@ -35,7 +35,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/listRecyclerActv"
-            android:layout_width="321dp"
+            android:layout_width="match_parent"
             android:layout_height="411dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -58,16 +58,16 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="145dp"
-            android:layout_marginTop="76dp"
+            android:layout_marginTop="67dp"
             android:layout_marginEnd="144dp"
-            android:fontFamily="@font/roboto_black"
-            app:layout_constraintHorizontal_bias="0.5"
+            android:fontFamily="@font/anton_regular"
             android:gravity="center|start|right|center_horizontal"
             android:text="Eventos"
             android:textColor="#191C1E"
-            android:textSize="34sp"
+            android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -75,6 +75,7 @@
             android:id="@+id/verEventosApoyados"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="48dp"
             android:backgroundTint="#191C1E"
             android:text="Ver Eventos Apoyados"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -86,7 +87,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/Condicion"
             android:layout_width="120dp"
-            android:layout_height="27dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="8dp"
             android:layout_marginBottom="24dp"
@@ -95,22 +96,27 @@
             android:textColorHint="#A59E9E"
             app:layout_constraintBottom_toTopOf="@+id/listRecyclerActv"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/textView20"
             tools:ignore="MissingConstraints">
 
             <Spinner
                 android:id="@+id/spinnerCondicion"
-                android:layout_width="wrap_content"
-                android:layout_height="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
+                android:textSize="14sp"
+                android:dropDownVerticalOffset="4dp"
                 android:textColor="@color/black"
+                android:spinnerMode="dropdown"
+                android:layout_marginEnd="4dp"
                 tools:ignore="TouchTargetSizeCheck" />
 
         </com.google.android.material.textfield.TextInputLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
