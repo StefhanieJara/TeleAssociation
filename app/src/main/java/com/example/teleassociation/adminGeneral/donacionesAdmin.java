@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -204,7 +205,15 @@ public class donacionesAdmin extends AppCompatActivity {
             }
         });
 
+        ImageView btnStats = findViewById(R.id.btnStats);
+        btnStats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(donacionesAdmin.this, estadisticasAdmin.class);
+                startActivity(intent);
 
+            }
+        });
 
 
 
