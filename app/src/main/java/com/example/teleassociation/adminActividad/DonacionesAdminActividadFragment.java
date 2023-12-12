@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.NotificationActivity;
 import com.example.teleassociation.Usuario.ThirdFragment;
 import com.example.teleassociation.Usuario.inicio_usuario;
 import com.example.teleassociation.dto.pagos;
@@ -180,6 +181,13 @@ public class DonacionesAdminActividadFragment extends Fragment {
                 }
             });
         });
+        ImageView campanaImageView = rootView.findViewById(R.id.imageView2);
+        campanaImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCampanaClick(v);
+            }
+        });
 
         return rootView;
     }
@@ -259,5 +267,10 @@ public class DonacionesAdminActividadFragment extends Fragment {
 
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
+    }
+    public void onCampanaClick(View view) {
+        // Abre la NotificationActivity al hacer clic en la campana
+        Intent intent = new Intent(getActivity(), NotificationActivity.class);
+        startActivity(intent);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.teleassociation.adminActividad;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,10 +15,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.NotificationActivity;
 import com.example.teleassociation.adapter.EventAdapter;
 import com.example.teleassociation.adapter.EventAdapterAdminActividad;
 import com.example.teleassociation.adapter.MisEventAdapterAdminActv;
@@ -138,6 +141,13 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
 
                         }
                     });
+            ImageView campanaImageView = rootView.findViewById(R.id.imageView2);
+            campanaImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onCampanaClick(v);
+                }
+            });
 
             String[] opciones = {"Reciente", "Después"};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, opciones);
@@ -352,6 +362,12 @@ public class AdminActividadInicioFragment extends Fragment implements EventAdapt
                     }
                 });
     }
+    public void onCampanaClick(View view) {
+        // Abre la NotificationActivity al hacer clic en la campana
+        Intent intent = new Intent(getActivity(), NotificationActivity.class);
+        startActivity(intent);
+    }
+
 
 
 }

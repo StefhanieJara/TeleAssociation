@@ -174,6 +174,13 @@ public class ThirdFragment extends Fragment {
                 }
             });
         });
+        ImageView campanaImageView = rootView.findViewById(R.id.imageView2);
+        campanaImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCampanaClick(v);
+            }
+        });
 
         return rootView;
     }
@@ -253,6 +260,11 @@ public class ThirdFragment extends Fragment {
 
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
+    }
+    public void onCampanaClick(View view) {
+        // Abre la NotificationActivity al hacer clic en la campana
+        Intent intent = new Intent(getActivity(), NotificationActivity.class);
+        startActivity(intent);
     }
 
 }

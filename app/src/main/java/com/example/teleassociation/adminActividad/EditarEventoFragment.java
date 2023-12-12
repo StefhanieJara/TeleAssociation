@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.NotificationActivity;
 import com.example.teleassociation.adminGeneral.EditarActividadAdmin;
 import com.example.teleassociation.adminGeneral.inicioAdmin;
 import com.example.teleassociation.dto.eventoCrear;
@@ -423,5 +424,10 @@ public class EditarEventoFragment extends Fragment {
             e.printStackTrace();
             return null; // Manejar la excepción según sea necesario
         }
+    }
+    public void onCampanaClick(View view) {
+        // Abre la NotificationActivity al hacer clic en la campana
+        Intent intent = new Intent(getActivity(), NotificationActivity.class);
+        startActivity(intent);
     }
 }

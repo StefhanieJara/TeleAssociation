@@ -654,4 +654,5 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
     }
 
 
+
 }

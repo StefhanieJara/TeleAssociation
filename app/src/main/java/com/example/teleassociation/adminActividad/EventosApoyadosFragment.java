@@ -1,5 +1,6 @@
 package com.example.teleassociation.adminActividad;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,11 +14,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.Usuario.FirstFragment;
+import com.example.teleassociation.Usuario.NotificationActivity;
 import com.example.teleassociation.adapter.EventAdapter;
 import com.example.teleassociation.adapter.MisEventAdapter;
 import com.example.teleassociation.adapter.MisEventAdapterAdminActv;
@@ -168,6 +171,13 @@ public class EventosApoyadosFragment extends Fragment implements MisEventAdapter
                     // Método necesario pero no utilizado en este caso
                 }
             });
+        });
+        ImageView campanaImageView = rootView.findViewById(R.id.imageView2);
+        campanaImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCampanaClick(v);
+            }
         });
 
 
@@ -372,6 +382,11 @@ public class EventosApoyadosFragment extends Fragment implements MisEventAdapter
 
                     }
                 });
+    }
+    public void onCampanaClick(View view) {
+        // Abre la NotificationActivity al hacer clic en la campana
+        Intent intent = new Intent(getActivity(), NotificationActivity.class);
+        startActivity(intent);
     }
 
 

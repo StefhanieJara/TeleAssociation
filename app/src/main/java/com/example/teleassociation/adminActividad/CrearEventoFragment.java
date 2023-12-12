@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.NotificationActivity;
 import com.example.teleassociation.adminActividad.CrearEventoFragment;
 import com.example.teleassociation.adminGeneral.inicioAdmin;
 import com.example.teleassociation.dto.actividad;
@@ -151,6 +152,13 @@ public class CrearEventoFragment extends Fragment {
                                     // Restaura el inputType original después de procesar el evento táctil
                                     fechaEditText.setInputType(inType);
                                     return true; // Evita que se consuma el evento táctil
+                                });
+                                ImageView campanaImageView = rootView.findViewById(R.id.imageView2);
+                                campanaImageView.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        onCampanaClick(v);
+                                    }
                                 });
 
 // Configura el clic para mostrar el selector de fecha
@@ -447,5 +455,10 @@ public class CrearEventoFragment extends Fragment {
 
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
+    }
+    public void onCampanaClick(View view) {
+        // Abre la NotificationActivity al hacer clic en la campana
+        Intent intent = new Intent(getActivity(), NotificationActivity.class);
+        startActivity(intent);
     }
 }

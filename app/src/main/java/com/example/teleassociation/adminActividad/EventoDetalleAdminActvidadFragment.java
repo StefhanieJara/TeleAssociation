@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.teleassociation.FotosEventoDelegado;
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.NotificationActivity;
 import com.example.teleassociation.Usuario.eventoDetalleAlumno;
 import com.example.teleassociation.dto.usuarioSesion;
 import com.example.teleassociation.subirFotoEventAlum;
@@ -357,6 +358,14 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
             }
         });
 
+        ImageView campanaImageView = view.findViewById(R.id.imageView2);
+        campanaImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onCampanaClick(v);
+            }
+        });
+
 
 
 
@@ -674,6 +683,11 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
+    }
+    public void onCampanaClick(View view) {
+        // Abre la NotificationActivity al hacer clic en la campana
+        Intent intent = new Intent(getActivity(), NotificationActivity.class);
+        startActivity(intent);
     }
 
 }
