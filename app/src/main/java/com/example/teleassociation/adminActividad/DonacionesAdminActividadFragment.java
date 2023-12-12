@@ -1,8 +1,12 @@
 package com.example.teleassociation.adminActividad;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.PickVisualMediaRequest;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -10,9 +14,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
 import com.example.teleassociation.Usuario.inicio_usuario;
 import com.example.teleassociation.dto.pagos;
@@ -23,66 +29,111 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
 public class DonacionesAdminActividadFragment extends Fragment {
 
     FirebaseFirestore db;
-    FirebaseAuth mAuth;
-    String nombreDelegado;
-    TextView nameUser;
+    FirebaseStorage storage;
+    StorageReference reference;
+    private View rootView;  // Declarar rootView como variable de instancia
 
+    FirebaseAuth mAuth;
+
+    private Uri uri;
+    TextView nameUser;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_donaciones_admin_actividad, container, false);
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
+        reference = storage.getReference();
 
-        obtenerDatosUsuario(usuarioSesion -> {
+        Button button9 = rootView.findViewById(R.id.button9);
+        TextInputEditText donativo = rootView.findViewById(R.id.donativo);
+        ImageView imageView14 = rootView.findViewById(R.id.imageView14);
+        Button subirBoleta = rootView.findViewById(R.id.subirBoleta);
 
-            //Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
-            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuarioSesion.getNombre());
-            nombreDelegado = usuarioSesion.getNombre();
-            // Ahora puedes utilizar el nombre del usuario como lo necesites, por ejemplo:
+        subirBoleta.setOnClickListener(view -> {
+            pickMedia.launch(new PickVisualMediaRequest.Builder()
+                    .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE)
+                    .build());
+        });
 
-            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + nombreDelegado);
+        // Obtener datos de usuario y realizar acciones después de obtenerlos
+        obtenerDatosUsuario(usuario -> {
+            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
+            Log.d("msg-test", "La condicion del usuario es : " + usuario.getCondicion());
 
+            // Ahora puedes utilizar el nombre y el código del usuario como lo necesites
             nameUser = rootView.findViewById(R.id.nameUser);
-            nameUser.setText(nombreDelegado);
+            nameUser.setText(usuario.getNombre());
 
-            Button button19 = rootView.findViewById(R.id.button19);
-            TextInputEditText donativo = rootView.findViewById(R.id.donativoAdminActividad);
-            button19.setOnClickListener(view -> {
+            // Obtén el código del usuario
+            String codigoUsuario = usuario.getId();
+
+            button9.setOnClickListener(view -> {
                 String donativoStr = donativo.getText().toString();
 
                 try {
                     // Intenta convertir donativoStr a un número
                     double monto = Double.parseDouble(donativoStr);
 
-                    // Si la conversión tiene éxito, procede a crear y guardar el objeto 'pagos'
-                    pagos pagos = new pagos();
-                    pagos.setCodigo_usuario("20201010");
-                    pagos.setMonto(String.valueOf(monto));
-                    pagos.setValidado("No");
-                    pagos.setUrl_imagen("sas");
+                    if( (usuario.getCondicion().equals("Egresado") && monto >=100) || (usuario.getCondicion().equals("Estudiante")) ){
 
-                    Log.d("msg-test", pagos.getCodigo_usuario() + " el siguiente pago es: " + pagos.getMonto() + " xd.");
-                    String cod_al = generateRandomCode();
+                        // Si la conversión tiene éxito, procede a crear y guardar el objeto 'pagos'
+                        pagos pagos = new pagos();
+                        pagos.setCodigo_usuario(codigoUsuario);
+                        pagos.setMonto(String.valueOf(monto));
+                        pagos.setValidado("Pendiente");
 
-                    Log.d("msg-test", pagos.getCodigo_usuario() + " " + pagos.getMonto() + " " + pagos.getValidado() + " " + pagos.getUrl_imagen());
+                        // Subir la imagen a Firebase Storage
+                        if (uri != null) {
+                            StorageReference imageRef = reference.child("donaciones/" + uri.getLastPathSegment());
+                            UploadTask uploadTask = imageRef.putFile(uri);
 
-                    db.collection("pagos")
-                            .document(cod_al)
-                            .set(pagos)
-                            .addOnSuccessListener(unused -> {
-                                // Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getContext(), ListaActividadesDelactvActivity.class);
-                                intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
-                                startActivity(intent);
-                            })
-                            .addOnFailureListener(e -> {
-                                Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                            uploadTask.addOnFailureListener(exception -> {
+                                exception.printStackTrace();
+                                Log.e("msg-test", "Error en la carga de la imagen", exception);
+                            }).addOnSuccessListener(taskSnapshot -> {
+                                // Obtén la URL de la imagen subida
+                                imageRef.getDownloadUrl().addOnSuccessListener(downloadUri -> {
+                                    // Guarda la URL de la imagen en el objeto pagos
+                                    pagos.setUrl_imagen(downloadUri.toString());
+
+                                    // Cargar la imagen seleccionada en el ImageView
+                                    Glide.with(requireContext()).load(uri).into(imageView14);
+
+                                    // Guarda el objeto pagos en Firestore
+                                    String cod_al = generateRandomCode();
+
+                                    db.collection("pagos")
+                                            .document(cod_al)
+                                            .set(pagos)
+                                            .addOnSuccessListener(unused -> {
+                                                // Toast.makeText(getContext(), "Pagando", Toast.LENGTH_SHORT).show();
+                                                Intent intent = new Intent(getContext(), inicio_usuario.class);
+                                                intent.putExtra("Pago con éxito.", true); // Agregar una marca de registro exitoso al intent
+                                                startActivity(intent);
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(getContext(), "Algo pasó al guardar", Toast.LENGTH_SHORT).show();
+                                            });
+                                });
                             });
+                        } else {
+                            // Si no se seleccionó una imagen, puedes manejarlo aquí
+                            Toast.makeText(getContext(), "Selecciona una imagen", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if ((usuario.getCondicion().equals("Egresado") && monto < 100) ){
+                        Toast.makeText(getContext(), "Como egresado, su monto mínimo es 100 soles", Toast.LENGTH_SHORT).show();
+                    }
+
+
                 } catch (NumberFormatException e) {
                     // Si no se puede convertir a número, muestra un mensaje de error
                     Toast.makeText(getContext(), "El valor tiene que ser numérico", Toast.LENGTH_SHORT).show();
@@ -143,6 +194,20 @@ public class DonacionesAdminActividadFragment extends Fragment {
                     });
         }
     }
+
+
+    ActivityResultLauncher<PickVisualMediaRequest> pickMedia =
+            registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), result -> {
+                if (result != null) {
+                    uri = result;
+                    // Cargar la imagen seleccionada en un ImageView (opcional)
+                    ImageView imageView14 = rootView.findViewById(R.id.imageView14);
+                    Glide.with(requireContext()).load(uri).into(imageView14);
+                    Log.d("PhotoPicker", "Selected URI: " + uri);
+                } else {
+                    Log.d("PhotoPicker", "No media selected");
+                }
+            });
 
     public interface FirestoreCallback {
         void onCallback(usuarioSesion usuario);
