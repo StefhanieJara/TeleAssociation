@@ -60,16 +60,18 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/Condicion"
-        android:layout_width="120dp"
-        android:layout_height="27dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
         android:background="@drawable/diseno1"
         android:hint="Orden"
         android:textColorHint="#A59E9E"
         app:layout_constraintBottom_toTopOf="@+id/listRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.627"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         tools:ignore="MissingConstraints">
 
