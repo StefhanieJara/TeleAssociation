@@ -20,14 +20,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.FirstFragment;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.participante;
 import com.example.teleassociation.Usuario.eventoDetalleAlumno;
+import com.example.teleassociation.dto.usuario;
+import com.example.teleassociation.dto.usuarioSesion;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashSet;
 import java.util.List;
@@ -41,8 +49,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     FirebaseAuth mAuth;
     private Set<String> hiddenButtonEventIds = new HashSet<>();
     private SharedPreferences sharedPreferences;
-
-
     private String nombreUsuario;
     private String codigoUsuario;
 
@@ -81,6 +87,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         eventoListarUsuario event = eventList.get(position);
+        db = FirebaseFirestore.getInstance();
 
         // Asigna los datos a los elementos de la vista
         holder.titleActividad.setText(event.getNombre());
@@ -95,18 +102,62 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                     .into(holder.imageEvento);
         }
 
-        holder.buttonApoyarEvento.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final EventViewHolder finalHolder = holder;
-                showConfirmationDialog(event, finalHolder);
-            }
+
+        obtenerDatosUsuario(usuario -> {
+
+            nombreUsuario = usuario.getNombre();
+            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
+
+            String nombreEvento = event.getNombre();
+            String nombreUsuario = usuario.getNombre();  // Reemplaza esto con la lógica real para obtener el nombre del usuario
+
+            // Obtén la referencia a la colección "participantes"
+            CollectionReference participantesRef = db.collection("participantes");
+
+            // Realiza la consulta para buscar el documento en participantes
+            Query consulta = participantesRef
+                    .whereEqualTo("evento", nombreEvento)
+                    .whereEqualTo("nombre", nombreUsuario);
+
+            consulta.get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // Verifica si se encontraron documentos que cumplen con las condiciones
+                    if (!task.getResult().isEmpty()) {
+                        // Existe un documento que cumple con las condiciones, oculta el botón
+                        Log.d("msg-test", "Ya existe el participante en el evento: " +event.getNombre());
+                        holder.buttonApoyarEvento.setVisibility(View.INVISIBLE);
+                    } else {
+                        Log.d("msg-test", "No existe el participante en el evento: " +event.getNombre());
+                        // No existe un documento que cumpla con las condiciones, muestra el botón
+                        holder.buttonApoyarEvento.setVisibility(View.VISIBLE);
+                        holder.buttonApoyarEvento.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                final EventViewHolder finalHolder = holder;
+                                showConfirmationDialog(event, finalHolder);
+                            }
+                        });
+                    }
+                } else {
+                    // Manejar el error al realizar la consulta en la colección "participantes"
+                    Log.e("msg-test", "Error al consultar la colección participantes", task.getException());
+                }
+            });
+
         });
-        if (context != null) {
+
+
+
+
+
+
+
+        /*if (context != null) {
+            Log.d("msg-test", "El contexto es diferento de nulo en el evento: " +event.getNombre());
             // Utiliza la clave correcta para verificar la visibilidad
             boolean isButtonVisible = sharedPreferences.getBoolean("buttonApoyarEventoVisibility_" + event.getId(), true);
             holder.buttonApoyarEvento.setVisibility(isButtonVisible ? View.VISIBLE : View.GONE);
-        }
+        }*/
 
         holder.buttonVerEvento.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -227,6 +278,48 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             }
         });
         builder.show();
+    }
+
+
+    private void obtenerDatosUsuario(FirstFragment.FirestoreCallback callback) {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        usuario usuario = new usuario();
+        usuarioSesion usuarioSesion = new usuarioSesion();
+
+        if (user != null) {
+            String email = user.getEmail();
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+
+                                if (correo.equals(email)) {
+                                    usuarioSesion.setId(codigo);
+                                    usuarioSesion.setNombre(nombre);
+                                    usuarioSesion.setCorreo(correo);
+                                    // Llamada al método de la interfaz con el nombre del usuario
+                                    callback.onCallback(usuarioSesion);
+                                    return;
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+    }
+
+    public interface FirestoreCallback {
+        void onCallback(usuarioSesion usuario);
     }
 
 

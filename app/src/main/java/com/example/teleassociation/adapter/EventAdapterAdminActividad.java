@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +18,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
+import com.example.teleassociation.Usuario.FirstFragment;
 import com.example.teleassociation.dto.eventoListarUsuario;
 import com.example.teleassociation.dto.participante;
+import com.example.teleassociation.dto.usuario;
+import com.example.teleassociation.dto.usuarioSesion;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashSet;
 import java.util.List;
@@ -35,6 +45,9 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
     private Set<String> hiddenButtonEventIds = new HashSet<>();
     private SharedPreferences sharedPreferences;
     private EventAdapterAdminActividad.OnVerEventoClickListener listener;
+    FirebaseFirestore db;
+    FirebaseAuth mAuth;
+    private String nombreUsuario;
 
     // Interfaz para manejar clics en el botón "verEvento"
     public interface OnVerEventoClickListener {
@@ -79,6 +92,7 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         eventoListarUsuario event = eventList.get(position);
+        db = FirebaseFirestore.getInstance();
 
         // Asigna los datos a los elementos de la vista
         holder.titleActividad.setText(event.getNombre());
@@ -97,22 +111,65 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
 
         // Configura el OnClickListener para el botón "Apoyar"
 
-        if(delegadoAct.equals(event.getDelegado())){
-            holder.apoyarListaEvento.setVisibility(View.GONE);
-        }else{
-            holder.apoyarListaEvento.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final EventAdapterAdminActividad.EventViewHolder finalHolder = holder;
-                    showConfirmationDialog(event, finalHolder);
-                }
-            });
-            if (context != null) {
-                // Utiliza la clave correcta para verificar la visibilidad
-                boolean isButtonVisible = sharedPreferences.getBoolean("apoyarListaEventoVisibility_" + event.getId(), true);
-                holder.apoyarListaEvento.setVisibility(isButtonVisible ? View.VISIBLE : View.GONE);
+        obtenerDatosUsuario(usuario -> {
+
+
+            nombreUsuario = usuario.getNombre();
+            Log.d("msg-test", "El nombre del usuario fuera del collection es: " + usuario.getNombre());
+
+            String nombreEvento = event.getNombre();
+            String nombreUsuario = usuario.getNombre();
+
+            if(delegadoAct.equals(event.getDelegado())){
+                holder.apoyarListaEvento.setVisibility(View.INVISIBLE);
+            }else{
+
+
+                // Obtén la referencia a la colección "participantes"
+                CollectionReference participantesRef = db.collection("participantes");
+
+                // Realiza la consulta para buscar el documento en participantes
+                Query consulta = participantesRef
+                        .whereEqualTo("evento", nombreEvento)
+                        .whereEqualTo("nombre", nombreUsuario);
+
+                consulta.get().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Verifica si se encontraron documentos que cumplen con las condiciones
+                        if (!task.getResult().isEmpty()) {
+                            // Existe un documento que cumple con las condiciones, oculta el botón
+                            Log.d("msg-test", "Ya existe el participante en el evento: " +event.getNombre());
+                            holder.apoyarListaEvento.setVisibility(View.INVISIBLE);
+                        } else {
+                            Log.d("msg-test", "No existe el participante en el evento: " +event.getNombre());
+                            // No existe un documento que cumpla con las condiciones, muestra el botón
+                            holder.apoyarListaEvento.setVisibility(View.VISIBLE);
+                            holder.apoyarListaEvento.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    final EventAdapterAdminActividad.EventViewHolder finalHolder = holder;
+                                    showConfirmationDialog(event, finalHolder);
+                                }
+                            });
+                        }
+                    } else {
+                        // Manejar el error al realizar la consulta en la colección "participantes"
+                        Log.e("msg-test", "Error al consultar la colección participantes", task.getException());
+                    }
+                });
+
+                /*if (context != null) {
+                    // Utiliza la clave correcta para verificar la visibilidad
+                    boolean isButtonVisible = sharedPreferences.getBoolean("apoyarListaEventoVisibility_" + event.getId(), true);
+                    holder.apoyarListaEvento.setVisibility(isButtonVisible ? View.VISIBLE : View.GONE);
+                }*/
+
+
             }
-        }
+
+
+        });
+
 
 
         holder.verListaEvento.setOnClickListener(new View.OnClickListener() {
@@ -231,4 +288,47 @@ public class EventAdapterAdminActividad extends RecyclerView.Adapter<EventAdapte
         });
         builder.show();
     }
+
+
+    private void obtenerDatosUsuario(FirstFragment.FirestoreCallback callback) {
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        usuario usuario = new usuario();
+        usuarioSesion usuarioSesion = new usuarioSesion();
+
+        if (user != null) {
+            String email = user.getEmail();
+
+            db.collection("usuarios")
+                    .get()
+                    .addOnCompleteListener(task2 -> {
+                        if (task2.isSuccessful()) {
+                            QuerySnapshot usuariosCollection = task2.getResult();
+                            for (QueryDocumentSnapshot document : usuariosCollection) {
+                                String codigo = document.getId();
+                                String correo = (String) document.get("correo");
+                                String nombre = (String) document.get("nombre");
+
+                                if (correo.equals(email)) {
+                                    usuarioSesion.setId(codigo);
+                                    usuarioSesion.setNombre(nombre);
+                                    usuarioSesion.setCorreo(correo);
+                                    // Llamada al método de la interfaz con el nombre del usuario
+                                    callback.onCallback(usuarioSesion);
+                                    return;
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        // Maneja la excepción que ocurra al intentar obtener los documentos
+                        Log.e("msg-test", "Excepción al obtener documentos de la colección usuarios: ", e);
+                    });
+        }
+    }
+
+    public interface FirestoreCallback {
+        void onCallback(usuarioSesion usuario);
+    }
+
 }
