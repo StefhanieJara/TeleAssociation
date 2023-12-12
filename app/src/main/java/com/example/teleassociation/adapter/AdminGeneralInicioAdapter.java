@@ -2,6 +2,7 @@ package com.example.teleassociation.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.style.IconMarginSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.teleassociation.R;
 import com.example.teleassociation.adminGeneral.EditarActividadAdmin;
+import com.example.teleassociation.adminGeneral.estadisticasPorActividad;
 import com.example.teleassociation.dto.actividad;
 
 import java.util.List;
@@ -80,6 +82,20 @@ public class AdminGeneralInicioAdapter extends RecyclerView.Adapter<AdminGeneral
                 context.startActivity(intent);
             }
         });
+
+        holder.buttonVerEstadisticas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(context, estadisticasPorActividad.class);
+                intent.putExtra("actividadNombre", actividad.getNombre());
+                context.startActivity(intent);
+
+            }
+        });
+
+
+
+
     }
 
     @Override
@@ -93,6 +109,7 @@ public class AdminGeneralInicioAdapter extends RecyclerView.Adapter<AdminGeneral
         TextView descripcion;
         Button buttonEditarActividad;
         ImageView imageActividad;  // Asegúrate de tener esta línea
+        Button buttonVerEstadisticas;
 
 
         public EventViewHolder(@NonNull View itemView) {
@@ -102,6 +119,7 @@ public class AdminGeneralInicioAdapter extends RecyclerView.Adapter<AdminGeneral
             descripcion = itemView.findViewById(R.id.descripcion);
             imageActividad = itemView.findViewById(R.id.imageActividad);  // Asegúrate de tener esta línea
             buttonEditarActividad = itemView.findViewById(R.id.buttonEditarActividad);
+            buttonVerEstadisticas = itemView.findViewById(R.id.buttonVerEstadisticas);
         }
     }
 }
