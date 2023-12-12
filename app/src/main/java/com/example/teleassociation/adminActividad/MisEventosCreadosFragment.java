@@ -79,7 +79,7 @@ public class MisEventosCreadosFragment extends Fragment implements MisEventAdapt
                 // Tu lógica para el botón BorrarEvento
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Confirmar");
-                builder.setMessage("¿Estás seguro de que quieres borrar esta Actividad? No hay vuelta atrás.");
+                builder.setMessage("¿Estás seguro de que quieres finalizar esta Actividad? No hay vuelta atrás.");
 
                 builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
                     @Override

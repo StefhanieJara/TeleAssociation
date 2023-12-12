@@ -106,7 +106,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
         // Inicializa el contexto de la API de Google Maps Directions
 
         // Recuperar el nombre del evento desde los argumentos
-       nombreEvento = getArguments().getString("nombreEvento"); // Asegúrate de que sea "nombreEvento" y no "nombre_evento"
+        nombreEvento = getArguments().getString("nombreEvento"); // Asegúrate de que sea "nombreEvento" y no "nombre_evento"
 
         // Inicializa Firestore
         db = FirebaseFirestore.getInstance();
@@ -131,6 +131,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
                                 // Ahora puedes obtener los datos del documento
                                 String nombreEvento = documentSnapshot.getString("nombre");
+                                String nombreActividad = documentSnapshot.getString("nombre_actividad");
 
                                 id=documentSnapshot.getId();
                                 Date date = documentSnapshot.getDate("fecha");
@@ -218,6 +219,35 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
                                         }
                                     });
+
+                                    // Supongamos que tienes una instancia de FirebaseFirestore llamada "db"
+
+                                    db.collection("actividad")
+                                            .whereEqualTo("nombre", nombreActividad)
+                                            .get()
+                                            .addOnCompleteListener(task -> {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        // Obtener el valor del campo "activo"
+                                                        Long activo = document.getLong("activo");
+
+                                                        // Verificar el valor y actualizar la visibilidad del botón editarEvento
+                                                        if (activo != null && activo == 0) {
+                                                            // El valor de "activo" es 0, ocultar el botón editarEvento
+                                                            editarEvento.setVisibility(View.INVISIBLE);
+                                                        } else {
+                                                            // El valor de "activo" no es 0 o no está presente, mostrar el botón editarEvento
+                                                            editarEvento.setVisibility(View.VISIBLE);
+                                                        }
+                                                    }
+                                                } else {
+                                                    // Manejar el error al realizar la consulta en la colección "actividad"
+                                                    Log.e("msg-test", "Error al consultar la colección actividad", task.getException());
+                                                }
+                                            });
+
+
+
 
                                 }else{
                                     editarEvento.setVisibility(View.INVISIBLE);
@@ -312,26 +342,6 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                         }
                     });
 
-
-
-            /*Button editarEvento = view.findViewById(R.id.editarEvento);
-            editarEvento.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Crear un Intent o Fragment y pasar el nombre del evento como argumento
-                    String nombreEvento = nombreEventoParticipante;
-
-                    // O si estás iniciando un nuevo Fragment:
-
-                    EditarEventoFragment fragment = EditarEventoFragment.newInstance(nombreEvento);
-                    getParentFragmentManager().beginTransaction()
-                            .replace(R.id.frame_container, fragment)
-                            .addToBackStack(null)
-                            .commit();
-
-                }
-            });*/
-
         });
 
         Button verFotos = view.findViewById(R.id.verFotos);
@@ -394,7 +404,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
     private void obtenerUbicacionActual() {
 
-    // Realizar la consulta para encontrar el evento por su nombre
+        // Realizar la consulta para encontrar el evento por su nombre
         db.collection("eventos")
                 .whereEqualTo("nombre", nombreEvento)
                 .get()
@@ -466,137 +476,137 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
     }
 
     private void obtenerYMostrarRuta(LatLng origen, LatLng destino) {
-            String url = obtenerURLDirecciones(origen, destino);
-            new ObtenerRuta().execute(url);
-        }
+        String url = obtenerURLDirecciones(origen, destino);
+        new ObtenerRuta().execute(url);
+    }
 
-        private String obtenerURLDirecciones(LatLng origen, LatLng destino) {
-            String apiKey = "AIzaSyAUQXpnbBf2qrLbTViHWD3rcXsRMSod-KQ";  // Reemplaza con tu clave de API
-            String str_origen = "origin=" + origen.latitude + "," + origen.longitude;
-            String str_destino = "destination=" + destino.latitude + "," + destino.longitude;
-            String sensor = "sensor=false";
-            String mode = "mode=driving";
-            String params = str_origen + "&" + str_destino + "&" + sensor + "&" + mode + "&key=" + apiKey;
-            String output = "json";
-            return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + params;
-        }
+    private String obtenerURLDirecciones(LatLng origen, LatLng destino) {
+        String apiKey = "AIzaSyAUQXpnbBf2qrLbTViHWD3rcXsRMSod-KQ";  // Reemplaza con tu clave de API
+        String str_origen = "origin=" + origen.latitude + "," + origen.longitude;
+        String str_destino = "destination=" + destino.latitude + "," + destino.longitude;
+        String sensor = "sensor=false";
+        String mode = "mode=driving";
+        String params = str_origen + "&" + str_destino + "&" + sensor + "&" + mode + "&key=" + apiKey;
+        String output = "json";
+        return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + params;
+    }
 
-        private class ObtenerRuta extends AsyncTask<String, Void, String> {
-            @Override
-            protected String doInBackground(String... url) {
-                String data = "";
-                try {
-                    data = descargarUrl(url[0]);
-                } catch (Exception e) {
-                    // Manejar la excepción
-                }
-                return data;
-            }
-
-            @Override
-            protected void onPostExecute(String result) {
-                super.onPostExecute(result);
-                ParserRuta parserTask = new ParserRuta();
-                parserTask.execute(result);
-            }
-        }
-
-        private String descargarUrl(String strUrl) throws IOException {
+    private class ObtenerRuta extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... url) {
             String data = "";
-            HttpURLConnection urlConnection;
-            URL url = new URL(strUrl);
-
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.connect();
-
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))) {
-                StringBuilder sb = new StringBuilder();
-                String line;
-                while ((line = br.readLine()) != null) {
-                    sb.append(line);
-                }
-                data = sb.toString();
-            } finally {
-                urlConnection.disconnect();
+            try {
+                data = descargarUrl(url[0]);
+            } catch (Exception e) {
+                // Manejar la excepción
             }
-
             return data;
         }
 
-        private class ParserRuta extends AsyncTask<String, Integer, List<LatLng>> {
-            @Override
-            protected List<LatLng> doInBackground(String... jsonData) {
-                JSONObject jObject;
-                List<LatLng> path = new ArrayList<>();
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            ParserRuta parserTask = new ParserRuta();
+            parserTask.execute(result);
+        }
+    }
 
-                try {
-                    jObject = new JSONObject(jsonData[0]);
-                    DirectionsJSONParser parser = new DirectionsJSONParser();
+    private String descargarUrl(String strUrl) throws IOException {
+        String data = "";
+        HttpURLConnection urlConnection;
+        URL url = new URL(strUrl);
 
-                    // Se empieza a parsear la dirección y se obtiene la lista de puntos de la ruta
-                    path = parser.parse(jObject);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.connect();
 
-                return path;
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()))) {
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
             }
-
-            @Override
-            protected void onPostExecute(List<LatLng> result) {
-                PolylineOptions lineOptions = new PolylineOptions();
-                lineOptions.addAll(result);
-                lineOptions.width(5);
-                lineOptions.color(Color.BLUE);
-
-                mMap.addPolyline(lineOptions);
-            }
+            data = sb.toString();
+        } finally {
+            urlConnection.disconnect();
         }
 
-        private class DirectionsJSONParser {
-            List<LatLng> parse(JSONObject jObject) {
-                List<LatLng> puntos = new ArrayList<>();
-                JSONArray jRoutes;
-                JSONArray jLegs;
-                JSONArray jSteps;
+        return data;
+    }
 
-                try {
-                    jRoutes = jObject.getJSONArray("routes");
+    private class ParserRuta extends AsyncTask<String, Integer, List<LatLng>> {
+        @Override
+        protected List<LatLng> doInBackground(String... jsonData) {
+            JSONObject jObject;
+            List<LatLng> path = new ArrayList<>();
 
-                    // Loop para todos los elementos de la ruta
-                    for (int i = 0; i < jRoutes.length(); i++) {
-                        jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                DirectionsJSONParser parser = new DirectionsJSONParser();
 
-                        // Loop para todos los elementos de las piernas
-                        for (int j = 0; j < jLegs.length(); j++) {
-                            jSteps = ((JSONObject) jLegs.get(j)).getJSONArray("steps");
+                // Se empieza a parsear la dirección y se obtiene la lista de puntos de la ruta
+                path = parser.parse(jObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-                            // Loop para todos los elementos de los pasos
-                            for (int k = 0; k < jSteps.length(); k++) {
-                                String polyline = "";
-                                polyline = (String) ((JSONObject) ((JSONObject) jSteps.get(k)).get("polyline")).get("points");
-                                List<LatLng> list = PolyUtil.decode(polyline);
+            return path;
+        }
 
-                                // Loop para todos los puntos de la ruta
-                                for (int l = 0; l < list.size(); l++) {
-                                    double lat = list.get(l).latitude;
-                                    double lng = list.get(l).longitude;
-                                    LatLng position = new LatLng(lat, lng);
+        @Override
+        protected void onPostExecute(List<LatLng> result) {
+            PolylineOptions lineOptions = new PolylineOptions();
+            lineOptions.addAll(result);
+            lineOptions.width(5);
+            lineOptions.color(Color.BLUE);
 
-                                    puntos.add(position);
-                                }
+            mMap.addPolyline(lineOptions);
+        }
+    }
+
+    private class DirectionsJSONParser {
+        List<LatLng> parse(JSONObject jObject) {
+            List<LatLng> puntos = new ArrayList<>();
+            JSONArray jRoutes;
+            JSONArray jLegs;
+            JSONArray jSteps;
+
+            try {
+                jRoutes = jObject.getJSONArray("routes");
+
+                // Loop para todos los elementos de la ruta
+                for (int i = 0; i < jRoutes.length(); i++) {
+                    jLegs = ((JSONObject) jRoutes.get(i)).getJSONArray("legs");
+
+                    // Loop para todos los elementos de las piernas
+                    for (int j = 0; j < jLegs.length(); j++) {
+                        jSteps = ((JSONObject) jLegs.get(j)).getJSONArray("steps");
+
+                        // Loop para todos los elementos de los pasos
+                        for (int k = 0; k < jSteps.length(); k++) {
+                            String polyline = "";
+                            polyline = (String) ((JSONObject) ((JSONObject) jSteps.get(k)).get("polyline")).get("points");
+                            List<LatLng> list = PolyUtil.decode(polyline);
+
+                            // Loop para todos los puntos de la ruta
+                            for (int l = 0; l < list.size(); l++) {
+                                double lat = list.get(l).latitude;
+                                double lng = list.get(l).longitude;
+                                LatLng position = new LatLng(lat, lng);
+
+                                puntos.add(position);
                             }
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-
-                return puntos;
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+            return puntos;
         }
+    }
 
 
     @Override

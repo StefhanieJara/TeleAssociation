@@ -203,7 +203,7 @@ public class validarParticipanteAdmin extends AppCompatActivity {
                                             String id = (String) usuarioRef.getId();
                                             Log.d("msg-test", "el ID de del usuario aceptado es es: " + id);
                                             Log.d("msg-test", "Validacion: " + validacionStr);
-                                            //EmailSender.sendEmail(usuarioCorreo,"Usuario valido en TeleAssociation","Su usuario ha sido valido para estar dentro de la aplicación.");
+                                            EmailSender.sendEmail(usuarioCorreo,"Usuario valido en TeleAssociation","Su usuario ha sido valido para estar dentro de la aplicación.");
                                             Log.d("msg-test", "TOKEN: " + usuario.getToken());
                                             enviarNot(usuario.getToken(), "¡Bienvenido a TeleAssociation! Tu registro ha sido validado.");
 
@@ -227,7 +227,7 @@ public class validarParticipanteAdmin extends AppCompatActivity {
                                                             String id = (String) usuarioRef.getId();
                                                             Log.d("msg-test", "el ID de del usuario denegado es es: " + id);
                                                             Log.d("msg-test", "Validacion: "+ validacionStr);
-                                                            //EmailSender.sendEmail(usuarioCorreo,"Usuario invalido en TeleAssociation",rechazo);
+                                                            EmailSender.sendEmail(usuarioCorreo,"Usuario invalido en TeleAssociation",rechazo);
                                                             //enviarNotificacionAlumno(usuario.getToken(), "¡Bienvenido a TeleAssociation! Tu registro ha sido validado.");
                                                             enviarNot(usuario.getToken(),  "Usuario invalido en TeleAssociation. "+rechazo);
                                                             Intent intent = new Intent(this, inicioAdmin.class);
