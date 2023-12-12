@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.teleassociation.R;
 import com.example.teleassociation.adapter.NotificacionAdapter;
@@ -31,6 +33,7 @@ public class NotificationActivity extends AppCompatActivity {
     private List<notificacion> notificaciones;
     private FirebaseFirestore db;
     private String codigoAlumno;
+    private TextView nameUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,10 @@ public class NotificationActivity extends AppCompatActivity {
 
                 // Obtén el código del usuario
                 String codigoUsuario = usuario.getId();
+                nameUser = findViewById(R.id.nameUser);
+                nameUser.setText(usuario.getNombre());
+                Log.d("msg-test", "Código del usuario: " + codigoUsuario);
+
                 Log.d("msg-test", "Código del usuario: " + codigoUsuario);
                 cargarNotificacionesDesdeFirestore(codigoUsuario);
                 // Ahora puedes usar el código del usuario según tus necesidades.
