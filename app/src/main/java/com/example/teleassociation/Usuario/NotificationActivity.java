@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.teleassociation.R;
@@ -47,11 +48,21 @@ public class NotificationActivity extends AppCompatActivity {
         binding = ActivityNotificationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        ImageButton backButton = findViewById(R.id.backButton);
+
         recyclerView = findViewById(R.id.listRecyclerNotificacion);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         notificaciones = new ArrayList<>();
         adapter = new NotificacionAdapter(this, notificaciones);
         recyclerView.setAdapter(adapter);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Llama al método onBackPressed para simular el botón de retroceso
+                onBackPressed();
+            }
+        });
 
         db = FirebaseFirestore.getInstance();
 
@@ -144,6 +155,11 @@ public class NotificationActivity extends AppCompatActivity {
             // El código del alumno no está disponible, manejar según sea necesario
             Log.e("msg-test", "El código del alumno no está disponible");
         }
+    }
+    @Override
+    public void onBackPressed() {
+        // Este método se llama cuando se presiona el botón de retroceso físico
+        super.onBackPressed();
     }
 
 
