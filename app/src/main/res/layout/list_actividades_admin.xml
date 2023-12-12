@@ -101,7 +101,8 @@
                     android:backgroundTint="#191C1E"
                     android:text="Ver Estadisticas"
                     android:textColor="#EFEEEE"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="invisible" />
 
             </LinearLayout>
         </LinearLayout>
