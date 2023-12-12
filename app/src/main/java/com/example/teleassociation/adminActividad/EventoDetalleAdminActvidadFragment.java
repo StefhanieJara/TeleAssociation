@@ -235,7 +235,7 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                                         // Verificar el valor y actualizar la visibilidad del botón editarEvento
                                                         if (activo != null && activo == 0) {
                                                             // El valor de "activo" es 0, ocultar el botón editarEvento
-                                                            editarEvento.setVisibility(View.INVISIBLE);
+                                                            editarEvento.setEnabled(false);
                                                         } else {
                                                             // El valor de "activo" no es 0 o no está presente, mostrar el botón editarEvento
                                                             editarEvento.setVisibility(View.VISIBLE);
@@ -251,8 +251,8 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
 
 
                                 }else{
-                                    editarEvento.setVisibility(View.INVISIBLE);
-                                    btnVerParticipantes.setVisibility(View.INVISIBLE);
+                                    editarEvento.setEnabled(false);
+                                    btnVerParticipantes.setEnabled(false);
                                 }
 
                                 btnVerParticipantes.setOnClickListener(new View.OnClickListener() {
@@ -321,8 +321,8 @@ public class EventoDetalleAdminActvidadFragment extends Fragment implements OnMa
                                                     });
 
                                                 } else {
-                                                    subirFoto.setVisibility(View.INVISIBLE);
-                                                    chatear.setVisibility(View.INVISIBLE);
+                                                    subirFoto.setEnabled(false);
+                                                    chatear.setEnabled(false);
                                                 }
                                             } else {
                                                 Log.e("msg-test", "Error al obtener documentos: " + task.getException());

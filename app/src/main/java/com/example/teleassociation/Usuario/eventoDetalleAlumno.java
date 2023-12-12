@@ -187,8 +187,8 @@ public class eventoDetalleAlumno extends AppCompatActivity implements OnMapReady
                                             } else {
                                                 //nuevaFoto.setVisibility(View.GONE);
                                                 //btnChatear.setVisibility(View.GONE);
-                                                nuevaFoto.setVisibility(View.INVISIBLE);
-                                                btnChatear.setVisibility(View.INVISIBLE);
+                                                nuevaFoto.setEnabled(false);
+                                                btnChatear.setEnabled(false);
                                             }
                                         } else {
                                             Log.e("msg-test", "Error al obtener documentos: " + task.getException());
