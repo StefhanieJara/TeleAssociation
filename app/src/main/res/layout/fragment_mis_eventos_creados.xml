@@ -59,7 +59,7 @@
             android:layout_marginTop="67dp"
             android:fontFamily="@font/anton_regular"
             android:gravity="center|start|right|center_horizontal"
-            android:text="Mis eventos a cargo"
+            android:text=""
             android:textColor="#191C1E"
             android:textSize="22sp"
             android:textStyle="bold"
